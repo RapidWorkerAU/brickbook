@@ -1,0 +1,2224 @@
+'use client'
+
+import Link from 'next/link'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
+import Nav from '@/components/Nav'
+import { ConfirmDeleteButton, LoadingButton } from '@/components/action-buttons'
+import { PaginationControls, pageItems } from '@/components/PaginationControls'
+import {
+  IconArrowLeft,
+  IconBath,
+  IconBed,
+  IconBookmark,
+  IconArrowsJoin,
+  IconCamera,
+  IconCarGarage,
+  IconCheck,
+  IconChevronDown,
+  IconChevronRight,
+  IconCircleDashed,
+  IconClock,
+  IconExternalLink,
+  IconHeart,
+  IconMessageCircle,
+  IconEdit,
+  IconPhoto,
+  IconRuler,
+  IconSend,
+  IconShare,
+  IconToiletPaper,
+  IconX,
+} from '@tabler/icons-react'
+import type { PublicBuildDetail, PublicComment, PublicSelection } from '@/lib/public-data'
+
+type Tab = 'Updates' | 'Discussion' | 'Timeline' | 'Images' | 'Inspiration' | 'Selections' | 'Standard' | 'Wishlist' | 'Saved Builds' | 'Our Planning'
+const BASE_BUILD_TABS: Tab[] = ['Updates', 'Discussion', 'Timeline', 'Images', 'Inspiration', 'Selections', 'Standard']
+const PLANNING_TABS: Tab[] = ['Inspiration', 'Wishlist', 'Saved Builds', 'Selections', 'Discussion']
+
+const STAGE_LABELS: Record<string, string> = {
+  planning: 'Planning',
+  pre_construction: 'Pre-construction',
+  construction: 'Under construction',
+  landscaping: 'Landscaping',
+  complete: 'Complete',
+}
+type CommentItem = PublicComment & { time?: string }
+type TimelinePhoto = PublicBuildDetail['images'][number]
+type TimelineGapInfo = {
+  days: number
+  isOverlap: boolean
+  label: string
+  title: string
+}
+type Update = {
+  id: string
+  milestone: string
+  caption: string
+  imageCount: number
+  likes: number
+  commentCount: number
+  timeAgo: string
+  imageUrl: string | null
+  imageUrls: string[]
+  imageIds: string[]
+  imageId: string | null
+  comments: CommentItem[]
+}
+
+function SquareImageCarousel({ images, fallbackAlt, initialIndex = 0 }: { images: string[]; fallbackAlt: string; initialIndex?: number }) {
+  const [index, setIndex] = useState(Math.max(0, Math.min(initialIndex, images.length - 1)))
+  const current = images[index] ?? null
+
+  const move = (direction: -1 | 1) => {
+    setIndex((currentIndex) => {
+      if (images.length === 0) return 0
+      return (currentIndex + direction + images.length) % images.length
+    })
+  }
+
+  return (
+    <div className="square-carousel">
+      {current ? (
+        // Signed Supabase URLs are rendered directly until remote image patterns are finalized.
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={current} alt={fallbackAlt} />
+      ) : (
+        <Image src="/images/comingsoon.jpg" alt="" fill sizes="(min-width: 1024px) 65vw, 100vw" />
+      )}
+      {images.length > 1 ? (
+        <>
+          <button className="carousel-control carousel-control-prev" type="button" aria-label="Previous image" onClick={() => move(-1)}>
+            {"<"}
+          </button>
+          <button className="carousel-control carousel-control-next" type="button" aria-label="Next image" onClick={() => move(1)}>
+            {">"}
+          </button>
+          <span className="image-count">{index + 1} / {images.length}</span>
+          <div className="carousel-dots">
+            {images.map((image, dotIndex) => (
+              <button
+                key={`${image}-${dotIndex}`}
+                type="button"
+                className={`carousel-dot ${dotIndex === index ? 'carousel-dot-active' : ''}`}
+                aria-label={`Show image ${dotIndex + 1}`}
+                onClick={() => setIndex(dotIndex)}
+              />
+            ))}
+          </div>
+        </>
+      ) : null}
+    </div>
+  )
+}
+
+function EditableComment({
+  comment,
+  canEdit,
+  endpoint,
+  onChange,
+  onDelete,
+  onReply,
+}: {
+  comment: CommentItem
+  canEdit: boolean
+  endpoint: '/api/build-comments' | '/api/update-comments' | '/api/image-comments'
+  onChange: (commentId: string, content: string) => void
+  onDelete: (commentId: string) => void
+  onReply?: (parentCommentId: string, content: string) => Promise<string | null>
+}) {
+  const [editing, setEditing] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [replying, setReplying] = useState(false)
+  const [replyDraft, setReplyDraft] = useState('')
+  const [postingReply, setPostingReply] = useState(false)
+  const [draft, setDraft] = useState(comment.content)
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
+  const menuRef = useRef<HTMLDivElement | null>(null)
+  const replyRef = useRef<HTMLTextAreaElement | null>(null)
+
+  useEffect(() => {
+    if (!menuOpen) return
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (menuRef.current?.contains(event.target as Node)) return
+      setMenuOpen(false)
+    }
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMenuOpen(false)
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown)
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [menuOpen])
+
+  useEffect(() => {
+    if (!replyRef.current) return
+    replyRef.current.style.height = 'auto'
+    replyRef.current.style.height = `${replyRef.current.scrollHeight}px`
+  }, [replyDraft, replying])
+
+  const save = async () => {
+    const content = draft.trim()
+    if (!content || busy) return
+    setBusy(true)
+    setError('')
+
+    const response = await fetch(endpoint, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ comment_id: comment.id, content }),
+    })
+    const payload = await response.json().catch(() => null)
+    setBusy(false)
+
+    if (!response.ok) {
+      setError(payload?.error ?? 'Unable to update comment.')
+      return
+    }
+
+    onChange(comment.id, content)
+    setEditing(false)
+  }
+
+  const remove = async () => {
+    setError('')
+
+    const response = await fetch(`${endpoint}?commentId=${encodeURIComponent(comment.id)}`, {
+      method: 'DELETE',
+    })
+    const payload = await response.json().catch(() => null)
+
+    if (!response.ok) {
+      setError(payload?.error ?? 'Unable to delete comment.')
+      return
+    }
+
+    onDelete(comment.id)
+  }
+
+  const submitReply = async () => {
+    const content = replyDraft.trim()
+    if (!content || postingReply || !onReply) return
+
+    setPostingReply(true)
+    setError('')
+    const replyError = await onReply(comment.id, content)
+    setPostingReply(false)
+
+    if (replyError) {
+      setError(replyError)
+      return
+    }
+
+    setReplyDraft('')
+    setReplying(false)
+  }
+
+  return (
+    <div className={`comment-item ${comment.parentCommentId ? 'comment-item-reply' : ''}`}>
+      <div className="comment-avatar" aria-hidden="true">{comment.username.charAt(0).toUpperCase()}</div>
+      <div className="comment-main">
+        <div className="comment-meta">
+          <span className="comment-author">@{comment.username}</span>
+          <span className="comment-dot">-</span>
+          <span className="comment-time">{comment.time ?? formatRelativeTime(comment.createdAt)}</span>
+        </div>
+        {editing ? (
+          <div className="comment-edit-row">
+            <input className="form-input" value={draft} onChange={(event) => setDraft(event.target.value)} />
+            <LoadingButton className="btn btn-primary btn-sm" loading={busy} disabled={!draft.trim()} onClick={save}>
+              Save
+            </LoadingButton>
+            <button
+              className="btn btn-ghost btn-sm"
+              disabled={busy}
+              onClick={() => {
+                setDraft(comment.content)
+                setEditing(false)
+                setError('')
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        ) : (
+          <div className="comment-text">{comment.content}</div>
+        )}
+        {error ? <div className="form-error">{error}</div> : null}
+        <div className="comment-interactions">
+          <button type="button" className="comment-action-link">
+            <IconHeart size={12} /> 0
+          </button>
+          <button type="button" className="comment-action-link" onClick={() => setReplying((value) => !value)}>
+            <IconMessageCircle size={12} /> Reply
+          </button>
+        </div>
+        {replying ? (
+          <div className="comment-reply-composer">
+            <textarea
+              ref={replyRef}
+              className="comment-reply-input"
+              placeholder={`Reply to @${comment.username}...`}
+              rows={1}
+              value={replyDraft}
+              onChange={(event) => setReplyDraft(event.target.value)}
+            />
+            <LoadingButton className="comment-reply-send" aria-label="Send reply" loading={postingReply} disabled={!replyDraft.trim()} onClick={submitReply}>
+              <IconSend size={13} />
+            </LoadingButton>
+          </div>
+        ) : null}
+      </div>
+
+      {canEdit ? (
+        <div className="comment-row-actions" ref={menuRef}>
+          <button className="comment-menu-trigger" aria-label="Comment actions" aria-expanded={menuOpen} disabled={busy} onClick={() => setMenuOpen((value) => !value)}>
+            <span aria-hidden="true">...</span>
+          </button>
+          {menuOpen ? (
+            <div className="comment-action-menu">
+              <button
+                type="button"
+                onClick={() => {
+                  setEditing(true)
+                  setMenuOpen(false)
+                }}
+              >
+                <IconEdit size={13} /> Edit
+              </button>
+              <ConfirmDeleteButton iconOnly={false} label="Delete" confirmLabel="Confirm delete" className="comment-action-menu-delete" disabled={busy} onConfirm={remove} />
+            </div>
+          ) : null}
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
+function UpdateGridItem({ update, onOpen }: { update: Update; onOpen: () => void }) {
+  const image = update.imageUrls[0] ?? update.imageUrl
+
+  return (
+    <button className="update-grid-item" type="button" onClick={onOpen}>
+      {image ? (
+        // Signed Supabase URLs are rendered directly until remote image patterns are finalized.
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={image} alt={`${update.milestone} update`} />
+      ) : (
+        <Image src="/images/comingsoon.jpg" alt="" fill sizes="(min-width: 1024px) 24vw, 50vw" />
+      )}
+      <div className="update-grid-overlay">
+        <span><IconHeart size={15} /> {update.likes}</span>
+        <span><IconMessageCircle size={15} /> {update.commentCount}</span>
+      </div>
+      {update.imageCount > 1 ? <span className="update-grid-count">{update.imageCount}</span> : null}
+    </button>
+  )
+}
+
+function UpdateOverlay({
+  update,
+  currentUserId,
+  onClose,
+  initialImageIndex = 0,
+}: {
+  update: Update
+  currentUserId: string | null
+  onClose: () => void
+  initialImageIndex?: number
+}) {
+  const [liked, setLiked] = useState(false)
+  const [likeCount, setLikeCount] = useState(update.likes)
+  const [liking, setLiking] = useState(false)
+  const [saved, setSaved] = useState(false)
+  const [comment, setComment] = useState('')
+  const [comments, setComments] = useState(update.comments)
+  const [commentCount, setCommentCount] = useState(update.commentCount)
+  const [commentsOffset, setCommentsOffset] = useState(0)
+  const [hasMoreComments, setHasMoreComments] = useState(true)
+  const [loadingComments, setLoadingComments] = useState(false)
+  const [commentError, setCommentError] = useState('')
+  const [postingComment, setPostingComment] = useState(false)
+
+  useEffect(() => {
+    let cancelled = false
+    async function loadComments() {
+      setLoadingComments(true)
+      const response = await fetch(`/api/update-comments?updateId=${encodeURIComponent(update.id)}&offset=0&limit=20`)
+      const payload = await response.json().catch(() => null)
+      if (cancelled) return
+      setLoadingComments(false)
+      if (!response.ok) {
+        setCommentError(payload?.error ?? 'Unable to load comments.')
+        return
+      }
+      setComments(
+        (payload?.comments ?? []).map((item: PublicComment) => ({
+          id: item.id,
+          userId: item.userId,
+          username: item.username,
+          content: item.content,
+          createdAt: item.createdAt,
+          parentCommentId: item.parentCommentId,
+          imageUrl: item.imageUrl,
+        })),
+      )
+      setCommentsOffset((payload?.comments ?? []).length)
+      setHasMoreComments(Boolean(payload?.hasMore))
+    }
+
+    loadComments()
+    return () => {
+      cancelled = true
+    }
+  }, [update.id])
+
+  const loadMoreComments = async () => {
+    if (loadingComments || !hasMoreComments) return
+    setLoadingComments(true)
+    const response = await fetch(`/api/update-comments?updateId=${encodeURIComponent(update.id)}&offset=${commentsOffset}&limit=20`)
+    const payload = await response.json().catch(() => null)
+    setLoadingComments(false)
+    if (!response.ok) {
+      setCommentError(payload?.error ?? 'Unable to load more comments.')
+      return
+    }
+    const nextComments = (payload?.comments ?? []).map((item: PublicComment) => ({
+      id: item.id,
+      userId: item.userId,
+      username: item.username,
+      content: item.content,
+      createdAt: item.createdAt,
+      parentCommentId: item.parentCommentId,
+      imageUrl: item.imageUrl,
+    }))
+    setComments((current) => [...current, ...nextComments])
+    setCommentsOffset((current) => current + nextComments.length)
+    setHasMoreComments(Boolean(payload?.hasMore))
+  }
+
+  const postImageComment = async () => {
+    if (!comment.trim() || postingComment) return
+    setPostingComment(true)
+    setCommentError('')
+
+    const formData = new FormData()
+    formData.set('update_id', update.id)
+    formData.set('content', comment.trim())
+
+    const response = await fetch('/api/update-comments', {
+      method: 'POST',
+      body: formData,
+    })
+    const payload = await response.json().catch(() => null)
+    setPostingComment(false)
+
+    if (!response.ok) {
+      setCommentError(response.status === 401 ? 'Sign in to comment.' : payload?.error ?? 'Unable to post comment.')
+      return
+    }
+
+    setComments((current) => [
+      ...current,
+      {
+        id: payload.comment.id,
+        userId: payload.comment.userId,
+        username: payload.comment.username,
+        content: payload.comment.content,
+        createdAt: payload.comment.createdAt,
+        parentCommentId: null,
+        imageUrl: null,
+        time: 'Just now',
+      },
+    ])
+    setCommentCount(payload.commentCount ?? commentCount + 1)
+    setComment('')
+  }
+
+  const postReplyComment = async (parentCommentId: string, content: string) => {
+    const formData = new FormData()
+    formData.set('update_id', update.id)
+    formData.set('content', content)
+    formData.set('parent_comment_id', parentCommentId)
+
+    const response = await fetch('/api/update-comments', {
+      method: 'POST',
+      body: formData,
+    })
+    const payload = await response.json().catch(() => null)
+
+    if (!response.ok) {
+      return response.status === 401 ? 'Sign in to reply.' : payload?.error ?? 'Unable to post reply.'
+    }
+
+    setComments((current) => [
+      ...current,
+      {
+        id: payload.comment.id,
+        userId: payload.comment.userId,
+        username: payload.comment.username,
+        content: payload.comment.content,
+        createdAt: payload.comment.createdAt,
+        parentCommentId: payload.comment.parentCommentId,
+        imageUrl: null,
+        time: 'Just now',
+      },
+    ])
+    setCommentCount(payload.commentCount ?? commentCount + 1)
+    return null
+  }
+
+  const toggleLike = async () => {
+    if (liking) return
+    setLiking(true)
+    const formData = new FormData()
+    formData.set('update_id', update.id)
+    const response = await fetch('/api/update-likes/toggle', {
+      method: 'POST',
+      body: formData,
+    })
+    const payload = await response.json().catch(() => null)
+    setLiking(false)
+    if (!response.ok) {
+      setCommentError(response.status === 401 ? 'Sign in to like updates.' : payload?.error ?? 'Unable to update like.')
+      return
+    }
+    setLiked(Boolean(payload.liked))
+    if (typeof payload.likeCount === 'number') setLikeCount(payload.likeCount)
+  }
+
+  return (
+    <div className="update-modal" role="dialog" aria-modal="true">
+      <button className="update-modal-backdrop" type="button" aria-label="Close update" onClick={onClose} />
+      <div className="update-modal-panel">
+        <button className="btn-icon update-modal-close" type="button" aria-label="Close update" onClick={onClose}>
+          <IconX size={18} />
+        </button>
+        <div className="update-modal-media">
+          <SquareImageCarousel key={`${update.id}-${initialImageIndex}`} images={update.imageUrls.length ? update.imageUrls : update.imageUrl ? [update.imageUrl] : []} fallbackAlt={`${update.milestone} update`} initialIndex={initialImageIndex} />
+        </div>
+        <aside className="update-modal-detail">
+          <div className="update-modal-header">
+            <span className="badge badge-phase">{update.milestone}</span>
+            <span className="muted-row">{update.timeAgo}</span>
+          </div>
+          <div className="update-modal-caption">
+            <p>{update.caption}</p>
+          </div>
+          <div className="update-card-actions update-modal-actions">
+            <LoadingButton className={`update-action ${liked ? 'update-action-active' : ''}`} loading={liking} onClick={toggleLike}>
+              <IconHeart size={15} fill={liked ? 'var(--bb-amber)' : 'none'} />
+              {likeCount}
+            </LoadingButton>
+            <span className="update-action">
+              <IconMessageCircle size={15} />
+              {commentCount}
+            </span>
+            <button
+              className={`update-action update-action-saved ${saved ? 'update-action-active' : ''}`}
+              onClick={() => setSaved((value) => !value)}
+            >
+              <IconBookmark size={15} fill={saved ? 'var(--bb-amber)' : 'none'} />
+            </button>
+          </div>
+          <div
+            className="update-modal-comments"
+            onScroll={(event) => {
+              const target = event.currentTarget
+              if (target.scrollTop + target.clientHeight >= target.scrollHeight - 80) void loadMoreComments()
+            }}
+          >
+            {commentError ? <div className="alert alert-error">{commentError}</div> : null}
+            {comments.map((item) => (
+              <EditableComment
+                key={item.id}
+                comment={item}
+                canEdit={Boolean(currentUserId && item.userId === currentUserId)}
+                endpoint="/api/update-comments"
+                onChange={(commentId, content) =>
+                  setComments((current) => current.map((commentItem) => (commentItem.id === commentId ? { ...commentItem, content } : commentItem)))
+                }
+                onDelete={(commentId) => {
+                  setComments((current) => {
+                    const next = current.filter((commentItem) => commentItem.id !== commentId && commentItem.parentCommentId !== commentId)
+                    setCommentCount((count) => Math.max(0, count - (current.length - next.length)))
+                    return next
+                  })
+                }}
+                onReply={postReplyComment}
+              />
+            ))}
+            {loadingComments ? <div className="comment-loading">Loading comments...</div> : null}
+          </div>
+          <div className="comment-input-row update-modal-comment-input">
+            <input
+              className="form-input"
+              type="text"
+              placeholder="Add a comment..."
+              value={comment}
+              onChange={(event) => setComment(event.target.value)}
+            />
+            <LoadingButton className="btn-icon" aria-label="Post comment" loading={postingComment} disabled={!comment.trim()} onClick={postImageComment}>
+              <IconSend size={14} />
+            </LoadingButton>
+          </div>
+        </aside>
+      </div>
+    </div>
+  )
+}
+
+function TimelinePhotoOverlay({
+  image,
+  currentUserId,
+  onClose,
+}: {
+  image: TimelinePhoto
+  currentUserId: string | null
+  onClose: () => void
+}) {
+  const [comment, setComment] = useState('')
+  const [comments, setComments] = useState<CommentItem[]>([])
+  const [commentCount, setCommentCount] = useState(0)
+  const [commentsOffset, setCommentsOffset] = useState(0)
+  const [hasMoreComments, setHasMoreComments] = useState(true)
+  const [loadingComments, setLoadingComments] = useState(false)
+  const [commentError, setCommentError] = useState('')
+  const [postingComment, setPostingComment] = useState(false)
+
+  useEffect(() => {
+    let cancelled = false
+    async function loadComments() {
+      setLoadingComments(true)
+      const response = await fetch(`/api/image-comments?imageId=${encodeURIComponent(image.id)}&offset=0&limit=20`)
+      const payload = await response.json().catch(() => null)
+      if (cancelled) return
+      setLoadingComments(false)
+      if (!response.ok) {
+        setCommentError(payload?.error ?? 'Unable to load comments.')
+        return
+      }
+      const nextComments = normalizeOverlayComments(payload?.comments ?? [])
+      setComments(nextComments)
+      setCommentCount(nextComments.length)
+      setCommentsOffset(nextComments.length)
+      setHasMoreComments(nextComments.length === 20)
+    }
+
+    loadComments()
+    return () => {
+      cancelled = true
+    }
+  }, [image.id])
+
+  const loadMoreComments = async () => {
+    if (loadingComments || !hasMoreComments) return
+    setLoadingComments(true)
+    const response = await fetch(`/api/image-comments?imageId=${encodeURIComponent(image.id)}&offset=${commentsOffset}&limit=20`)
+    const payload = await response.json().catch(() => null)
+    setLoadingComments(false)
+    if (!response.ok) {
+      setCommentError(payload?.error ?? 'Unable to load more comments.')
+      return
+    }
+    const nextComments = normalizeOverlayComments(payload?.comments ?? [])
+    setComments((current) => [...current, ...nextComments])
+    setCommentCount((current) => current + nextComments.length)
+    setCommentsOffset((current) => current + nextComments.length)
+    setHasMoreComments(nextComments.length === 20)
+  }
+
+  const postImageComment = async () => {
+    if (!comment.trim() || postingComment) return
+    setPostingComment(true)
+    setCommentError('')
+
+    const formData = new FormData()
+    formData.set('image_id', image.id)
+    formData.set('content', comment.trim())
+
+    const response = await fetch('/api/image-comments', {
+      method: 'POST',
+      body: formData,
+    })
+    const payload = await response.json().catch(() => null)
+    setPostingComment(false)
+
+    if (!response.ok) {
+      setCommentError(response.status === 401 ? 'Sign in to comment.' : payload?.error ?? 'Unable to post comment.')
+      return
+    }
+
+    setComments((current) => [
+      ...current,
+      {
+        id: payload.comment.id,
+        userId: payload.comment.userId,
+        username: payload.comment.username,
+        content: payload.comment.content,
+        createdAt: payload.comment.createdAt,
+        parentCommentId: null,
+        imageUrl: null,
+        time: 'Just now',
+      },
+    ])
+    setCommentCount(payload.commentCount ?? commentCount + 1)
+    setComment('')
+  }
+
+  const postImageReplyComment = async (parentCommentId: string, content: string) => {
+    const formData = new FormData()
+    formData.set('image_id', image.id)
+    formData.set('content', content)
+    formData.set('parent_comment_id', parentCommentId)
+
+    const response = await fetch('/api/image-comments', {
+      method: 'POST',
+      body: formData,
+    })
+    const payload = await response.json().catch(() => null)
+
+    if (!response.ok) {
+      return response.status === 401 ? 'Sign in to reply.' : payload?.error ?? 'Unable to post reply.'
+    }
+
+    setComments((current) => [
+      ...current,
+      {
+        id: payload.comment.id,
+        userId: payload.comment.userId,
+        username: payload.comment.username,
+        content: payload.comment.content,
+        createdAt: payload.comment.createdAt,
+        parentCommentId: payload.comment.parentCommentId,
+        imageUrl: null,
+        time: 'Just now',
+      },
+    ])
+    setCommentCount(payload.commentCount ?? commentCount + 1)
+    return null
+  }
+
+  return (
+    <div className="update-modal" role="dialog" aria-modal="true">
+      <button className="update-modal-backdrop" type="button" aria-label="Close photo" onClick={onClose} />
+      <div className="update-modal-panel">
+        <button className="btn-icon update-modal-close" type="button" aria-label="Close photo" onClick={onClose}>
+          <IconX size={18} />
+        </button>
+        <div className="update-modal-media">
+          {image.imageUrl ? (
+            // Signed Supabase URLs are rendered directly until remote image patterns are finalized.
+            // eslint-disable-next-line @next/next/no-img-element
+            <img className="timeline-modal-image" src={image.imageUrl} alt={`${image.milestone} build stage`} />
+          ) : (
+            <Image src="/images/comingsoon.jpg" alt="" fill sizes="70vw" />
+          )}
+        </div>
+        <aside className="update-modal-detail">
+          <div className="update-modal-header">
+            <span className="badge badge-phase">{image.milestone}</span>
+            <span className="muted-row">Timeline photo</span>
+          </div>
+          <div className="update-modal-caption">
+            <p>Photo captured during {image.milestone}.</p>
+          </div>
+          <div className="update-card-actions update-modal-actions">
+            <span className="update-action">
+              <IconMessageCircle size={15} />
+              {commentCount}
+            </span>
+          </div>
+          <div
+            className="update-modal-comments"
+            onScroll={(event) => {
+              const target = event.currentTarget
+              if (target.scrollTop + target.clientHeight >= target.scrollHeight - 80) void loadMoreComments()
+            }}
+          >
+            {commentError ? <div className="alert alert-error">{commentError}</div> : null}
+            {comments.map((item) => (
+              <EditableComment
+                key={item.id}
+                comment={item}
+                canEdit={Boolean(currentUserId && item.userId === currentUserId)}
+                endpoint="/api/image-comments"
+                onChange={(commentId, content) =>
+                  setComments((current) => current.map((commentItem) => (commentItem.id === commentId ? { ...commentItem, content } : commentItem)))
+                }
+                onDelete={(commentId) => {
+                  setComments((current) => {
+                    const next = current.filter((commentItem) => commentItem.id !== commentId && commentItem.parentCommentId !== commentId)
+                    setCommentCount((count) => Math.max(0, count - (current.length - next.length)))
+                    return next
+                  })
+                }}
+                onReply={postImageReplyComment}
+              />
+            ))}
+            {loadingComments ? <div className="comment-loading">Loading comments...</div> : null}
+          </div>
+          <div className="comment-input-row update-modal-comment-input">
+            <input
+              className="form-input"
+              type="text"
+              placeholder="Add a comment..."
+              value={comment}
+              onChange={(event) => setComment(event.target.value)}
+            />
+            <LoadingButton className="btn-icon" aria-label="Post comment" loading={postingComment} disabled={!comment.trim()} onClick={postImageComment}>
+              <IconSend size={14} />
+            </LoadingButton>
+          </div>
+        </aside>
+      </div>
+    </div>
+  )
+}
+
+function TimelineTab({
+  build,
+  updates,
+  currentUserId,
+  onOpenUpdate,
+}: {
+  build: PublicBuildDetail
+  updates: Update[]
+  currentUserId: string | null
+  onOpenUpdate: (update: Update, imageIndex?: number) => void
+}) {
+  const [selectedImage, setSelectedImage] = useState<TimelinePhoto | null>(null)
+  const updatesById = useMemo(() => new Map(updates.map((update) => [update.id, update])), [updates])
+  const imagesByMilestone = useMemo(() => {
+    const grouped = new Map<string, TimelinePhoto[]>()
+    build.images.forEach((image) => {
+      if (!image.milestoneId) return
+      grouped.set(image.milestoneId, [...(grouped.get(image.milestoneId) ?? []), image])
+    })
+    return grouped
+  }, [build.images])
+  const completedPhaseDurations = build.milestones
+    .map((milestone) => ({ milestone, days: completedPhaseDays(milestone) }))
+    .filter((item) => item.days > 0)
+  const phaseDurations = build.milestones
+    .filter((milestone) => milestone.status !== 'pending')
+    .map((milestone) => ({ milestone, days: displayPhaseDays(milestone) }))
+    .filter((item) => item.days > 0)
+  const totalPhaseDays = phaseDurations.reduce((total, item) => total + item.days, 0)
+  const gapItems = build.milestones.slice(0, -1).map((milestone, index) => calcGap(milestone, build.milestones[index + 1]))
+  const totalGapDays = gapItems.reduce((total, gap) => total + (gap && !gap.isOverlap ? gap.days : 0), 0)
+  const totalBuildDays = calcTotalBuildDays(build.milestones)
+  const longestPhase = completedPhaseDurations.reduce<(typeof completedPhaseDurations)[number] | null>((longest, item) => {
+    if (!longest) return item
+    return item.days > longest.days ? item : longest
+  }, null)
+  const longestBarDays = Math.max(1, ...phaseDurations.map((item) => item.days))
+
+  return (
+    <div className="timeline-dashboard">
+      <div className="timeline-summary-grid">
+        <div className="timeline-summary-card">
+          <span className="timeline-summary-label">Total build time</span>
+          <strong>{totalBuildDays ? formatDuration(totalBuildDays) : '-'}</strong>
+          <span>Wall clock from first start to latest end</span>
+        </div>
+        <div className="timeline-summary-card">
+          <span className="timeline-summary-label">Time in phases</span>
+          <strong>{totalPhaseDays ? formatDuration(totalPhaseDays) : '-'}</strong>
+          <span>{phaseDurations.length} tracked phase{phaseDurations.length === 1 ? '' : 's'}</span>
+        </div>
+        <div className={`timeline-summary-card ${totalGapDays ? 'timeline-summary-card-gap' : ''}`}>
+          <span className="timeline-summary-label">Time between phases</span>
+          <strong className={totalGapDays ? '' : 'timeline-summary-value-small'}>{totalGapDays ? formatDuration(totalGapDays) : 'None recorded'}</strong>
+          <span>{totalGapDays ? 'Waiting time between official stages' : 'Phases ran back to back'}</span>
+        </div>
+        <div className="timeline-summary-card">
+          <span className="timeline-summary-label">Longest phase</span>
+          <strong>{longestPhase ? formatDuration(longestPhase.days) : '-'}</strong>
+          <span>{longestPhase?.milestone.title ?? '-'}</span>
+        </div>
+      </div>
+
+      <div className="timeline-panel">
+      {build.milestones.map((milestone, index) => (
+        <div className="timeline-row" key={milestone.id}>
+          <div className={`timeline-item timeline-item-${milestone.status}`}>
+            <div className="timeline-marker">
+              <div className={`timeline-dot timeline-dot-${milestone.status}`}>
+                {milestone.status === 'complete' && <IconCheck size={11} />}
+                {milestone.status === 'active' && <IconClock size={12} />}
+                {milestone.status === 'pending' && <IconCircleDashed size={13} />}
+              </div>
+              {index < build.milestones.length - 1 && (
+                <div className={`timeline-line ${milestone.status === 'complete' ? 'timeline-line-complete' : ''}`} />
+              )}
+            </div>
+
+            <div className="timeline-content">
+              {milestone.status === 'pending' ? (
+                <div className="timeline-pending-title">{milestone.title}</div>
+              ) : (
+                <div className={`timeline-card ${milestone.status === 'active' ? 'timeline-card-active' : ''}`}>
+                  <div className="timeline-card-header">
+                    <div>
+                      <span className="timeline-title">{milestone.title}</span>
+                      <div className="timeline-date">
+                        {formatTimelineDateRange(milestone)}
+                      </div>
+                    </div>
+                    <div className="timeline-status-row">
+                      {milestone.status === 'active' && <span className="timeline-status-badge timeline-status-active">In progress</span>}
+                      {milestone.status === 'complete' && <span className="timeline-status-badge timeline-status-complete">Complete</span>}
+                    </div>
+                  </div>
+
+                  <div className="timeline-card-divider" />
+
+                  <div className="timeline-duration-block">
+                    <div className="timeline-duration-bar" aria-hidden="true">
+                      <span
+                        className={milestone.status === 'active' ? 'timeline-duration-fill timeline-duration-fill-active' : 'timeline-duration-fill'}
+                        style={{ width: `${Math.max(4, Math.min(100, (displayPhaseDays(milestone) / longestBarDays) * 100))}%` }}
+                      />
+                    </div>
+                    <div className="timeline-duration-copy">{formatDuration(displayPhaseDays(milestone))} in {milestone.title}</div>
+                  </div>
+
+                  <div className="timeline-metrics-row">
+                    <div className="timeline-metric">
+                      <IconRuler size={15} />
+                      <span>{formatDuration(displayPhaseDays(milestone))}</span>
+                      <small>in phase</small>
+                    </div>
+                    <div className="timeline-metric">
+                      <IconCamera size={15} />
+                      <span>{milestone.updates}</span>
+                      <small>update{milestone.updates === 1 ? '' : 's'}</small>
+                    </div>
+                  </div>
+
+                  <div className="timeline-photo-section">
+                    <TimelinePhotoStrip
+                      photos={imagesByMilestone.get(milestone.id) ?? []}
+                      updatesById={updatesById}
+                      onOpenImage={setSelectedImage}
+                      onOpenUpdate={onOpenUpdate}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+          {index < build.milestones.length - 1 ? <TimelineGapIndicator gap={gapItems[index]} /> : null}
+        </div>
+      ))}
+      </div>
+
+      {selectedImage ? <TimelinePhotoOverlay image={selectedImage} currentUserId={currentUserId} onClose={() => setSelectedImage(null)} /> : null}
+    </div>
+  )
+}
+
+function TimelineGapIndicator({ gap }: { gap: TimelineGapInfo | null }) {
+  if (!gap) return null
+
+  return (
+    <div className="timeline-gap-row">
+      <div className="timeline-gap-spine" aria-hidden="true">
+        <span className="timeline-gap-connector" />
+      </div>
+      <div className="timeline-gap-content">
+        <span className={`timeline-gap-pill ${gap.isOverlap ? 'timeline-gap-pill-overlap' : ''}`} title={gap.title}>
+          {gap.isOverlap ? <IconArrowsJoin size={12} /> : <IconClock size={12} />}
+          {gap.label}
+        </span>
+      </div>
+    </div>
+  )
+}
+
+function TimelinePhotoStrip({
+  photos,
+  updatesById,
+  onOpenImage,
+  onOpenUpdate,
+}: {
+  photos: TimelinePhoto[]
+  updatesById: Map<string, Update>
+  onOpenImage: (image: TimelinePhoto) => void
+  onOpenUpdate: (update: Update, imageIndex?: number) => void
+}) {
+  if (!photos.length) {
+    return <div className="timeline-photo-empty">No public photos captured for this stage yet.</div>
+  }
+
+  return (
+    <div className="timeline-photo-strip">
+      {photos.slice(0, 8).map((photo, index) => {
+        const update = photo.updateId ? updatesById.get(photo.updateId) : null
+        const commentCount = update?.commentCount ?? photo.commentCount
+        const remainder = photos.length > 8 && index === 7 ? photos.length - 8 : 0
+        return (
+          <button
+            key={photo.id}
+            className="timeline-photo-tile"
+            type="button"
+            onClick={() => update ? onOpenUpdate(update, Math.max(0, update.imageIds.indexOf(photo.id))) : onOpenImage(photo)}
+            aria-label={`Open ${photo.milestone} photo`}
+          >
+            {photo.imageUrl ? (
+              // Signed Supabase URLs are rendered directly until remote image patterns are finalized.
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={photo.imageUrl} alt="" />
+            ) : (
+              <IconPhoto size={20} />
+            )}
+            {commentCount > 0 ? (
+              <span className="timeline-photo-meta">
+                <IconMessageCircle size={12} /> {commentCount}
+              </span>
+            ) : null}
+            {remainder > 0 ? <span className="timeline-photo-remainder">+{remainder}</span> : null}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
+function ImagesTab({ build }: { build: PublicBuildDetail }) {
+  const [currentPage, setCurrentPage] = useState(1)
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+  const images = build.images.length
+    ? build.images
+    : [{ id: build.id, imageUrl: build.imageUrl, milestone: build.phase, milestoneId: null, updateId: null, commentCount: 0, notes: null }]
+  const paginatedImages = pageItems(images, currentPage)
+  const selected = selectedIndex == null ? null : images[selectedIndex] ?? null
+
+  return (
+    <>
+      <div className="image-grid">
+        {paginatedImages.items.map((item) => (
+          <button className="image-grid-item" key={item.id} type="button" onClick={() => setSelectedIndex(images.findIndex((image) => image.id === item.id))}>
+            {item.imageUrl ? (
+              // Signed Supabase URLs are rendered directly until remote image patterns are finalized.
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={item.imageUrl} alt={`${item.milestone} build update`} />
+            ) : (
+              <Image src="/images/comingsoon.jpg" alt="" fill sizes="(min-width: 1024px) 22vw, 33vw" />
+            )}
+            <div className="image-grid-label">{item.milestone}</div>
+          </button>
+        ))}
+      </div>
+      <PaginationControls
+        currentPage={paginatedImages.currentPage}
+        pageCount={paginatedImages.pageCount}
+        totalCount={images.length}
+        onPageChange={setCurrentPage}
+      />
+      {selected ? (
+        <PhotoCarouselOverlay
+          title={selected.milestone}
+          images={images.map((image) => ({ url: image.imageUrl, title: image.milestone, notes: image.notes ?? null }))}
+          initialIndex={Math.max(0, selectedIndex ?? 0)}
+          onClose={() => setSelectedIndex(null)}
+        />
+      ) : null}
+    </>
+  )
+}
+
+function InspirationTab({ build }: { build: PublicBuildDetail }) {
+  const [currentPage, setCurrentPage] = useState(1)
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+  const paginatedImages = pageItems(build.inspirationImages, currentPage)
+  const selected = selectedIndex == null ? null : build.inspirationImages[selectedIndex] ?? null
+
+  if (!build.inspirationImages.length) {
+    return (
+      <div className="empty-state">
+        <IconPhoto size={32} />
+        <h3 className="empty-state-title">No inspiration photos yet</h3>
+        <p className="empty-state-sub">Inspiration photos will appear here when the owner adds them.</p>
+      </div>
+    )
+  }
+
+  return (
+    <>
+      <div className="image-grid">
+        {paginatedImages.items.map((item) => (
+          <button className="image-grid-item inspiration-grid-item" key={item.id} type="button" onClick={() => setSelectedIndex(build.inspirationImages.findIndex((image) => image.id === item.id))}>
+            {item.imageUrl ? (
+              // Signed Supabase URLs are rendered directly until remote image patterns are finalized.
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={item.imageUrl} alt="Inspiration" />
+            ) : (
+              <Image src="/images/comingsoon.jpg" alt="" fill sizes="(min-width: 1024px) 22vw, 33vw" />
+            )}
+            <div className="image-grid-label">{item.notes || 'Inspiration'}</div>
+          </button>
+        ))}
+      </div>
+      <PaginationControls
+        currentPage={paginatedImages.currentPage}
+        pageCount={paginatedImages.pageCount}
+        totalCount={build.inspirationImages.length}
+        onPageChange={setCurrentPage}
+      />
+      {selected ? (
+        <PhotoCarouselOverlay
+          title="Inspiration"
+          images={build.inspirationImages.map((image) => ({ url: image.imageUrl, title: 'Inspiration', notes: image.notes ?? null }))}
+          initialIndex={Math.max(0, selectedIndex ?? 0)}
+          onClose={() => setSelectedIndex(null)}
+          showNotes
+        />
+      ) : null}
+    </>
+  )
+}
+
+function PhotoCarouselOverlay({
+  images,
+  initialIndex,
+  title,
+  onClose,
+  showNotes = false,
+}: {
+  images: { url: string | null; title: string; notes: string | null }[]
+  initialIndex: number
+  title: string
+  onClose: () => void
+  showNotes?: boolean
+}) {
+  const [index, setIndex] = useState(initialIndex)
+  const current = images[index] ?? images[0]
+
+  const move = (direction: -1 | 1) => {
+    setIndex((currentIndex) => (currentIndex + direction + images.length) % images.length)
+  }
+
+  return (
+    <div className="update-modal photo-lightbox" role="dialog" aria-modal="true">
+      <button className="update-modal-backdrop" type="button" aria-label="Close photo" onClick={onClose} />
+      <div className="update-modal-panel">
+        <button className="btn-icon update-modal-close" type="button" aria-label="Close photo" onClick={onClose}>
+          <IconX size={18} />
+        </button>
+        <div className="update-modal-media">
+          {current?.url ? (
+            // Signed Supabase URLs are rendered directly until remote image patterns are finalized.
+            // eslint-disable-next-line @next/next/no-img-element
+            <img className="timeline-modal-image" src={current.url} alt={current.title || title} />
+          ) : (
+            <Image src="/images/comingsoon.jpg" alt="" fill sizes="70vw" />
+          )}
+        </div>
+        {showNotes ? (
+          <aside className="update-modal-detail">
+            <div className="update-modal-header">
+              <span className="badge badge-phase">{current?.title ?? title}</span>
+              <span className="muted-row">{index + 1} / {images.length}</span>
+            </div>
+            <div className="update-modal-caption">
+              <p>{current?.notes || 'No notes added yet.'}</p>
+            </div>
+          </aside>
+        ) : null}
+        {images.length > 1 ? (
+          <>
+            <button className="carousel-control carousel-control-prev" type="button" aria-label="Previous photo" onClick={() => move(-1)}>{"<"}</button>
+            <button className="carousel-control carousel-control-next" type="button" aria-label="Next photo" onClick={() => move(1)}>{">"}</button>
+            <span className="image-count">{index + 1} / {images.length}</span>
+          </>
+        ) : null}
+      </div>
+    </div>
+  )
+}
+
+function UpdatesTab({ updates, onOpen }: { updates: Update[]; onOpen: (update: Update) => void }) {
+  const [currentPage, setCurrentPage] = useState(1)
+  const paginatedUpdates = pageItems(updates, currentPage)
+
+  if (!updates.length) {
+    return (
+      <div className="empty-state">
+        <h3 className="empty-state-title">No public updates yet</h3>
+        <p className="empty-state-sub">Updates will appear here when images or posts are shared publicly.</p>
+      </div>
+    )
+  }
+
+  return (
+    <>
+      <div className="update-photo-grid">
+        {paginatedUpdates.items.map((update) => (
+          <UpdateGridItem key={update.id} update={update} onOpen={() => onOpen(update)} />
+        ))}
+      </div>
+      <PaginationControls
+        currentPage={paginatedUpdates.currentPage}
+        pageCount={paginatedUpdates.pageCount}
+        totalCount={updates.length}
+        onPageChange={setCurrentPage}
+      />
+    </>
+  )
+}
+
+const SELECTION_TYPE_LABELS: Record<string, string> = {
+  colour: 'Colour',
+  construction: 'Construction',
+  cabinetry: 'Cabinetry',
+  appliance: 'Appliance',
+  electrical: 'Electrical',
+  tapware: 'Tapware',
+  other: 'Other',
+}
+
+const ROOM_TYPE_OPTIONS = ['Kitchen', 'Scullery', 'Laundry', 'Bathroom', 'Ensuite', 'Powder room', 'Bedroom', 'Living', 'Theatre', 'Study', 'Alfresco', 'Garage', 'Exterior', 'Whole house']
+
+function selectionLabels(selection: PublicSelection) {
+  const typeLabel = selection.selectionType ? SELECTION_TYPE_LABELS[selection.selectionType] ?? titleCase(selection.selectionType) : 'Selection'
+  const badgeLabel = selection.materialType || selection.subcategory || selection.category || typeLabel
+  const visualLabel = selection.colourName || selection.materialType || selection.subcategory || typeLabel
+  const colourName = selection.colourName || selection.itemName || selection.productName || selection.category || 'Selection'
+  const areaPartMaterial = [selection.category, selection.subcategory, selection.materialType].filter(Boolean).join(' / ')
+  const roomLabel = selection.roomType ? formatRoomType(selection.roomType) : selection.roomName || selection.location || null
+  const details = [
+    { label: 'Brand / Area / Part / Material', value: [selection.brand, areaPartMaterial].filter(Boolean).join(' / ') },
+    { label: 'Room', value: roomLabel },
+    { label: 'Item', value: selection.itemName || selection.productName },
+    { label: 'Model', value: selection.model },
+    { label: 'Code', value: selection.code },
+    { label: 'Supplier', value: selection.supplier },
+    { label: 'Notes', value: selection.notes },
+  ].filter((item) => item.value)
+
+  return { badgeLabel, visualLabel, colourName, roomLabel, details }
+}
+
+function SelectionCard({ selection }: { selection: PublicSelection }) {
+  const [expanded, setExpanded] = useState(false)
+  const { badgeLabel, visualLabel, colourName, roomLabel, details } = selectionLabels(selection)
+
+  return (
+    <article className="card management-image-card selection-card">
+      <div className={`management-image-media selection-card-image ${selection.imageUrl ? 'selection-card-image-uploaded' : 'selection-card-image-placeholder'}`}>
+        {roomLabel ? <span className="selection-card-room-badge">{roomLabel}</span> : null}
+        {selection.imageUrl ? (
+          // Signed Supabase URLs are rendered directly until remote image patterns are finalized.
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={selection.imageUrl} alt="" />
+        ) : (
+          <div className="selection-card-visual">
+            <div className="selection-card-visual-mark">
+              <IconPhoto size={22} />
+            </div>
+            <span>{visualLabel}</span>
+          </div>
+        )}
+      </div>
+      <div className="management-image-body">
+        <button className="management-image-summary" type="button" onClick={() => setExpanded((value) => !value)} aria-expanded={expanded}>
+          <span className="management-image-copy">
+            <span className="selection-card-topline">
+              <span className="badge badge-phase">{badgeLabel}</span>
+            </span>
+            <span className="selection-card-title">{colourName}</span>
+            {selection.finish ? <span className="selection-card-detail">{selection.finish}</span> : null}
+          </span>
+          <IconChevronDown className={expanded ? 'management-image-chevron-expanded' : ''} size={16} />
+        </button>
+        {expanded ? (
+          <div className="management-image-details selection-card-expanded">
+            {details.map((item) => (
+              <div className="selection-card-detail-row" key={item.label}>
+                <span>{item.label}</span>
+                <strong>{item.value}</strong>
+              </div>
+            ))}
+            {selection.productUrl ? (
+              <a className="directory-link" href={selection.productUrl} target="_blank" rel="noreferrer">
+                Source link
+              </a>
+            ) : null}
+          </div>
+        ) : null}
+      </div>
+    </article>
+  )
+}
+
+function SelectionsTab({ build }: { build: PublicBuildDetail }) {
+  const [columnCount, setColumnCount] = useState(5)
+  const [activeRoomType, setActiveRoomType] = useState('all')
+  const [currentPage, setCurrentPage] = useState(1)
+  const roomTypeOptions = useMemo(() => {
+    const optionOrder = new Map(ROOM_TYPE_OPTIONS.map((roomType, index) => [normalizeRoomType(roomType), index]))
+    const options = new Map<string, string>()
+
+    build.selections.forEach((selection) => {
+      const key = normalizeRoomType(selection.roomType)
+      if (!key || options.has(key)) return
+      options.set(key, formatRoomType(selection.roomType ?? key))
+    })
+
+    return Array.from(options.entries())
+      .map(([value, label]) => ({ value, label }))
+      .sort((a, b) => {
+        const aOrder = optionOrder.get(a.value) ?? Number.MAX_SAFE_INTEGER
+        const bOrder = optionOrder.get(b.value) ?? Number.MAX_SAFE_INTEGER
+        if (aOrder !== bOrder) return aOrder - bOrder
+        return a.label.localeCompare(b.label)
+      })
+  }, [build.selections])
+  const filteredSelections = useMemo(() => {
+    if (activeRoomType === 'all') return build.selections
+    return build.selections.filter((selection) => normalizeRoomType(selection.roomType) === activeRoomType)
+  }, [activeRoomType, build.selections])
+  const paginatedSelections = pageItems(filteredSelections, currentPage)
+  const selectionColumns = useMemo(() => {
+    const columns = Array.from({ length: columnCount }, () => [] as PublicSelection[])
+    paginatedSelections.items.forEach((selection, index) => columns[index % columnCount].push(selection))
+    return columns
+  }, [columnCount, paginatedSelections.items])
+
+  useEffect(() => {
+    const updateColumnCount = () => {
+      if (window.innerWidth < 560) setColumnCount(1)
+      else if (window.innerWidth < 860) setColumnCount(2)
+      else if (window.innerWidth < 1180) setColumnCount(3)
+      else setColumnCount(5)
+    }
+
+    updateColumnCount()
+    window.addEventListener('resize', updateColumnCount)
+    return () => window.removeEventListener('resize', updateColumnCount)
+  }, [])
+
+  if (!build.selections.length) {
+    return (
+      <div className="empty-state">
+        <IconPhoto size={32} />
+        <h3 className="empty-state-title">No selections shared yet</h3>
+        <p className="empty-state-sub">The owner has not made their selections public.</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="public-selections">
+      <div className="management-image-filters public-selection-filters">
+        <div className="form-group">
+          <label className="form-label">Room type</label>
+          <select className="form-select" value={activeRoomType} onChange={(event) => { setActiveRoomType(event.target.value); setCurrentPage(1) }}>
+            <option value="all">All room types</option>
+            {roomTypeOptions.map((roomType) => (
+              <option key={roomType.value} value={roomType.value}>{roomType.label}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      {filteredSelections.length ? (
+        <>
+          <div className="selection-masonry-grid" style={{ '--selection-column-count': columnCount } as CSSProperties}>
+            {selectionColumns.map((column, columnIndex) => (
+              <div key={columnIndex} className="management-image-column">
+                {column.map((selection) => (
+                  <SelectionCard key={selection.id} selection={selection} />
+                ))}
+              </div>
+            ))}
+          </div>
+          <PaginationControls
+            currentPage={paginatedSelections.currentPage}
+            pageCount={paginatedSelections.pageCount}
+            totalCount={filteredSelections.length}
+            onPageChange={setCurrentPage}
+          />
+        </>
+      ) : (
+        <div className="empty-state">
+          <IconPhoto size={32} />
+          <h3 className="empty-state-title">No selections for this room type</h3>
+          <p className="empty-state-sub">Choose another room type to view shared selections.</p>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function StandardTab({ build }: { build: PublicBuildDetail }) {
+  const rows = specRows(build)
+
+  return (
+    <div className="card standard-spec-card">
+      {rows.map((row) => (
+        <div key={row.key} className="standard-spec-row">
+          <span className="standard-spec-key">{row.key}</span>
+          <span className="standard-spec-val">{row.val}</span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function WishlistTab({ build }: { build: PublicBuildDetail }) {
+  const hasSuburbs = build.planningSuburbs.length > 0
+  const hasBuilders = build.planningBuilders.length > 0
+
+  if (!hasSuburbs && !hasBuilders) {
+    return (
+      <div className="empty-state">
+        <h3 className="empty-state-title">Nothing shared yet</h3>
+        <p className="empty-state-sub">The owner hasn&apos;t added any suburbs or builders to their wishlist yet.</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="planning-public-wishlist">
+      {hasSuburbs && (
+        <section className="card">
+          <div className="card-body">
+            <div className="section-label">Suburb wishlist</div>
+            <div className="planning-wishlist-list">
+              {build.planningSuburbs.map((suburb) => (
+                <div key={suburb.id} className="planning-wishlist-item">
+                  <div className="planning-wishlist-item-name">{suburb.suburb_name}</div>
+                  {suburb.notes && <div className="planning-wishlist-item-notes">{suburb.notes}</div>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {hasBuilders && (
+        <section className="card">
+          <div className="card-body">
+            <div className="section-label">Builder shortlist</div>
+            <div className="planning-wishlist-list">
+              {build.planningBuilders.map((builder) => (
+                <div key={builder.id} className="planning-wishlist-item">
+                  <div className="planning-wishlist-item-name">{builder.builder_name}</div>
+                  {builder.website && (
+                    <a href={builder.website} target="_blank" rel="noopener noreferrer" className="planning-wishlist-item-link">
+                      <IconExternalLink size={11} /> {builder.website}
+                    </a>
+                  )}
+                  {builder.notes && <div className="planning-wishlist-item-notes">{builder.notes}</div>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+    </div>
+  )
+}
+
+function PlanningBuildsTab({ build }: { build: PublicBuildDetail }) {
+  const saves = build.planningPublicSavedBuilds
+
+  if (!saves.length) {
+    return (
+      <div className="empty-state">
+        <IconBookmark size={32} />
+        <h3 className="empty-state-title">No saved builds yet</h3>
+        <p className="empty-state-sub">When the owner bookmarks builds that inspire their planning, they&apos;ll appear here.</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="planning-public-wishlist">
+      {saves.map((save) => (
+        <div key={save.id} className="planning-list-item">
+          <div>
+            <div className="planning-list-title">{save.buildTitle}</div>
+            <div className="planning-list-notes">
+              {[save.buildSuburb, save.buildStyle].filter(Boolean).join(' · ')}
+            </div>
+          </div>
+          <a href={`/${save.ownerUsername}/${save.buildSlug}`} target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm">
+            View <IconExternalLink size={11} />
+          </a>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function PlanningHistoryTab({ build }: { build: PublicBuildDetail }) {
+  const hasStyles = build.planningStyles.length > 0
+  const hasSuburbs = build.planningSuburbs.length > 0
+  const hasBuilders = build.planningBuilders.length > 0
+
+  return (
+    <div className="planning-public-wishlist">
+      {hasStyles && (
+        <section className="card">
+          <div className="card-body">
+            <div className="section-label">Design styles they planned for</div>
+            <div className="planning-style-grid" style={{ marginTop: 10 }}>
+              {build.planningStyles.map((style) => (
+                <span key={style} className="planning-style-chip planning-style-chip-active">{style}</span>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+      {hasSuburbs && (
+        <section className="card">
+          <div className="card-body">
+            <div className="section-label">Suburbs they considered</div>
+            <div className="planning-wishlist-list">
+              {build.planningSuburbs.map((suburb) => (
+                <div key={suburb.id} className="planning-wishlist-item">
+                  <div className="planning-wishlist-item-name">{suburb.suburb_name}</div>
+                  {suburb.notes && <div className="planning-wishlist-item-notes">{suburb.notes}</div>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+      {hasBuilders && (
+        <section className="card">
+          <div className="card-body">
+            <div className="section-label">Builders they considered</div>
+            <div className="planning-wishlist-list">
+              {build.planningBuilders.map((builder) => (
+                <div key={builder.id} className="planning-wishlist-item">
+                  <div className="planning-wishlist-item-name">{builder.builder_name}</div>
+                  {builder.website && (
+                    <a href={builder.website} target="_blank" rel="noopener noreferrer" className="planning-wishlist-item-link">
+                      <IconExternalLink size={11} /> {builder.website}
+                    </a>
+                  )}
+                  {builder.notes && <div className="planning-wishlist-item-notes">{builder.notes}</div>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+    </div>
+  )
+}
+
+function PlanningStylesCard({ build }: { build: PublicBuildDetail }) {
+  if (!build.planningStyles.length) return null
+  return (
+    <section className="card">
+      <div className="card-body">
+        <div className="section-label">Design styles</div>
+        <div className="planning-style-grid" style={{ marginTop: 10 }}>
+          {build.planningStyles.map((style) => (
+            <span key={style} className="planning-style-chip planning-style-chip-active">{style}</span>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function PlanningWishlistCard({ build }: { build: PublicBuildDetail }) {
+  if (!build.planningSuburbs.length && !build.planningBuilders.length) return null
+  return (
+    <section className="card">
+      <div className="card-body">
+        <div className="section-label">Planning wishlist</div>
+        {build.planningSuburbs.length > 0 && (
+          <div className="sidebar-planning-group">
+            <div className="sidebar-planning-label">Suburbs</div>
+            {build.planningSuburbs.map((suburb) => (
+              <div key={suburb.id} className="sidebar-planning-item">{suburb.suburb_name}</div>
+            ))}
+          </div>
+        )}
+        {build.planningBuilders.length > 0 && (
+          <div className="sidebar-planning-group">
+            <div className="sidebar-planning-label">Builders</div>
+            {build.planningBuilders.map((builder) => (
+              <div key={builder.id} className="sidebar-planning-item">{builder.builder_name}</div>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
+function DiscussionTab({
+  comments,
+  currentUserId,
+  comment,
+  commentError,
+  postingComment,
+  onCommentChange,
+  onPost,
+  onUpdateComment,
+  onDeleteComment,
+  onReplyComment,
+}: {
+  comments: CommentItem[]
+  currentUserId: string | null
+  comment: string
+  commentError: string
+  postingComment: boolean
+  onCommentChange: (value: string) => void
+  onPost: () => void
+  onUpdateComment: (commentId: string, content: string) => void
+  onDeleteComment: (commentId: string) => void
+  onReplyComment: (parentCommentId: string, content: string) => Promise<string | null>
+}) {
+  const [showAll, setShowAll] = useState(false)
+  const visibleComments = showAll ? comments : comments.slice(-12)
+  const hiddenCount = Math.max(0, comments.length - visibleComments.length)
+
+  return (
+    <section className="discussion-panel">
+      <div className="card comment-prompt">
+        <div className="comment-prompt-body">
+          <div className="comment-form-row">
+            <textarea
+              className="form-textarea"
+              placeholder="Ask a question or leave a comment..."
+              value={comment}
+              onChange={(event) => onCommentChange(event.target.value)}
+            />
+            <div className="comment-actions">
+              <LoadingButton className="btn btn-primary btn-sm" loading={postingComment} disabled={!comment.trim()} onClick={onPost}>
+                Post
+              </LoadingButton>
+            </div>
+          </div>
+          {commentError ? <div className="alert alert-error">{commentError}</div> : null}
+        </div>
+      </div>
+
+      <div className="card comments-panel discussion-comments">
+        <div className="discussion-header">
+          <div>
+            <h2>Discussion</h2>
+            <p>{comments.length} comment{comments.length === 1 ? '' : 's'}</p>
+          </div>
+          {hiddenCount > 0 ? (
+            <button className="btn btn-ghost btn-sm" onClick={() => setShowAll(true)}>
+              Show {hiddenCount} older
+            </button>
+          ) : null}
+        </div>
+
+        {visibleComments.length > 0 ? (
+          <div className="comment-list">
+            {visibleComments.map((item) => (
+              <EditableComment
+                key={item.id}
+                comment={item}
+                canEdit={Boolean(currentUserId && item.userId === currentUserId)}
+                endpoint="/api/build-comments"
+                onChange={onUpdateComment}
+                onDelete={onDeleteComment}
+                onReply={onReplyComment}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="empty-state empty-state-compact">
+            <h3 className="empty-state-title">No discussion yet</h3>
+            <p className="empty-state-sub">Questions and build-level comments will appear here.</p>
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
+function BuildSpecsCard({ build }: { build: PublicBuildDetail }) {
+  const metrics = [
+    { label: 'beds', value: build.specs.bedrooms, icon: IconBed },
+    { label: 'baths', value: build.specs.bathrooms, icon: IconBath },
+    { label: 'toilets', value: build.specs.separateToilets, icon: IconToiletPaper },
+    { label: 'garage', value: build.specs.garageSpaces, icon: IconCarGarage },
+  ]
+  const rows = specRows(build)
+
+  return (
+    <section className="card">
+      <div className="card-body">
+        <div className="section-label">Build specs</div>
+
+        <div className="spec-summary-grid">
+          {metrics.map((item) => {
+            const Icon = item.icon
+            return (
+              <div className="spec-summary" key={item.label}>
+                <Icon size={17} />
+                <div className="spec-summary-value">{formatCount(item.value)}</div>
+                <div className="spec-summary-label">{item.label}</div>
+              </div>
+            )
+          })}
+        </div>
+
+        {rows.length > 0 ? rows.map((row) => (
+          <div key={row.key} className="spec-row">
+            <span className="spec-key">{row.key}</span>
+            <span className="spec-val">{row.val}</span>
+          </div>
+        )) : (
+          <p className="empty-state-sub">No detailed specs shared yet.</p>
+        )}
+      </div>
+    </section>
+  )
+}
+
+function specRows(build: PublicBuildDetail) {
+  return [
+    { key: 'Land size', val: formatArea(build.specs.landSizeM2) },
+    { key: 'Home size', val: formatArea(build.specs.internalSizeM2) },
+    { key: 'Alfresco', val: formatArea(build.specs.alfrescoSizeM2) },
+    { key: 'Width', val: formatMetres(build.specs.homeWidthM) },
+    { key: 'Depth', val: formatMetres(build.specs.homeDepthM) },
+    { key: 'Build type', val: build.specs.buildType },
+    { key: 'Construction', val: build.specs.constructionType },
+    { key: 'Roof', val: build.specs.roofStructure },
+    { key: 'Style', val: build.specs.homeDesignStyle },
+  ].filter((row): row is { key: string; val: string } => Boolean(row.val))
+}
+
+function formatCount(value: number | null) {
+  return value ?? '—'
+}
+
+function formatArea(value: number | null) {
+  if (value == null) return null
+  return `${new Intl.NumberFormat('en-AU').format(value)} m²`
+}
+
+function formatMetres(value: number | null) {
+  if (value == null) return null
+  return `${value.toFixed(1)} m`
+}
+
+function titleCase(value: string) {
+  return value ? `${value.charAt(0).toUpperCase()}${value.slice(1)}` : value
+}
+
+function normalizeRoomType(value: string | null | undefined) {
+  const normalized = String(value ?? '')
+    .trim()
+    .toLowerCase()
+    .replace(/[_-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+
+  const aliases: Record<string, string> = {
+    bedrooms: 'bedroom',
+    bathrooms: 'bathroom',
+    'living room': 'living',
+  }
+
+  return aliases[normalized] ?? normalized
+}
+
+function formatRoomType(value: string) {
+  return value
+    .trim()
+    .replace(/[_-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .split(' ')
+    .filter(Boolean)
+    .map(titleCase)
+    .join(' ')
+}
+
+function formatRelativeTime(value: string | null) {
+  if (!value) return ''
+  const timestamp = new Date(value).getTime()
+  if (Number.isNaN(timestamp)) return ''
+  const diff = Date.now() - timestamp
+  if (diff < 60_000) return 'Just now'
+  if (diff < 3_600_000) return `${Math.floor(diff / 60_000)} min ago`
+  if (diff < 86_400_000) return `${Math.floor(diff / 3_600_000)} hr ago`
+  return `${Math.floor(diff / 86_400_000)} days ago`
+}
+
+function normalizeOverlayComments(items: PublicComment[]): CommentItem[] {
+  return items.map((item) => ({
+    id: item.id,
+    userId: item.userId,
+    username: item.username,
+    content: item.content,
+    createdAt: item.createdAt,
+    parentCommentId: item.parentCommentId ?? null,
+    imageUrl: item.imageUrl ?? null,
+  }))
+}
+
+function parseTimelineDate(value: string | null) {
+  if (!value) return null
+  const date = new Date(value)
+  return Number.isNaN(date.getTime()) ? null : date
+}
+
+function dayDiff(start: Date, end: Date) {
+  return Math.max(0, Math.round((end.getTime() - start.getTime()) / 86_400_000))
+}
+
+function completedPhaseDays(milestone: PublicBuildDetail['milestones'][number]) {
+  const start = parseTimelineDate(milestone.startDate)
+  const end = parseTimelineDate(milestone.endDate)
+  if (!start || !end) return 0
+  return dayDiff(start, end)
+}
+
+function displayPhaseDays(milestone: PublicBuildDetail['milestones'][number]) {
+  const start = parseTimelineDate(milestone.startDate)
+  if (!start) return 0
+  const end = parseTimelineDate(milestone.endDate) ?? new Date()
+  return dayDiff(start, end)
+}
+
+function calcTotalBuildDays(milestones: PublicBuildDetail['milestones']) {
+  const starts = milestones.map((milestone) => parseTimelineDate(milestone.startDate)).filter((date): date is Date => Boolean(date))
+  const ends = milestones.map((milestone) => parseTimelineDate(milestone.endDate)).filter((date): date is Date => Boolean(date))
+  if (!starts.length || !ends.length) return 0
+  const earliestStart = starts.reduce((earliest, date) => date < earliest ? date : earliest, starts[0])
+  const latestEnd = ends.reduce((latest, date) => date > latest ? date : latest, ends[0])
+  return dayDiff(earliestStart, latestEnd)
+}
+
+function calcGap(
+  previous: PublicBuildDetail['milestones'][number],
+  current: PublicBuildDetail['milestones'][number],
+): TimelineGapInfo | null {
+  if (!previous.endDate || !current.startDate) return null
+
+  const days = Math.round((new Date(current.startDate).getTime() - new Date(previous.endDate).getTime()) / 86_400_000)
+  if (Math.abs(days) < 1) return null
+
+  const duration = formatDuration(Math.abs(days))
+  // Gap time between phases is a key data point for build watchers.
+  // A builder with consistent 0-gap handoffs between stages signals
+  // good project management. Long gaps often indicate council delays,
+  // supplier issues, or builder scheduling problems - information
+  // that isn't captured anywhere else publicly.
+  return {
+    days: Math.abs(days),
+    isOverlap: days < 0,
+    label: days < 0 ? `Phases overlapped by ${duration}` : `${duration} between phases`,
+    title: `From: ${previous.title} end (${formatTimelineDate(previous.endDate) ?? 'date not shared'})\nTo: ${current.title} start (${formatTimelineDate(current.startDate) ?? 'date not shared'})`,
+  }
+}
+
+function formatDuration(days: number) {
+  if (days < 1) return 'Less than a day'
+  if (days < 30) return `${days} day${days !== 1 ? 's' : ''}`
+  const months = Math.round(days / 30)
+  if (months < 12) return `${months} month${months !== 1 ? 's' : ''}`
+  const years = Math.floor(days / 365)
+  const remainingMonths = Math.round((days % 365) / 30)
+  if (remainingMonths === 0) return `${years} year${years !== 1 ? 's' : ''}`
+  return `${years} yr ${remainingMonths} mo`
+}
+
+function formatTimelineDate(value: string | null) {
+  const date = parseTimelineDate(value)
+  if (!date) return null
+  return date.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })
+}
+
+function formatTimelineDateRange(milestone: PublicBuildDetail['milestones'][number]) {
+  const start = formatTimelineDate(milestone.startDate)
+  const end = formatTimelineDate(milestone.endDate)
+  if (start && end) return `${start} to ${end}`
+  if (start) return `${start} to present`
+  if (end) return `Ended ${end}`
+  return 'Dates not shared yet'
+}
+
+type BuildProfileClientProps = {
+  build: PublicBuildDetail
+  username: string
+}
+
+export function BuildProfileClient({ build, username }: BuildProfileClientProps) {
+  const router = useRouter()
+  const isPlanning = build.stage === 'planning'
+  const [activeTab, setActiveTab] = useState<Tab>(isPlanning ? 'Inspiration' : 'Updates')
+  const [following, setFollowing] = useState(build.isFollowing)
+  const [followerCount, setFollowerCount] = useState(build.followers)
+  const [comment, setComment] = useState('')
+  const [buildComments, setBuildComments] = useState(build.buildComments)
+  const [commentCount, setCommentCount] = useState(build.comments)
+  const [commentError, setCommentError] = useState('')
+  const [postingComment, setPostingComment] = useState(false)
+  const [followError, setFollowError] = useState('')
+  const [followBusy, setFollowBusy] = useState(false)
+  const [selectedUpdate, setSelectedUpdate] = useState<{ update: Update; imageIndex: number } | null>(null)
+  const isOwner = build.currentUserId === build.ownerId
+  const hasPlanningHistory = !isPlanning && (
+    build.planningStyles.length > 0 ||
+    build.planningSuburbs.length > 0 ||
+    build.planningBuilders.length > 0
+  )
+  const visibleTabs: Tab[] = isPlanning
+    ? PLANNING_TABS
+    : hasPlanningHistory
+      ? [...BASE_BUILD_TABS, 'Our Planning']
+      : BASE_BUILD_TABS
+
+  const activeMilestone = build.milestones.find((milestone) => milestone.status === 'active')
+  const updates: Update[] = build.updates.map((update) => ({
+    id: update.id,
+    milestone: update.milestone,
+    caption: update.content,
+    imageCount: update.imageCount,
+    likes: update.likeCount,
+    commentCount: update.commentCount,
+    timeAgo: formatRelativeTime(update.createdAt),
+    imageUrl: update.imageUrl,
+    imageUrls: update.imageUrls,
+    imageIds: update.imageIds,
+    imageId: update.imageId,
+    comments: [],
+  }))
+  const stats = isPlanning
+    ? [
+        { value: followerCount as number | string | null, label: 'followers' as string | null },
+        { value: build.planningStyles.length > 0 ? build.planningStyles.length : null, label: 'styles' },
+        { value: commentCount as number | string | null, label: 'comments' as string | null },
+      ].filter((stat) => stat.value !== null && stat.label !== null)
+    : [
+        { value: followerCount as number | string | null, label: 'followers' as string | null },
+        { value: build.updateCount, label: 'updates' },
+        { value: commentCount as number | string | null, label: 'comments' as string | null },
+        { value: build.week ? `Week ${build.week}` : null, label: build.week ? 'of build' : null },
+      ].filter((stat) => stat.value !== null && stat.label !== null)
+
+  const postBuildComment = async () => {
+    if (!comment.trim() || postingComment) return
+    setPostingComment(true)
+    setCommentError('')
+
+    const formData = new FormData()
+    formData.set('build_id', build.id)
+    formData.set('content', comment.trim())
+
+    const response = await fetch('/api/build-comments', {
+      method: 'POST',
+      body: formData,
+    })
+    const payload = await response.json().catch(() => null)
+    setPostingComment(false)
+
+    if (!response.ok) {
+      setCommentError(response.status === 401 ? 'Sign in to comment.' : payload?.error ?? 'Unable to post comment.')
+      return
+    }
+
+    setBuildComments((current) => [
+      ...current,
+      {
+        id: payload.comment.id,
+        userId: payload.comment.userId,
+        username: payload.comment.username,
+        content: payload.comment.content,
+        createdAt: payload.comment.createdAt,
+        parentCommentId: payload.comment.parentCommentId,
+        imageUrl: payload.comment.imageUrl,
+      },
+    ])
+    setCommentCount((current) => current + 1)
+    setComment('')
+  }
+
+  const postBuildReplyComment = async (parentCommentId: string, content: string) => {
+    const formData = new FormData()
+    formData.set('build_id', build.id)
+    formData.set('content', content)
+    formData.set('parent_comment_id', parentCommentId)
+
+    const response = await fetch('/api/build-comments', {
+      method: 'POST',
+      body: formData,
+    })
+    const payload = await response.json().catch(() => null)
+
+    if (!response.ok) {
+      return response.status === 401 ? 'Sign in to reply.' : payload?.error ?? 'Unable to post reply.'
+    }
+
+    setBuildComments((current) => [
+      ...current,
+      {
+        id: payload.comment.id,
+        userId: payload.comment.userId,
+        username: payload.comment.username,
+        content: payload.comment.content,
+        createdAt: payload.comment.createdAt,
+        parentCommentId: payload.comment.parentCommentId,
+        imageUrl: payload.comment.imageUrl,
+        time: 'Just now',
+      },
+    ])
+    setCommentCount((current) => current + 1)
+    return null
+  }
+
+  const toggleFollow = async () => {
+    if (followBusy) return
+    setFollowBusy(true)
+    setFollowError('')
+    const formData = new FormData()
+    formData.set('build_id', build.id)
+
+    const response = await fetch('/api/build-follows/toggle', {
+      method: 'POST',
+      body: formData,
+    })
+    const payload = await response.json().catch(() => null)
+    setFollowBusy(false)
+
+    if (!response.ok) {
+      setFollowError(response.status === 401 ? 'Sign in to follow this build.' : payload?.error ?? 'Unable to update follow.')
+      return
+    }
+
+    setFollowing(Boolean(payload.following))
+    setFollowerCount(typeof payload.followerCount === 'number' ? payload.followerCount : followerCount)
+  }
+
+  const shareBuild = async () => {
+    const url = window.location.href
+    if (navigator.share) {
+      await navigator.share({ title: build.title, url }).catch(() => undefined)
+      return
+    }
+    await navigator.clipboard?.writeText(url).catch(() => undefined)
+  }
+
+  const goBack = () => {
+    if (window.history.length > 1) {
+      router.back()
+      return
+    }
+    router.push(`/${username}`)
+  }
+
+  return (
+    <div className="page-shell">
+      <Nav />
+
+      <div className="back-bar">
+        <div className="page-container">
+          <button type="button" className="back-link" onClick={goBack}>
+            <IconArrowLeft size={13} /> Back
+          </button>
+        </div>
+      </div>
+
+      <header className="build-profile-hero">
+        {build.imageUrl ? (
+          // Signed Supabase URLs are rendered directly until remote image patterns are finalized.
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={build.imageUrl} alt={`${build.title} build`} />
+        ) : (
+          <Image src="/images/comingsoon.jpg" alt="" fill priority sizes="100vw" />
+        )}
+        <div className="build-profile-hero-overlay">
+          <div className="build-profile-hero-content">
+            {build.stage ? (
+              <span className={`badge ${build.stage === 'planning' ? 'badge-planning' : `badge-stage-${build.stage}`}`}>
+                {STAGE_LABELS[build.stage] ?? build.stage}
+              </span>
+            ) : null}
+            <h1 className="build-profile-title">{build.title}</h1>
+            <div className="hero-meta-row">
+              <span>
+                by <Link href={`/${username}`}>@{username}</Link>
+              </span>
+              {!isPlanning ? (
+                <>
+                  <span><strong>{build.builder || 'Builder TBA'}</strong></span>
+                  <span><strong>{build.suburb || 'Suburb TBA'}</strong></span>
+                </>
+              ) : null}
+            </div>
+            {build.description ? (
+              <p className="build-profile-hero-description">{build.description}</p>
+            ) : null}
+          </div>
+        </div>
+      </header>
+
+      <div className="build-profile-bar">
+        <div className="page-container build-profile-bar-inner">
+          <div className="profile-stats">
+            {stats.map((stat, index) => (
+              <span className="profile-stat-group" key={stat.label}>
+                {index > 0 ? <span className="profile-stat-divider" /> : null}
+                <span className="profile-stat">
+                  <span className="profile-stat-value">{stat.value}</span>
+                  <span className="profile-stat-label">{stat.label}</span>
+                </span>
+              </span>
+            ))}
+          </div>
+
+          <div className="build-profile-actions">
+            <button className="btn-icon" aria-label="Share" onClick={shareBuild}>
+              <IconShare size={15} />
+            </button>
+            {isOwner ? (
+              <Link href={`/dashboard/builds/${build.id}`} className="btn btn-secondary btn-sm">
+                <IconEdit size={13} /> Edit Build
+              </Link>
+            ) : (
+              <LoadingButton className={`btn btn-sm ${following ? 'btn-secondary' : 'btn-accent'}`} loading={followBusy} onClick={toggleFollow}>
+                {following ? 'Following' : 'Follow'}
+              </LoadingButton>
+            )}
+          </div>
+          {followError ? <div className="alert alert-error">{followError}</div> : null}
+        </div>
+      </div>
+
+      <div className="tab-bar">
+        <div className="page-container">
+          <div className="tab-list">
+            {visibleTabs.map((tab) => (
+              <button key={tab} className={`tab ${activeTab === tab ? 'tab-active' : ''}`} onClick={() => setActiveTab(tab)}>
+                {tab}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <main className="page-container content-section">
+        <div className="build-layout">
+          <div>
+            {activeTab === 'Updates' && (
+              <UpdatesTab updates={updates} onOpen={(update) => setSelectedUpdate({ update, imageIndex: 0 })} />
+            )}
+
+            {activeTab === 'Discussion' && (
+              <DiscussionTab
+                comments={buildComments}
+                currentUserId={build.currentUserId}
+                comment={comment}
+                commentError={commentError}
+                postingComment={postingComment}
+                onCommentChange={setComment}
+                onPost={postBuildComment}
+                onUpdateComment={(commentId, content) =>
+                  setBuildComments((current) => current.map((item) => (item.id === commentId ? { ...item, content } : item)))
+                }
+                onDeleteComment={(commentId) => {
+                  setBuildComments((current) => {
+                    const next = current.filter((item) => item.id !== commentId && item.parentCommentId !== commentId)
+                    setCommentCount((count) => Math.max(0, count - (current.length - next.length)))
+                    return next
+                  })
+                }}
+                onReplyComment={postBuildReplyComment}
+              />
+            )}
+
+            {activeTab === 'Timeline' && (
+              <TimelineTab build={build} updates={updates} currentUserId={build.currentUserId} onOpenUpdate={(update, imageIndex = 0) => setSelectedUpdate({ update, imageIndex })} />
+            )}
+            {activeTab === 'Images' && <ImagesTab build={build} />}
+            {activeTab === 'Inspiration' && <InspirationTab build={build} />}
+            {activeTab === 'Selections' && <SelectionsTab build={build} />}
+            {activeTab === 'Standard' && <StandardTab build={build} />}
+            {activeTab === 'Wishlist' && <WishlistTab build={build} />}
+            {activeTab === 'Saved Builds' && <PlanningBuildsTab build={build} />}
+            {activeTab === 'Our Planning' && <PlanningHistoryTab build={build} />}
+            {selectedUpdate ? <UpdateOverlay update={selectedUpdate.update} currentUserId={build.currentUserId} initialImageIndex={selectedUpdate.imageIndex} onClose={() => setSelectedUpdate(null)} /> : null}
+          </div>
+
+          <aside className="build-sidebar">
+            {isPlanning ? (
+              <>
+                <PlanningStylesCard build={build} />
+                {!build.planningStyles.length && (
+                  <section className="card">
+                    <div className="card-body">
+                      <p className="empty-state-sub">The owner hasn&apos;t shared their planning details yet.</p>
+                    </div>
+                  </section>
+                )}
+              </>
+            ) : (
+              <>
+                <BuildSpecsCard build={build} />
+
+                <section className="card">
+                  <div className="card-body">
+                    <div className="section-label">Milestones</div>
+                    {build.milestones.map((milestone) => (
+                      <div className="milestone-row" key={milestone.id}>
+                        <span
+                          className={`milestone-dot milestone-dot-${
+                            milestone.status === 'complete' ? 'done' : milestone.status === 'active' ? 'active' : 'pending'
+                          }`}
+                        />
+                        <span
+                          className={`milestone-name ${
+                            milestone.status === 'active'
+                              ? 'milestone-name-active'
+                              : milestone.status === 'pending'
+                                ? 'milestone-name-pending'
+                                : ''
+                          }`}
+                        >
+                          {milestone.title}
+                        </span>
+                        {milestone.updates > 0 && <span className="milestone-count">{milestone.updates}</span>}
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                <section className="card">
+                  <div className="card-body">
+                    <div className="section-label">Builder</div>
+                    <div className="sidebar-link-row">
+                      <div>
+                        <div className="sidebar-link-title">{build.builder || 'Builder TBA'}</div>
+                        <div className="sidebar-link-subtitle">View all builds</div>
+                      </div>
+                      {build.builderSlug ? (
+                        <Link href={`/builders/${build.builderSlug}`} className="muted-row">
+                          <IconChevronRight size={16} />
+                        </Link>
+                      ) : null}
+                    </div>
+                  </div>
+                </section>
+              </>
+            )}
+          </aside>
+        </div>
+      </main>
+    </div>
+  )
+}

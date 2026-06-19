@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@tabler/icons-react": ["./src/components/icons"]
     }
   },
   "include": [
