@@ -10,7 +10,7 @@ import { ImagesClient, type LibraryImage } from "@/app/dashboard/builds/[buildId
 import { MilestonesClient, type EditableMilestone } from "@/app/dashboard/builds/[buildId]/milestones/milestones-client";
 import { RoomsClient } from "@/app/dashboard/builds/[buildId]/rooms/rooms-client";
 import { SelectionsClient, type EditableRoom, type EditableSelection } from "@/app/dashboard/builds/[buildId]/selections/selections-client";
-import { PlanningClient } from "@/app/dashboard/builds/[buildId]/planning/planning-client";
+import { PlanningClient, type PlanningEditorSave } from "@/app/dashboard/builds/[buildId]/planning/planning-client";
 import { PdfThumbnail } from "@/components/PdfThumbnail";
 import { IconArrowLeft, IconBuildingCommunity, IconCheck, IconChevronDown, IconCircleCheck, IconExternalLink, IconFileText, IconHardHat, IconPhoto, IconPlant, IconRuler, IconSearch, IconX } from "@tabler/icons-react";
 import type { EditableBuild, PlanningBuilder, PlanningSuburb } from "@/app/dashboard/builds/[buildId]/page";
@@ -181,6 +181,7 @@ export function BuildEditorClient({
   initialRooms,
   initialPlanningSuburbs,
   initialPlanningBuilders,
+  initialSavedBuilds,
   builderOptions,
 }: {
   build: EditableBuild;
@@ -191,6 +192,7 @@ export function BuildEditorClient({
   initialRooms: EditableRoom[];
   initialPlanningSuburbs: PlanningSuburb[];
   initialPlanningBuilders: PlanningBuilder[];
+  initialSavedBuilds: PlanningEditorSave[];
   builderOptions: string[];
 }) {
   const [tab, setTab] = useState<EditorTab>("Details");
@@ -553,7 +555,7 @@ export function BuildEditorClient({
             initialBudgetBuildMax={build.budget_build_max}
             initialSuburbs={initialPlanningSuburbs}
             initialBuilders={initialPlanningBuilders}
-            initialSavedBuilds={[]}
+            initialSavedBuilds={initialSavedBuilds}
           />
         ) : null}
 

@@ -3,6 +3,7 @@ import { BuildEditorClient } from "@/app/dashboard/builds/[buildId]/build-editor
 import type { LibraryImage } from "@/app/dashboard/builds/[buildId]/images/images-client";
 import type { EditableMilestone } from "@/app/dashboard/builds/[buildId]/milestones/milestones-client";
 import type { EditableRoom, EditableSelection } from "@/app/dashboard/builds/[buildId]/selections/selections-client";
+import type { PlanningEditorSave } from "@/app/dashboard/builds/[buildId]/planning/planning-client";
 
 export type PlanningSuburb = { id: string; build_id: string; suburb_name: string; notes: string | null; sort_order: number; created_at: string };
 export type PlanningBuilder = { id: string; build_id: string; builder_name: string; website: string | null; notes: string | null; sort_order: number; created_at: string };
@@ -125,6 +126,44 @@ export default async function BuildEditorPage({
   ]);
   const builderOptions = await getBuilderOptions();
 
+  let initialSavedBuilds: PlanningEditorSave[] = [];
+  if (build.stage === "planning") {
+    const { data: savedRows } = await supabase
+      .from("planning_saved_builds")
+      .select("id,saved_build_id")
+      .eq("planning_build_id", build.id)
+      .order("created_at", { ascending: false });
+
+    const savedIds = ((savedRows ?? []) as { id: string; saved_build_id: string }[]).map((r) => r.saved_build_id);
+    if (savedIds.length > 0) {
+      const { data: savedBuildsDetail } = await supabase
+        .from("builds")
+        .select("id,title,slug,suburb_name,style,owner_id")
+        .in("id", savedIds);
+      const ownerIds = Array.from(new Set(((savedBuildsDetail ?? []) as Record<string, unknown>[]).map((b) => b.owner_id as string).filter(Boolean)));
+      const { data: ownerProfiles } = ownerIds.length
+        ? await supabase.from("profiles").select("id,username").in("id", ownerIds)
+        : { data: [] };
+      const usernameMap = new Map(((ownerProfiles ?? []) as { id: string; username: string }[]).map((p) => [p.id, p.username]));
+      const detailMap = new Map(((savedBuildsDetail ?? []) as Record<string, unknown>[]).map((b) => [b.id as string, b]));
+      initialSavedBuilds = ((savedRows ?? []) as { id: string; saved_build_id: string }[])
+        .map((row) => {
+          const b = detailMap.get(row.saved_build_id);
+          if (!b) return null;
+          return {
+            id: row.id,
+            savedBuildId: row.saved_build_id,
+            title: b.title as string,
+            slug: b.slug as string,
+            suburb: (b.suburb_name as string | null) ?? null,
+            style: (b.style as string | null) ?? null,
+            ownerUsername: usernameMap.get(b.owner_id as string) ?? null,
+          } satisfies PlanningEditorSave;
+        })
+        .filter((item): item is PlanningEditorSave => item !== null);
+    }
+  }
+
   const images = imageData as Omit<LibraryImage, "imageUrl">[];
   const selections = (selectionData ?? []) as Omit<EditableSelection, "imageUrl">[];
   const signedUrls = await getSignedImageUrls([
@@ -168,6 +207,7 @@ export default async function BuildEditorPage({
       initialRooms={(roomData ?? []) as EditableRoom[]}
       initialPlanningSuburbs={(planningSuburbData ?? []) as PlanningSuburb[]}
       initialPlanningBuilders={(planningBuilderData ?? []) as PlanningBuilder[]}
+      initialSavedBuilds={initialSavedBuilds}
     />
   );
 }

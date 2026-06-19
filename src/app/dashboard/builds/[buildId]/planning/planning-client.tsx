@@ -17,11 +17,16 @@ const DESIGN_STYLE_OPTIONS = [
 const PLANNING_SECTIONS = ["Design Style", "Suburbs", "Builders", "Budget", "Saved Builds"] as const;
 type PlanningSection = (typeof PLANNING_SECTIONS)[number];
 
-type SavedBuild = {
+export type PlanningEditorSave = {
   id: string;
-  build_id: string;
-  build: { id: string; title: string; slug: string; suburb_name: string | null; style: string | null; owner_username: string | null } | null;
+  savedBuildId: string;
+  title: string;
+  slug: string;
+  suburb: string | null;
+  style: string | null;
+  ownerUsername: string | null;
 };
+type SavedBuild = PlanningEditorSave;
 
 export function PlanningClient({
   buildId,
@@ -49,7 +54,7 @@ export function PlanningClient({
   const [stylesSaving, setStylesSaving] = useState(false);
   const [suburbs, setSuburbs] = useState<PlanningSuburb[]>(initialSuburbs);
   const [builders, setBuilders] = useState<PlanningBuilder[]>(initialBuilders);
-  const [savedBuilds] = useState<SavedBuild[]>(initialSavedBuilds);
+  const [savedBuilds, setSavedBuilds] = useState<SavedBuild[]>(initialSavedBuilds);
 
   const [budgetLandMin, setBudgetLandMin] = useState(initialBudgetLandMin?.toString() ?? "");
   const [budgetLandMax, setBudgetLandMax] = useState(initialBudgetLandMax?.toString() ?? "");
@@ -142,6 +147,11 @@ export function PlanningClient({
   const removeBuilder = async (id: string) => {
     await fetch(`/api/planning/builders/${id}`, { method: "DELETE" });
     setBuilders((c) => c.filter((b) => b.id !== id));
+  };
+
+  const removeSavedBuild = async (save: SavedBuild) => {
+    await fetch(`/api/planning-saved-builds?planningBuildId=${buildId}&savedBuildId=${save.savedBuildId}`, { method: "DELETE" });
+    setSavedBuilds((c) => c.filter((s) => s.id !== save.id));
   };
 
   return (
@@ -306,22 +316,25 @@ export function PlanningClient({
             </div>
             {savedBuilds.length > 0 ? (
               <div className="planning-list">
-                {savedBuilds.map((saved) => saved.build ? (
+                {savedBuilds.map((saved) => (
                   <div key={saved.id} className="planning-list-item">
                     <div>
-                      <div className="planning-list-title">{saved.build.title}</div>
+                      <div className="planning-list-title">{saved.title}</div>
                       <div className="planning-list-notes">
-                        {saved.build.suburb_name ?? ""}
-                        {saved.build.style ? ` · ${saved.build.style}` : ""}
+                        {saved.suburb ?? ""}
+                        {saved.style ? ` · ${saved.style}` : ""}
                       </div>
                     </div>
-                    {saved.build.owner_username ? (
-                      <a href={`/${saved.build.owner_username}/${saved.build.slug}`} target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm">
-                        View <IconExternalLink size={11} />
-                      </a>
-                    ) : null}
+                    <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                      {saved.ownerUsername ? (
+                        <a href={`/${saved.ownerUsername}/${saved.slug}`} target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm">
+                          View <IconExternalLink size={11} />
+                        </a>
+                      ) : null}
+                      <ConfirmDeleteButton iconOnly onConfirm={() => removeSavedBuild(saved)} />
+                    </div>
                   </div>
-                ) : null)}
+                ))}
               </div>
             ) : (
               <div className="empty-state empty-state-sm">

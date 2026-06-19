@@ -32,10 +32,11 @@ import {
   IconX,
 } from '@tabler/icons-react'
 import type { PublicBuildDetail, PublicComment, PublicSelection } from '@/lib/public-data'
+import type { ViewerPlanningBuild } from '@/app/[username]/[slug]/page'
 
-type Tab = 'Updates' | 'Discussion' | 'Timeline' | 'Images' | 'Inspiration' | 'Selections' | 'Standard' | 'Wishlist' | 'Saved Builds' | 'Our Planning'
+type Tab = 'Overview' | 'Updates' | 'Discussion' | 'Timeline' | 'Images' | 'Inspiration' | 'Selections' | 'Standard' | 'Wishlist' | 'Saved Builds' | 'Our Planning'
 const BASE_BUILD_TABS: Tab[] = ['Updates', 'Discussion', 'Timeline', 'Images', 'Inspiration', 'Selections', 'Standard']
-const PLANNING_TABS: Tab[] = ['Inspiration', 'Wishlist', 'Saved Builds', 'Selections', 'Discussion']
+const PLANNING_TABS: Tab[] = ['Overview', 'Inspiration', 'Wishlist', 'Saved Builds', 'Selections', 'Discussion']
 
 const STAGE_LABELS: Record<string, string> = {
   planning: 'Planning',
@@ -1375,6 +1376,141 @@ function StandardTab({ build }: { build: PublicBuildDetail }) {
   )
 }
 
+function OverviewTab({ build }: { build: PublicBuildDetail }) {
+  const hasBudget = build.budget.landMin || build.budget.landMax || build.budget.buildMin || build.budget.buildMax
+  const hasStyles = build.planningStyles.length > 0
+  const hasSuburbs = build.planningSuburbs.length > 0
+  const hasBuilders = build.planningBuilders.length > 0
+  const hasDetails = build.suburb || build.state || build.builder || build.style
+
+  const formatBudget = (min: number | null, max: number | null) => {
+    const fmt = (n: number) => new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 }).format(n)
+    if (min && max) return `${fmt(min)} – ${fmt(max)}`
+    if (min) return `From ${fmt(min)}`
+    if (max) return `Up to ${fmt(max)}`
+    return null
+  }
+  const landBudget = formatBudget(build.budget.landMin, build.budget.landMax)
+  const buildBudget = formatBudget(build.budget.buildMin, build.budget.buildMax)
+
+  return (
+    <div className="planning-overview">
+      {hasDetails && (
+        <section className="card">
+          <div className="card-body">
+            <div className="section-label">About this plan</div>
+            <div className="overview-detail-grid">
+              {build.suburb && (
+                <div className="overview-detail-row">
+                  <span className="overview-detail-key">Target suburb</span>
+                  <span className="overview-detail-val">{build.suburb}</span>
+                </div>
+              )}
+              {build.state && (
+                <div className="overview-detail-row">
+                  <span className="overview-detail-key">State</span>
+                  <span className="overview-detail-val">{build.state}</span>
+                </div>
+              )}
+              {build.builder && (
+                <div className="overview-detail-row">
+                  <span className="overview-detail-key">Builder</span>
+                  <span className="overview-detail-val">{build.builder}</span>
+                </div>
+              )}
+              {build.style && (
+                <div className="overview-detail-row">
+                  <span className="overview-detail-key">Project type</span>
+                  <span className="overview-detail-val">{build.style}</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {hasBudget && (
+        <section className="card">
+          <div className="card-body">
+            <div className="section-label">Budget</div>
+            <div className="overview-detail-grid">
+              {landBudget && (
+                <div className="overview-detail-row">
+                  <span className="overview-detail-key">Land budget</span>
+                  <span className="overview-detail-val">{landBudget}</span>
+                </div>
+              )}
+              {buildBudget && (
+                <div className="overview-detail-row">
+                  <span className="overview-detail-key">Build budget</span>
+                  <span className="overview-detail-val">{buildBudget}</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {hasStyles && (
+        <section className="card">
+          <div className="card-body">
+            <div className="section-label">Design styles</div>
+            <div className="planning-style-grid" style={{ marginTop: 10 }}>
+              {build.planningStyles.map((style) => (
+                <span key={style} className="planning-style-chip planning-style-chip-active">{style}</span>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {hasSuburbs && (
+        <section className="card">
+          <div className="card-body">
+            <div className="section-label">Suburb shortlist</div>
+            <div className="planning-wishlist-list">
+              {build.planningSuburbs.map((suburb) => (
+                <div key={suburb.id} className="planning-wishlist-item">
+                  <div className="planning-wishlist-item-name">{suburb.suburb_name}</div>
+                  {suburb.notes && <div className="planning-wishlist-item-notes">{suburb.notes}</div>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {hasBuilders && (
+        <section className="card">
+          <div className="card-body">
+            <div className="section-label">Builder shortlist</div>
+            <div className="planning-wishlist-list">
+              {build.planningBuilders.map((builder) => (
+                <div key={builder.id} className="planning-wishlist-item">
+                  <div className="planning-wishlist-item-name">{builder.builder_name}</div>
+                  {builder.website && (
+                    <a href={builder.website} target="_blank" rel="noopener noreferrer" className="planning-wishlist-item-link">
+                      <IconExternalLink size={11} /> {builder.website}
+                    </a>
+                  )}
+                  {builder.notes && <div className="planning-wishlist-item-notes">{builder.notes}</div>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {!hasDetails && !hasBudget && !hasStyles && !hasSuburbs && !hasBuilders && (
+        <div className="empty-state">
+          <h3 className="empty-state-title">Nothing shared yet</h3>
+          <p className="empty-state-sub">The owner hasn&apos;t filled in their planning details yet.</p>
+        </div>
+      )}
+    </div>
+  )
+}
+
 function WishlistTab({ build }: { build: PublicBuildDetail }) {
   const hasSuburbs = build.planningSuburbs.length > 0
   const hasBuilders = build.planningBuilders.length > 0
@@ -1856,12 +1992,13 @@ function formatTimelineDateRange(milestone: PublicBuildDetail['milestones'][numb
 type BuildProfileClientProps = {
   build: PublicBuildDetail
   username: string
+  viewerPlanningBuilds?: ViewerPlanningBuild[]
 }
 
-export function BuildProfileClient({ build, username }: BuildProfileClientProps) {
+export function BuildProfileClient({ build, username, viewerPlanningBuilds = [] }: BuildProfileClientProps) {
   const router = useRouter()
   const isPlanning = build.stage === 'planning'
-  const [activeTab, setActiveTab] = useState<Tab>(isPlanning ? 'Inspiration' : 'Updates')
+  const [activeTab, setActiveTab] = useState<Tab>(isPlanning ? 'Overview' : 'Updates')
   const [following, setFollowing] = useState(build.isFollowing)
   const [followerCount, setFollowerCount] = useState(build.followers)
   const [comment, setComment] = useState('')
@@ -1872,6 +2009,12 @@ export function BuildProfileClient({ build, username }: BuildProfileClientProps)
   const [followError, setFollowError] = useState('')
   const [followBusy, setFollowBusy] = useState(false)
   const [selectedUpdate, setSelectedUpdate] = useState<{ update: Update; imageIndex: number } | null>(null)
+  const [saveStates, setSaveStates] = useState<Map<string, { saved: boolean; savedId: string | null }>>(
+    () => new Map(viewerPlanningBuilds.map((p) => [p.id, { saved: p.alreadySaved, savedId: p.savedId }])),
+  )
+  const [savingPlanId, setSavingPlanId] = useState<string | null>(null)
+  const [saveToPlanOpen, setSaveToPlanOpen] = useState(false)
+  const [saveError, setSaveError] = useState('')
   const isOwner = build.currentUserId === build.ownerId
   const hasPlanningHistory = !isPlanning && (
     build.planningStyles.length > 0 ||
@@ -2005,6 +2148,43 @@ export function BuildProfileClient({ build, username }: BuildProfileClientProps)
     setFollowerCount(typeof payload.followerCount === 'number' ? payload.followerCount : followerCount)
   }
 
+  const toggleSave = async (planningBuildId: string) => {
+    if (savingPlanId) return
+    setSavingPlanId(planningBuildId)
+    setSaveError('')
+    const current = saveStates.get(planningBuildId)
+    if (current?.saved && current.savedId) {
+      const res = await fetch(`/api/planning-saved-builds?planningBuildId=${planningBuildId}&savedBuildId=${build.id}`, { method: 'DELETE' })
+      if (res.ok) {
+        setSaveStates((prev) => new Map(prev).set(planningBuildId, { saved: false, savedId: null }))
+      } else {
+        setSaveError('Unable to remove saved build.')
+      }
+    } else {
+      const res = await fetch('/api/planning-saved-builds', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ planning_build_id: planningBuildId, saved_build_id: build.id }),
+      })
+      const payload = await res.json().catch(() => null)
+      if (res.ok) {
+        setSaveStates((prev) => new Map(prev).set(planningBuildId, { saved: true, savedId: payload?.save?.id ?? null }))
+      } else {
+        setSaveError(payload?.error ?? 'Unable to save build.')
+      }
+    }
+    setSavingPlanId(null)
+    setSaveToPlanOpen(false)
+  }
+
+  const handleSaveToPlan = () => {
+    if (viewerPlanningBuilds.length === 1) {
+      void toggleSave(viewerPlanningBuilds[0].id)
+    } else {
+      setSaveToPlanOpen(true)
+    }
+  }
+
   const shareBuild = async () => {
     const url = window.location.href
     if (navigator.share) {
@@ -2091,12 +2271,30 @@ export function BuildProfileClient({ build, username }: BuildProfileClientProps)
                 <IconEdit size={13} /> Edit Build
               </Link>
             ) : (
-              <LoadingButton className={`btn btn-sm ${following ? 'btn-secondary' : 'btn-accent'}`} loading={followBusy} onClick={toggleFollow}>
-                {following ? 'Following' : 'Follow'}
-              </LoadingButton>
+              <>
+                <LoadingButton className={`btn btn-sm ${following ? 'btn-secondary' : 'btn-accent'}`} loading={followBusy} onClick={toggleFollow}>
+                  {following ? 'Following' : 'Follow'}
+                </LoadingButton>
+                {viewerPlanningBuilds.length > 0 && (() => {
+                  const singlePlan = viewerPlanningBuilds.length === 1 ? viewerPlanningBuilds[0] : null
+                  const isSaved = singlePlan ? (saveStates.get(singlePlan.id)?.saved ?? false) : viewerPlanningBuilds.some((p) => saveStates.get(p.id)?.saved)
+                  return (
+                    <LoadingButton
+                      className={`btn btn-sm ${isSaved ? 'btn-secondary' : 'btn-ghost'}`}
+                      loading={savingPlanId !== null}
+                      onClick={handleSaveToPlan}
+                      title={isSaved ? 'Saved to your plan' : 'Save to your plan'}
+                    >
+                      <IconBookmark size={13} fill={isSaved ? 'currentColor' : 'none'} />
+                      {isSaved ? 'Saved' : 'Save to Plan'}
+                    </LoadingButton>
+                  )
+                })()}
+              </>
             )}
           </div>
           {followError ? <div className="alert alert-error">{followError}</div> : null}
+          {saveError ? <div className="alert alert-error">{saveError}</div> : null}
         </div>
       </div>
 
@@ -2115,6 +2313,7 @@ export function BuildProfileClient({ build, username }: BuildProfileClientProps)
       <main className="page-container content-section">
         <div className="build-layout">
           <div>
+            {activeTab === 'Overview' && <OverviewTab build={build} />}
             {activeTab === 'Updates' && (
               <UpdatesTab updates={updates} onOpen={(update) => setSelectedUpdate({ update, imageIndex: 0 })} />
             )}
@@ -2153,13 +2352,46 @@ export function BuildProfileClient({ build, username }: BuildProfileClientProps)
             {activeTab === 'Saved Builds' && <PlanningBuildsTab build={build} />}
             {activeTab === 'Our Planning' && <PlanningHistoryTab build={build} />}
             {selectedUpdate ? <UpdateOverlay update={selectedUpdate.update} currentUserId={build.currentUserId} initialImageIndex={selectedUpdate.imageIndex} onClose={() => setSelectedUpdate(null)} /> : null}
+            {saveToPlanOpen && viewerPlanningBuilds.length > 1 ? (
+              <div className="bb-modal" role="dialog" aria-modal="true" aria-labelledby="save-plan-title">
+                <button className="bb-modal-backdrop" type="button" aria-label="Close" onClick={() => setSaveToPlanOpen(false)} />
+                <section className="bb-modal-panel">
+                  <div className="bb-modal-header">
+                    <div>
+                      <h2 id="save-plan-title" className="dashboard-title">Save to which plan?</h2>
+                      <p className="dashboard-subtitle">Choose a planning build to save this build to.</p>
+                    </div>
+                    <button className="btn-icon" type="button" aria-label="Close" onClick={() => setSaveToPlanOpen(false)}><IconX size={16} /></button>
+                  </div>
+                  <div className="bb-modal-body save-plan-picker">
+                    {viewerPlanningBuilds.map((plan) => {
+                      const state = saveStates.get(plan.id)
+                      const isSaved = state?.saved ?? false
+                      return (
+                        <LoadingButton
+                          key={plan.id}
+                          className={`save-plan-option ${isSaved ? 'save-plan-option-saved' : ''}`}
+                          loading={savingPlanId === plan.id}
+                          onClick={() => toggleSave(plan.id)}
+                        >
+                          <IconBookmark size={15} fill={isSaved ? 'currentColor' : 'none'} />
+                          <span className="save-plan-option-title">{plan.title}</span>
+                          {isSaved && <IconCheck size={14} />}
+                        </LoadingButton>
+                      )
+                    })}
+                  </div>
+                </section>
+              </div>
+            ) : null}
           </div>
 
           <aside className="build-sidebar">
             {isPlanning ? (
               <>
                 <PlanningStylesCard build={build} />
-                {!build.planningStyles.length && (
+                <PlanningWishlistCard build={build} />
+                {!build.planningStyles.length && !build.planningSuburbs.length && !build.planningBuilders.length && (
                   <section className="card">
                     <div className="card-body">
                       <p className="empty-state-sub">The owner hasn&apos;t shared their planning details yet.</p>

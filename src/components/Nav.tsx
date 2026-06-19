@@ -191,6 +191,11 @@ export default function Nav({ user }: NavProps) {
               {link.label}
             </Link>
           ))}
+          {navUser ? (
+            <Link href="/dashboard/following" className={linkClass('/dashboard/following')}>
+              Following
+            </Link>
+          ) : null}
         </div>
 
         <div className="bb-nav-desktop-actions">
@@ -280,21 +285,31 @@ export default function Nav({ user }: NavProps) {
       {mobileOpen && (
         <div className="bb-nav-mobile-menu">
           {navUser ? (
-            <div className="bb-nav-mobile-actions">
-              <Link href="/dashboard/account" className="btn btn-secondary" onClick={() => setMobileOpen(false)}>
-                <IconSettings size={14} /> Settings
+            <>
+              {NAV_LINKS.map((link) => (
+                <Link key={link.href} href={link.href} className={linkClass(link.href)} onClick={() => setMobileOpen(false)}>
+                  {link.label}
+                </Link>
+              ))}
+              <Link href="/dashboard/following" className={linkClass('/dashboard/following')} onClick={() => setMobileOpen(false)}>
+                Following
               </Link>
-              <button
-                type="button"
-                className={`btn btn-danger ${confirmLogout ? 'btn-danger-confirm' : ''}`}
-                disabled={logoutLoading}
-                onBlur={() => { if (!logoutLoading) setConfirmLogout(false) }}
-                onClick={signOut}
-              >
-                {confirmLogout ? <IconCheck size={14} /> : <IconLogout size={14} />}
-                {logoutLoading ? 'Logging out...' : confirmLogout ? 'Confirm logout' : 'Logout'}
-              </button>
-            </div>
+              <div className="bb-nav-mobile-actions">
+                <Link href="/dashboard/account" className="btn btn-secondary" onClick={() => setMobileOpen(false)}>
+                  <IconSettings size={14} /> Settings
+                </Link>
+                <button
+                  type="button"
+                  className={`btn btn-danger ${confirmLogout ? 'btn-danger-confirm' : ''}`}
+                  disabled={logoutLoading}
+                  onBlur={() => { if (!logoutLoading) setConfirmLogout(false) }}
+                  onClick={signOut}
+                >
+                  {confirmLogout ? <IconCheck size={14} /> : <IconLogout size={14} />}
+                  {logoutLoading ? 'Logging out...' : confirmLogout ? 'Confirm logout' : 'Logout'}
+                </button>
+              </div>
+            </>
           ) : (
             <>
               {NAV_LINKS.map((link) => (

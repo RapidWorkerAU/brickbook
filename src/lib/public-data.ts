@@ -49,6 +49,7 @@ export type DirectoryEntry = {
 export type PublicBuildDetail = PublicBuildCard & {
   currentUserId: string | null;
   estate: string | null;
+  state: string | null;
   status: string;
   description: string | null;
   style: string | null;
@@ -59,6 +60,7 @@ export type PublicBuildDetail = PublicBuildCard & {
   planningPublicSavedBuilds: PublicSavedBuild[];
   isFollowing: boolean;
   specs: PublicBuildSpecs;
+  budget: { landMin: number | null; landMax: number | null; buildMin: number | null; buildMax: number | null };
   milestones: PublicMilestone[];
   images: PublicBuildImage[];
   inspirationImages: PublicBuildImage[];
@@ -225,6 +227,10 @@ type BuildRow = {
   home_design_style?: string | null;
   stage?: string | null;
   planning_styles?: string[] | null;
+  budget_land_min?: number | null;
+  budget_land_max?: number | null;
+  budget_build_min?: number | null;
+  budget_build_max?: number | null;
   description?: string | null;
   state?: string | null;
 };
@@ -580,7 +586,7 @@ export async function getPublicBuild(username: string, slug: string): Promise<Pu
 
   const { data: buildRow } = await supabase
     .from("builds")
-    .select("id,title,slug,owner_id,cover_image_path,builder_id,builder_name,builder:builders!builder_id(id,name,slug),suburb_name,estate_name,style,created_at,bedrooms,bathrooms,separate_toilets,garage_spaces,land_size_m2,internal_size_m2,alfresco_size_m2,home_width_m,home_depth_m,build_type,construction_type,roof_structure,home_design_style,stage,planning_styles,description")
+    .select("id,title,slug,owner_id,cover_image_path,builder_id,builder_name,suburb_name,estate_name,style,created_at,bedrooms,bathrooms,separate_toilets,garage_spaces,land_size_m2,internal_size_m2,alfresco_size_m2,home_width_m,home_depth_m,build_type,construction_type,roof_structure,home_design_style,stage,state,planning_styles,budget_land_min,budget_land_max,budget_build_min,budget_build_max,description")
     .eq("id", card.id)
     .maybeSingle<BuildRow>();
 
@@ -599,6 +605,7 @@ export async function getPublicBuild(username: string, slug: string): Promise<Pu
     { data: roomsData },
     { data: planningSuburbsData },
     { data: planningBuildersData },
+    { data: planningSavedBuildsData },
   ] = await Promise.all([
     supabase.from("milestones").select("id,title,status,start_date,end_date,sort_order").eq("build_id", card.id).order("sort_order", { ascending: true }),
     supabase.from("build_images").select("id,storage_path,milestone_id,update_id,selection_id,image_kind,notes").eq("build_id", card.id).order("created_at", { ascending: false }).limit(120),
@@ -625,6 +632,7 @@ export async function getPublicBuild(username: string, slug: string): Promise<Pu
     supabase.from("rooms").select("id,name,room_type").eq("build_id", card.id).order("created_at", { ascending: true }),
     supabase.from("planning_suburbs").select("id,suburb_name,notes").eq("build_id", card.id).order("sort_order", { ascending: true }),
     supabase.from("planning_builders").select("id,builder_name,website,notes").eq("build_id", card.id).order("sort_order", { ascending: true }),
+    supabase.from("planning_saved_builds").select("id,saved_build_id").eq("planning_build_id", card.id).order("created_at", { ascending: false }).limit(50),
   ]);
 
   const updateCounts = countByMilestone(updateData as { milestone_id: string | null }[] | null);
@@ -684,11 +692,49 @@ export async function getPublicBuild(username: string, slug: string): Promise<Pu
   const signedCommentImages = await getSignedImageUrls(commentRows.map((comment) => comment.image_path).filter(Boolean) as string[]);
   const fallbackImage = card.imageUrl ?? (buildRow.cover_image_path ? await getSignedImageUrl(buildRow.cover_image_path) : null);
 
+  // Resolve saved build details for the public "Saved Builds" tab
+  const savedBuildRows = (planningSavedBuildsData ?? []) as { id: string; saved_build_id: string }[];
+  let planningPublicSavedBuilds: PublicSavedBuild[] = [];
+  if (savedBuildRows.length > 0) {
+    const savedIds = savedBuildRows.map((r) => r.saved_build_id);
+    const { data: savedBuildsDetail } = await supabase
+      .from("builds")
+      .select("id,title,slug,suburb_name,style,cover_image_path,owner_id")
+      .in("id", savedIds);
+    const savedOwnerIds = Array.from(new Set((savedBuildsDetail ?? []).map((b: Record<string, unknown>) => b.owner_id as string).filter(Boolean)));
+    const { data: savedOwnerProfiles } = savedOwnerIds.length
+      ? await supabase.from("profiles").select("id,username").in("id", savedOwnerIds)
+      : { data: [] };
+    const savedOwnerMap = new Map(((savedOwnerProfiles ?? []) as Pick<ProfileRow, "id" | "username">[]).map((p) => [p.id, p.username]));
+    const savedCoverPaths = (savedBuildsDetail ?? []).map((b: Record<string, unknown>) => b.cover_image_path as string).filter(Boolean) as string[];
+    const savedCoverUrls = await getSignedImageUrls(savedCoverPaths);
+    const savedDetailMap = new Map((savedBuildsDetail ?? []).map((b: Record<string, unknown>) => [b.id as string, b]));
+    planningPublicSavedBuilds = savedBuildRows
+      .map((row) => {
+        const b = savedDetailMap.get(row.saved_build_id);
+        if (!b) return null;
+        const ownerUsername = savedOwnerMap.get(b.owner_id as string) ?? "";
+        const coverPath = b.cover_image_path as string | null;
+        return {
+          id: row.id,
+          buildId: row.saved_build_id,
+          buildTitle: b.title as string,
+          buildSlug: b.slug as string,
+          buildSuburb: (b.suburb_name as string | null) ?? null,
+          buildStyle: (b.style as string | null) ?? null,
+          buildImageUrl: coverPath ? (savedCoverUrls.get(coverPath) ?? null) : null,
+          ownerUsername,
+        } satisfies PublicSavedBuild;
+      })
+      .filter((item): item is PublicSavedBuild => item !== null);
+  }
+
   return {
     ...card,
     currentUserId: user?.id ?? null,
     ownerName: profile.displayName,
     estate: buildRow.estate_name ?? null,
+    state: buildRow.state ?? null,
     status: "In progress",
     description: buildRow.description ?? null,
     style: buildRow.style,
@@ -696,8 +742,14 @@ export async function getPublicBuild(username: string, slug: string): Promise<Pu
     planningStyles: (buildRow.planning_styles as string[] | null) ?? [],
     planningSuburbs: (planningSuburbsData ?? []) as PlanningSuburb[],
     planningBuilders: (planningBuildersData ?? []) as PlanningBuilder[],
-    planningPublicSavedBuilds: [],
+    planningPublicSavedBuilds,
     isFollowing: Boolean(followingData),
+    budget: {
+      landMin: buildRow.budget_land_min ?? null,
+      landMax: buildRow.budget_land_max ?? null,
+      buildMin: buildRow.budget_build_min ?? null,
+      buildMax: buildRow.budget_build_max ?? null,
+    },
     specs: {
       bedrooms: buildRow.bedrooms ?? null,
       bathrooms: buildRow.bathrooms ?? null,
