@@ -21,7 +21,9 @@ export default function Nav({ user }: NavProps) {
   const pathname = usePathname()
   const router = useRouter()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [toolsOpen, setToolsOpen] = useState(false)
   const [accountOpen, setAccountOpen] = useState(false)
+  const toolsMenuRef = useRef<HTMLDivElement | null>(null)
   const [confirmLogout, setConfirmLogout] = useState(false)
   const [logoutLoading, setLogoutLoading] = useState(false)
   const [sessionUser, setSessionUser] = useState<NavProps['user']>(null)
@@ -117,6 +119,16 @@ export default function Nav({ user }: NavProps) {
   }, [authUserId])
 
   useEffect(() => {
+    if (!toolsOpen) return
+    function handlePointerDown(event: PointerEvent) {
+      if (toolsMenuRef.current?.contains(event.target as Node)) return
+      setToolsOpen(false)
+    }
+    document.addEventListener('pointerdown', handlePointerDown)
+    return () => document.removeEventListener('pointerdown', handlePointerDown)
+  }, [toolsOpen])
+
+  useEffect(() => {
     if (!accountOpen) return
 
     function handlePointerDown(event: PointerEvent) {
@@ -196,6 +208,38 @@ export default function Nav({ user }: NavProps) {
               Following
             </Link>
           ) : null}
+
+          {/* Tools dropdown */}
+          <div className="bb-nav-tools-wrap" ref={toolsMenuRef}>
+            <button
+              type="button"
+              className={`nav-link bb-nav-tools-btn${toolsOpen || pathname.startsWith('/tools') ? ' nav-link-active' : ''}`}
+              aria-haspopup="menu"
+              aria-expanded={toolsOpen}
+              onClick={() => setToolsOpen((o) => !o)}
+            >
+              Tools
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 3, opacity: 0.6, transform: toolsOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 150ms ease' }}>
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+            {toolsOpen && (
+              <div className="bb-nav-tools-menu" role="menu">
+                <Link
+                  href="/tools/sun-planner"
+                  className="bb-nav-tools-item"
+                  role="menuitem"
+                  onClick={() => setToolsOpen(false)}
+                >
+                  <span className="bb-nav-tools-item-icon">☀️</span>
+                  <span className="bb-nav-tools-item-text">
+                    <span className="bb-nav-tools-item-label">Sun Planner</span>
+                    <span className="bb-nav-tools-item-sub">Solar path overlay for floor plans</span>
+                  </span>
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="bb-nav-desktop-actions">
@@ -294,6 +338,9 @@ export default function Nav({ user }: NavProps) {
               <Link href="/dashboard/following" className={linkClass('/dashboard/following')} onClick={() => setMobileOpen(false)}>
                 Following
               </Link>
+              <Link href="/tools/sun-planner" className={linkClass('/tools/sun-planner')} onClick={() => setMobileOpen(false)}>
+                ☀️ Sun Planner
+              </Link>
               <div className="bb-nav-mobile-actions">
                 <Link href="/dashboard/account" className="btn btn-secondary" onClick={() => setMobileOpen(false)}>
                   <IconSettings size={14} /> Settings
@@ -317,6 +364,9 @@ export default function Nav({ user }: NavProps) {
                   {link.label}
                 </Link>
               ))}
+              <Link href="/tools/sun-planner" className={linkClass('/tools/sun-planner')} onClick={() => setMobileOpen(false)}>
+                ☀️ Sun Planner
+              </Link>
               <div className="bb-nav-mobile-actions">
                 <Link href="/get-started" className="btn btn-secondary" onClick={() => setMobileOpen(false)}>
                   Sign in

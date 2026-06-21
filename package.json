@@ -9,15 +9,21 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@react-google-maps/api": "^2.20.8",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.95.3",
     "date-fns": "^4.1.0",
+    "html2canvas": "^1.4.1",
+    "konva": "^10.3.0",
+    "lucide-react": "^1.21.0",
     "next": "16.1.6",
     "pdfjs-dist": "^5.4.296",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "react-konva": "^19.2.5",
     "resend": "^6.9.2",
     "slugify": "^1.6.6",
+    "use-image": "^1.1.4",
     "zod": "^4.3.6"
   },
   "devDependencies": {

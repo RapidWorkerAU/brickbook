@@ -188,6 +188,79 @@ img {
   padding: 0;
 }
 
+/* ── Tools dropdown ─────────────────────────────────────────────────────── */
+.bb-nav-tools-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.bb-nav-tools-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.bb-nav-tools-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  z-index: 60;
+  width: 220px;
+  border: 0.5px solid var(--bb-stone-200);
+  border-radius: var(--bb-radius-md);
+  background: var(--bb-white);
+  box-shadow: 0 16px 32px rgba(18, 18, 18, 0.12);
+  padding: 6px;
+  overflow: hidden;
+}
+
+.bb-nav-tools-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--bb-stone-700);
+  transition: background-color var(--bb-transition), color var(--bb-transition);
+}
+
+.bb-nav-tools-item:hover {
+  background: var(--bb-stone-50);
+  color: var(--bb-black);
+}
+
+.bb-nav-tools-item-icon {
+  font-size: 18px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.bb-nav-tools-item-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.bb-nav-tools-item-label {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--bb-black);
+}
+
+.bb-nav-tools-item-sub {
+  font-size: 11px;
+  color: var(--bb-stone-400);
+  line-height: 1.3;
+}
+
+/* ── Account menu ───────────────────────────────────────────────────────── */
 .bb-nav-account {
   position: relative;
   display: inline-flex;
