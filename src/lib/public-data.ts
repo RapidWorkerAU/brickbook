@@ -698,7 +698,10 @@ export async function getPublicBuild(username: string, slug: string): Promise<Pu
       const s = tag.selections;
       if (!s) continue;
       const existing = galleryTagsByImageId.get(tag.image_id) ?? [];
-      existing.push({ selectionId: s.id, category: s.category, subcategory: s.subcategory, itemName: s.item_name, brand: s.brand, productName: s.product_name, colourName: s.colour_name, materialType: s.material_type, roomType: s.rooms?.room_type ?? null, imageUrl: s.image_path ? (selectionImageUrls.get(s.image_path) ?? null) : null });
+      const selImgUrl = s.image_path
+        ? (selectionImageUrls.get(s.image_path) ?? null)
+        : (() => { const li = imagesBySelectionId.get(s.id); return li?.storage_path ? (signedImageUrls.get(li.storage_path) ?? null) : null; })();
+      existing.push({ selectionId: s.id, category: s.category, subcategory: s.subcategory, itemName: s.item_name, brand: s.brand, productName: s.product_name, colourName: s.colour_name, materialType: s.material_type, roomType: s.rooms?.room_type ?? null, imageUrl: selImgUrl });
       galleryTagsByImageId.set(tag.image_id, existing);
     }
   }

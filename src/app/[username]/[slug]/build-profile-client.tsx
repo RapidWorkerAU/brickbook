@@ -1204,6 +1204,7 @@ function PhotoCarouselOverlay({
   showNotes?: boolean
 }) {
   const [index, setIndex] = useState(initialIndex)
+  const [tagsOpen, setTagsOpen] = useState(false)
   const current = images[index] ?? images[0]
   const touchStartX = useRef<number | null>(null)
 
@@ -1228,56 +1229,75 @@ function PhotoCarouselOverlay({
     <div className="update-modal photo-lightbox" role="dialog" aria-modal="true">
       <button className="update-modal-backdrop" type="button" aria-label="Close photo" onClick={onClose} />
       <div className="photo-lightbox-panel">
-        <div
-          className="photo-lightbox-image-area"
-          onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX }}
-          onTouchEnd={(e) => {
-            if (touchStartX.current === null || images.length <= 1) return
-            const dx = e.changedTouches[0].clientX - touchStartX.current
-            if (Math.abs(dx) > 40) setIndex((i) => dx < 0 ? (i + 1) % images.length : (i - 1 + images.length) % images.length)
-            touchStartX.current = null
-          }}
-        >
-          {current?.url ? (
-            // Signed Supabase URLs are rendered directly until remote image patterns are finalized.
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={current.url} alt={current.title || title} />
-          ) : (
-            <Image src="/images/comingsoon.jpg" alt="" fill sizes="100vw" />
-          )}
-          <button className="photo-lightbox-close-btn" type="button" aria-label="Close photo" onClick={onClose}>
-            <IconX size={16} />
-          </button>
-          {images.length > 1 && (
-            <span className="photo-lightbox-count">{index + 1} / {images.length}</span>
-          )}
-          {images.length > 1 ? (
-            <>
-              <button className="carousel-control carousel-control-prev" type="button" aria-label="Previous photo" onClick={() => setIndex((i) => (i - 1 + images.length) % images.length)}>{"<"}</button>
-              <button className="carousel-control carousel-control-next" type="button" aria-label="Next photo" onClick={() => setIndex((i) => (i + 1) % images.length)}>{">"}</button>
-            </>
-          ) : null}
-        </div>
-        {/* Overlay bar: absolute on desktop, static row below image on mobile */}
-        <div className="photo-lightbox-overlay-bar">
-          <span className="badge badge-phase">{current?.title ?? title}</span>
-          {tags.length > 0 && (
-            <div className="photo-lightbox-tag-row">
-              {tags.map((tag) => {
-                const label = tag.colourName || tag.productName || tag.itemName || tag.brand || tag.subcategory || tag.category || 'Selection'
-                return (
-                  <span key={tag.selectionId} className="photo-lightbox-tag">
-                    {tag.imageUrl && (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <span className="photo-lightbox-tag-thumb"><img src={tag.imageUrl} alt="" /></span>
-                    )}
-                    {label}
-                  </span>
-                )
-              })}
-            </div>
-          )}
-          {showNotes && current?.notes ? <p className="photo-lightbox-overlay-notes">{current.notes}</p> : null}
+        <button className="photo-lightbox-close-btn" type="button" aria-label="Close photo" onClick={onClose}>
+          <IconX size={16} />
+        </button>
+        {/* Content block — image + overlay bar grouped so they can be centered together on mobile */}
+        <div className="photo-lightbox-content">
+          <div
+            className="photo-lightbox-image-area"
+            onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX }}
+            onTouchEnd={(e) => {
+              if (touchStartX.current === null || images.length <= 1) return
+              const dx = e.changedTouches[0].clientX - touchStartX.current
+              if (Math.abs(dx) > 40) setIndex((i) => dx < 0 ? (i + 1) % images.length : (i - 1 + images.length) % images.length)
+              touchStartX.current = null
+            }}
+          >
+            {current?.url ? (
+              // Signed Supabase URLs are rendered directly until remote image patterns are finalized.
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={current.url} alt={current.title || title} />
+            ) : (
+              <Image src="/images/comingsoon.jpg" alt="" fill sizes="100vw" />
+            )}
+            {images.length > 1 && (
+              <span className="photo-lightbox-count">{index + 1} / {images.length}</span>
+            )}
+            {images.length > 1 ? (
+              <>
+                <button className="carousel-control carousel-control-prev" type="button" aria-label="Previous photo" onClick={() => setIndex((i) => (i - 1 + images.length) % images.length)}>{"<"}</button>
+                <button className="carousel-control carousel-control-next" type="button" aria-label="Next photo" onClick={() => setIndex((i) => (i + 1) % images.length)}>{">"}</button>
+              </>
+            ) : null}
+          </div>
+          {/* Overlay bar: absolute on desktop, flows directly below image on mobile */}
+          <div className="photo-lightbox-overlay-bar">
+            <span className="badge badge-phase">{current?.title ?? title}</span>
+            {tags.length > 0 && (
+              <div className="photo-lightbox-tags-section">
+                <button
+                  type="button"
+                  className="photo-lightbox-tags-toggle"
+                  onClick={() => setTagsOpen((o) => !o)}
+                  aria-expanded={tagsOpen}
+                >
+                  <span>View products in this image</span>
+                  <span className="photo-lightbox-tags-toggle-icon">{tagsOpen ? '−' : '+'}</span>
+                </button>
+                {tagsOpen && (
+                  <div className="photo-lightbox-tag-row">
+                    {tags.map((tag) => {
+                      const primary = tag.colourName || tag.productName || tag.itemName || tag.brand || tag.subcategory || tag.category || 'Selection'
+                      const secondary = tag.colourName ? (tag.subcategory || tag.category) : null
+                      return (
+                        <span key={tag.selectionId} className="photo-lightbox-tag">
+                          <span className="photo-lightbox-tag-thumb">
+                            {tag.imageUrl
+                              ? /* eslint-disable-next-line @next/next/no-img-element */ <img src={tag.imageUrl} alt="" />
+                              : <IconPhoto size={12} />
+                            }
+                          </span>
+                          {primary}{secondary ? <span className="photo-lightbox-tag-cat"> · {secondary}</span> : null}
+                        </span>
+                      )
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
+            {showNotes && current?.notes ? <p className="photo-lightbox-overlay-notes">{current.notes}</p> : null}
+          </div>
         </div>
       </div>
     </div>

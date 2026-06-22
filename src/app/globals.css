@@ -2378,6 +2378,13 @@ img {
   overflow: hidden;
 }
 
+/* Groups the image area and overlay bar together so they can be
+   centered as one block on mobile. On desktop it just acts as a
+   block wrapper and is the positioning context for the overlay. */
+.photo-lightbox-content {
+  position: relative;
+}
+
 .photo-lightbox-image-area {
   position: relative;
   display: block;
@@ -2407,31 +2414,74 @@ img {
   pointer-events: none;
 }
 
+.photo-lightbox-tags-section {
+  margin-top: 6px;
+}
+
+.photo-lightbox-tags-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  gap: 6px;
+  text-align: left;
+}
+
+.photo-lightbox-tags-toggle:hover {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.photo-lightbox-tags-toggle-icon {
+  font-size: 16px;
+  line-height: 1;
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.8);
+}
+
 .photo-lightbox-tag-row {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
+  margin-top: 8px;
 }
 
 .photo-lightbox-tag {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 2px 7px 2px 3px;
+  gap: 5px;
+  padding: 3px 9px 3px 4px;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  font-size: 10px;
+  background: color-mix(in srgb, var(--bb-amber) 18%, rgba(0, 0, 0, 0.45));
+  border: 1px solid color-mix(in srgb, var(--bb-amber) 50%, transparent);
+  font-size: 11px;
+  font-weight: 500;
   color: #fff;
 }
 
+.photo-lightbox-tag-cat {
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 400;
+}
+
 .photo-lightbox-tag-thumb {
-  width: 16px;
-  height: 16px;
-  min-width: 16px;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .photo-lightbox-tag-thumb img {
@@ -6306,44 +6356,65 @@ img {
     height: 100dvh;
     max-height: none;
     border-radius: 0;
+    overflow: hidden;
+    /* Center the content block (image + bar) vertically in the dark screen */
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* centers image+bar block in the dark screen */
+    justify-content: center;
+  }
+
+  /* Close button floats at viewport top regardless of image position */
+  .photo-lightbox-close-btn {
+    position: fixed;
+    top: max(16px, env(safe-area-inset-top, 16px));
+    right: 16px;
+    z-index: 200;
+  }
+
+  /* The content wrapper is the single flex child that gets centered.
+     It is a flex column: image area on top, overlay bar immediately below. */
+  .photo-lightbox-content {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    /* Prevent the wrapper from ever taller than the screen */
+    max-height: 100dvh;
   }
 
   .photo-lightbox-image-area {
-    flex-shrink: 0;
-    flex-grow: 0;
+    /* Auto-sizes to the image — no flex:1 so image stays at its natural height */
+    flex-shrink: 1;
     min-height: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    width: 100%;
-    max-height: calc(100dvh - 100px); /* reserve space for overlay bar */
     overflow: hidden;
   }
 
   .photo-lightbox-image-area img {
-    max-width: 100%;
-    max-height: 100%;
+    /* Explicit max-height keeps image from overflowing; percentage works here
+       because max-height on the <img> is not relative to the container */
+    max-width: 100vw;
+    max-height: calc(100dvh - 80px);
     width: auto;
     height: auto;
     display: block;
   }
 
   .photo-lightbox-overlay-bar {
+    /* Static — flows directly beneath the image with no gap */
     position: static;
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(0, 0, 0, 0.82);
     padding: 10px 14px;
     padding-bottom: max(12px, env(safe-area-inset-bottom, 12px));
     pointer-events: auto;
     flex-shrink: 0;
-    width: 100%;
   }
 
-  /* Slightly larger badges/tags in the mobile overlay bar */
+  /* Slightly larger badges/tags so they're readable on mobile */
   .photo-lightbox-overlay-bar .badge {
     font-size: 12px;
     padding: 3px 10px;
@@ -6355,15 +6426,8 @@ img {
   }
 
   .photo-lightbox-overlay-notes {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.75);
     font-size: 13px;
-  }
-
-  .photo-lightbox-close-btn {
-    position: fixed;
-    top: max(16px, env(safe-area-inset-top, 16px));
-    right: 16px;
-    z-index: 200;
   }
 
   .dashboard-actions,
@@ -7759,9 +7823,8 @@ img {
   .catalogue-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    columns: unset;
-    column-gap: unset;
+    row-gap: 12px;
+    column-gap: 12px;
   }
 
   /* Reset the column-layout child rules when in grid mode */
