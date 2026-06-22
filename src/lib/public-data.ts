@@ -25,6 +25,7 @@ export type PublicBuildCard = {
   estate: string | null;
   state: string | null;
   phase: string;
+  stage: string | null;
   type: string;
   followers: number;
   comments: number;
@@ -410,6 +411,7 @@ async function enrichBuildCards(builds: BuildRow[]): Promise<PublicBuildCard[]> 
       suburb: build.suburb_name,
       estate: build.estate_name ?? null,
       phase: phaseFromStyle(build.style),
+      stage: build.stage ?? null,
       type: build.style || "Build",
       followers: followCounts.get(build.id) ?? 0,
       comments: commentCounts.get(build.id) ?? 0,
@@ -426,7 +428,7 @@ export async function getPublicBuilds() {
   const supabase = createAdminClient();
   const { data } = await supabase
     .from("builds")
-    .select("id,title,slug,owner_id,cover_image_path,builder_id,builder_name,builder:builders!builder_id(id,name,slug),suburb_name,estate_name,style,home_design_style,state,created_at")
+    .select("id,title,slug,owner_id,cover_image_path,builder_id,builder_name,builder:builders!builder_id(id,name,slug),suburb_name,estate_name,style,home_design_style,stage,state,created_at")
     .eq("is_listed", true)
     .order("created_at", { ascending: false })
     .limit(60);
@@ -447,7 +449,7 @@ export async function getPublicProfile(username: string, viewerId?: string | nul
   // Owners can see their own private builds; everyone else only sees listed ones
   const buildsQuery = supabase
     .from("builds")
-    .select("id,title,slug,owner_id,cover_image_path,builder_id,builder_name,builder:builders!builder_id(id,name,slug),suburb_name,estate_name,style,home_design_style,state,created_at")
+    .select("id,title,slug,owner_id,cover_image_path,builder_id,builder_name,builder:builders!builder_id(id,name,slug),suburb_name,estate_name,style,home_design_style,stage,state,created_at")
     .eq("owner_id", profile.id)
     .order("created_at", { ascending: false });
 
@@ -933,20 +935,50 @@ export async function getInspirationImages(): Promise<InspirationImage[]> {
       product_name: string | null;
       colour_name: string | null;
       material_type: string | null;
+      image_path: string | null;
       rooms: { room_type: string | null } | null;
     } | null;
   };
 
   const { data: tagsData } = await supabase
     .from("image_selection_tags")
-    .select("image_id,selection_id,selections(id,category,subcategory,item_name,brand,product_name,colour_name,material_type,rooms(room_type))")
+    .select("image_id,selection_id,selections(id,category,subcategory,item_name,brand,product_name,colour_name,material_type,image_path,rooms(room_type))")
     .in("image_id", imageIds);
 
+  const tagRows = (tagsData ?? []) as unknown as SelectionTagRow[];
+
+  // Selections without their own image_path need a build_images fallback
+  const selectionIdsWithoutImage = Array.from(new Set(
+    tagRows.filter((t) => t.selections && !t.selections.image_path).map((t) => t.selection_id)
+  ));
+
+  // Fetch one linked build image per selection as fallback thumbnail
+  const linkedImagePathBySelectionId = new Map<string, string>();
+  if (selectionIdsWithoutImage.length > 0) {
+    const { data: linkedRows } = await supabase
+      .from("build_images")
+      .select("selection_id,storage_path")
+      .in("selection_id", selectionIdsWithoutImage)
+      .not("storage_path", "is", null);
+    for (const row of (linkedRows ?? []) as { selection_id: string | null; storage_path: string | null }[]) {
+      if (row.selection_id && row.storage_path && !linkedImagePathBySelectionId.has(row.selection_id)) {
+        linkedImagePathBySelectionId.set(row.selection_id, row.storage_path);
+      }
+    }
+  }
+
+  const directPaths = tagRows.map((t) => t.selections?.image_path).filter(Boolean) as string[];
+  const fallbackPaths = Array.from(linkedImagePathBySelectionId.values());
+  const selectionImageUrls = await getSignedImageUrls([...directPaths, ...fallbackPaths]);
+
   const tagsByImageId = new Map<string, InspirationTag[]>();
-  for (const tag of (tagsData ?? []) as unknown as SelectionTagRow[]) {
+  for (const tag of tagRows) {
     const s = tag.selections;
     if (!s) continue;
     const existing = tagsByImageId.get(tag.image_id) ?? [];
+    const imageUrl = s.image_path
+      ? (selectionImageUrls.get(s.image_path) ?? null)
+      : (() => { const fp = linkedImagePathBySelectionId.get(s.id); return fp ? (selectionImageUrls.get(fp) ?? null) : null; })();
     existing.push({
       selectionId: s.id,
       category: s.category,
@@ -957,6 +989,7 @@ export async function getInspirationImages(): Promise<InspirationImage[]> {
       colourName: s.colour_name,
       materialType: s.material_type,
       roomType: s.rooms?.room_type ?? null,
+      imageUrl,
     });
     tagsByImageId.set(tag.image_id, existing);
   }
@@ -1009,7 +1042,7 @@ export async function getPaginatedPublicBuilds({
 } = {}): Promise<{ builds: PublicBuildCard[]; hasMore: boolean }> {
   const supabase = createAdminClient();
   const buildSelect =
-    "id,title,slug,owner_id,cover_image_path,builder_id,builder_name,builder:builders!builder_id(id,name,slug),suburb_name,estate_name,style,home_design_style,state,created_at";
+    "id,title,slug,owner_id,cover_image_path,builder_id,builder_name,builder:builders!builder_id(id,name,slug),suburb_name,estate_name,style,home_design_style,stage,state,created_at";
   const styleFilter = [...phases, ...types];
 
   // When milestone categories are selected, pre-fetch the build IDs that have a matching milestone tag
@@ -1078,16 +1111,19 @@ type InspirationImageRow = {
       product_name: string | null;
       colour_name: string | null;
       material_type: string | null;
+      image_path: string | null;
       rooms: { room_type: string | null } | null;
     } | null;
   }[];
 };
 
-function parseInspoTags(raw: InspirationImageRow["image_selection_tags"]): InspirationTag[] {
+type RawInspoTag = InspirationImageRow["image_selection_tags"][number];
+
+function parseInspoTags(raw: RawInspoTag[], imageUrlById?: Map<string, string | null>): InspirationTag[] {
   return raw.flatMap((t) => {
     const s = t.selections;
     if (!s) return [];
-    return [{ selectionId: t.selection_id, category: s.category, subcategory: s.subcategory, itemName: s.item_name, brand: s.brand, productName: s.product_name, colourName: s.colour_name, materialType: s.material_type, roomType: s.rooms?.room_type ?? null }];
+    return [{ selectionId: t.selection_id, category: s.category, subcategory: s.subcategory, itemName: s.item_name, brand: s.brand, productName: s.product_name, colourName: s.colour_name, materialType: s.material_type, roomType: s.rooms?.room_type ?? null, imageUrl: imageUrlById?.get(t.selection_id) ?? null }];
   });
 }
 
@@ -1124,7 +1160,7 @@ export async function getPaginatedInspirationImages({
   const q = search.length >= 3 ? search.toLowerCase() : "";
   const BATCH = 80;
   const MAX_BATCHES = 6;
-  const collected: { img: InspirationImageRow; tags: InspirationTag[] }[] = [];
+  const collected: { img: InspirationImageRow; rawTags: RawInspoTag[] }[] = [];
   let cur = rawOffset;
   let fetched = 0;
   let exhausted = false;
@@ -1132,7 +1168,7 @@ export async function getPaginatedInspirationImages({
   while (collected.length < limit && fetched < MAX_BATCHES && !exhausted) {
     const { data } = await supabase
       .from("build_images")
-      .select("id,storage_path,build_id,notes,image_kind,image_selection_tags(selection_id,selections(category,subcategory,item_name,brand,product_name,colour_name,material_type,rooms(room_type)))")
+      .select("id,storage_path,build_id,notes,image_kind,image_selection_tags(selection_id,selections(category,subcategory,item_name,brand,product_name,colour_name,material_type,image_path,rooms(room_type)))")
       .in("build_id", buildIds)
       .not("image_kind", "in", '("plan","selection")')
       .not("storage_path", "is", null)
@@ -1145,7 +1181,8 @@ export async function getPaginatedInspirationImages({
     fetched++;
 
     for (const img of batch) {
-      const tags = parseInspoTags(img.image_selection_tags ?? []);
+      const rawTags = img.image_selection_tags ?? [];
+      const tags = parseInspoTags(rawTags);
       if (q) {
         const inTags = tags.some((t) =>
           [t.itemName, t.brand, t.colourName, t.productName, t.materialType, t.category, t.subcategory].some((f) => f?.toLowerCase().includes(q)),
@@ -1155,21 +1192,60 @@ export async function getPaginatedInspirationImages({
       }
       if (categories.length > 0 && !tags.some((t) => t.category && categories.some((c) => t.category!.toLowerCase().includes(c.toLowerCase())))) continue;
       if (rooms.length > 0 && !tags.some((t) => t.roomType && rooms.includes(t.roomType))) continue;
-      collected.push({ img, tags });
+      collected.push({ img, rawTags });
       if (collected.length >= limit) break;
     }
   }
 
   const page = collected.slice(0, limit);
+
+  // Resolve selection thumbnail URLs (direct image_path + build_images.selection_id fallback)
+  const selectionImagePathById = new Map<string, string | null>();
+  for (const { rawTags } of page) {
+    for (const t of rawTags) {
+      if (!selectionImagePathById.has(t.selection_id)) {
+        selectionImagePathById.set(t.selection_id, t.selections?.image_path ?? null);
+      }
+    }
+  }
+  const selectionIdsNeedingFallback = [...selectionImagePathById.entries()]
+    .filter(([, p]) => !p).map(([id]) => id);
+  const linkedImagePathBySelId = new Map<string, string>();
+  if (selectionIdsNeedingFallback.length > 0) {
+    const { data: linkedRows } = await supabase
+      .from("build_images")
+      .select("selection_id,storage_path")
+      .in("selection_id", selectionIdsNeedingFallback)
+      .not("storage_path", "is", null);
+    for (const row of (linkedRows ?? []) as { selection_id: string | null; storage_path: string | null }[]) {
+      if (row.selection_id && row.storage_path && !linkedImagePathBySelId.has(row.selection_id)) {
+        linkedImagePathBySelId.set(row.selection_id, row.storage_path);
+      }
+    }
+  }
+  const selectionUrlPaths = [
+    ...[...selectionImagePathById.values()].filter(Boolean) as string[],
+    ...[...linkedImagePathBySelId.values()],
+  ];
+  const selectionSignedUrls = selectionUrlPaths.length > 0 ? await getSignedImageUrls(selectionUrlPaths) : new Map<string, string | null>();
+  const selectionImageUrlById = new Map<string, string | null>();
+  for (const [selId, imgPath] of selectionImagePathById) {
+    const url = imgPath
+      ? (selectionSignedUrls.get(imgPath) ?? null)
+      : (() => { const fp = linkedImagePathBySelId.get(selId); return fp ? (selectionSignedUrls.get(fp) ?? null) : null; })();
+    selectionImageUrlById.set(selId, url);
+  }
+
   const paths = page.map((p) => p.img.storage_path).filter(Boolean) as string[];
   const signedUrls = await getSignedImageUrls(paths);
 
   const images: InspirationImage[] = page
-    .map(({ img, tags }) => {
+    .map(({ img, rawTags }) => {
       const build = buildMap.get(img.build_id);
       if (!build) return null;
       const imageUrl = signedUrls.get(img.storage_path) ?? null;
       if (!imageUrl) return null;
+      const tags = parseInspoTags(rawTags, selectionImageUrlById);
       return { id: img.id, imageUrl, buildId: img.build_id, buildTitle: build.title, buildSlug: build.slug, ownerUsername: profileMap.get(build.owner_id) ?? "user", designStyle: build.home_design_style, notes: img.notes, imageKind: img.image_kind, tags };
     })
     .filter(Boolean) as InspirationImage[];

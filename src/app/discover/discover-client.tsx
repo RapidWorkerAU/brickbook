@@ -39,6 +39,19 @@ function formatRoomType(raw: string) {
   return raw.replace(/_/g, " ").toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
+const STAGE_LABELS: Record<string, string> = {
+  planning: "Planning",
+  pre_construction: "Pre-construction",
+  construction: "Under construction",
+  landscaping: "Finishing",
+  complete: "Complete",
+};
+
+function stageLabel(stage: string | null): string | null {
+  if (!stage) return null;
+  return STAGE_LABELS[stage] ?? null;
+}
+
 function imageKindLabel(kind: string | null): { label: string; className: string } {
   if (kind === "inspiration") return { label: "Inspiration", className: "inspo-kind-badge inspo-kind-inspiration" };
   return { label: "Build photo", className: "inspo-kind-badge inspo-kind-build" };
@@ -248,7 +261,10 @@ function BuildsPane({ initialBuilds, initialHasMore }: { initialBuilds: PublicBu
                       {build.imageUrl
                         ? <img src={build.imageUrl} alt={`${build.title} in ${build.suburb ?? "Australia"}`} />
                         : <Image src="/images/comingsoon.jpg" alt="" fill sizes="(min-width: 768px) 25vw, 100vw" />}
-                      <div className="card-badge-row"><span className="badge badge-phase">{build.phase}</span></div>
+                      <div className="card-badge-row">
+                        <span className="badge badge-phase">{build.phase}</span>
+                        {stageLabel(build.stage) && <span className={`badge badge-stage-${build.stage}`}>{stageLabel(build.stage)}</span>}
+                      </div>
                     </div>
                     <div className="catalogue-card-body">
                       <h2 className="catalogue-card-title">{build.title}</h2>
@@ -620,9 +636,18 @@ function InspirationLightbox({ images, index, onClose, onNavigate }: {
                   const details = [tag.brand, tag.colourName, tag.materialType].filter(Boolean).join(" · ");
                   return (
                     <div key={tag.selectionId} className="lightbox-tag-card">
-                      {tag.category && <div className="lightbox-tag-category">{tag.category}{tag.subcategory ? ` · ${tag.subcategory}` : ""}</div>}
-                      <div className="lightbox-tag-name">{name}</div>
-                      {details && <div className="lightbox-tag-details">{details}</div>}
+                      <div className="lightbox-tag-card-inner">
+                        {tag.imageUrl && (
+                          <div className="lightbox-tag-thumb">
+                            <img src={tag.imageUrl} alt={name} />
+                          </div>
+                        )}
+                        <div className="lightbox-tag-text">
+                          {tag.category && <div className="lightbox-tag-category">{tag.category}{tag.subcategory ? ` · ${tag.subcategory}` : ""}</div>}
+                          <div className="lightbox-tag-name">{name}</div>
+                          {details && <div className="lightbox-tag-details">{details}</div>}
+                        </div>
+                      </div>
                     </div>
                   );
                 })}

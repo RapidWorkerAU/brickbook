@@ -2212,16 +2212,20 @@ function formatTimelineDateRange(milestone: PublicBuildDetail['milestones'][numb
   return 'Dates not shared yet'
 }
 
+const ALL_TABS: Tab[] = ['Overview', 'Updates', 'Discussion', 'Timeline', 'Images', 'Inspiration', 'Selections', 'Standard', 'Wishlist', 'Saved Builds', 'Our Planning']
+
 type BuildProfileClientProps = {
   build: PublicBuildDetail
   username: string
   viewerPlanningBuilds?: ViewerPlanningBuild[]
+  initialTab?: string
 }
 
-export function BuildProfileClient({ build, username, viewerPlanningBuilds = [] }: BuildProfileClientProps) {
+export function BuildProfileClient({ build, username, viewerPlanningBuilds = [], initialTab }: BuildProfileClientProps) {
   const router = useRouter()
   const isPlanning = build.stage === 'planning'
-  const [activeTab, setActiveTab] = useState<Tab>('Overview')
+  const resolvedInitialTab: Tab = ALL_TABS.includes(initialTab as Tab) ? (initialTab as Tab) : (isPlanning ? 'Overview' : 'Updates')
+  const [activeTab, setActiveTab] = useState<Tab>(resolvedInitialTab)
   const [following, setFollowing] = useState(build.isFollowing)
   const [followerCount, setFollowerCount] = useState(build.followers)
   const [comment, setComment] = useState('')

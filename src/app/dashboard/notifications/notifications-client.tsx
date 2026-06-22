@@ -7,6 +7,13 @@ import { PaginationControls, pageItems } from "@/components/PaginationControls";
 import { createClient } from "@/lib/supabase/client";
 import { IconBell, IconCheck, IconHeart, IconMessageCircle, IconPhoto, IconUsers } from "@tabler/icons-react";
 
+function getAvatarUrl(path: string | null): string | null {
+  if (!path) return null;
+  if (path.startsWith("http")) return path;
+  const cleanPath = path.replace(/^brickbook-avatars\//, "");
+  return createClient().storage.from("brickbook-avatars").getPublicUrl(cleanPath).data.publicUrl;
+}
+
 type DashboardUser = {
   id: string;
   username: string;
@@ -21,9 +28,11 @@ type Notification = {
   type: NotifType;
   actorUsername: string;
   actorName: string;
+  actorAvatarPath: string | null;
   buildTitle: string;
   buildSlug: string | null;
   ownerUsername: string | null;
+  updateId: string | null;
   createdAt: string;
   isRead: boolean;
 };
@@ -34,6 +43,7 @@ type NotificationRow = {
   created_at: string | null;
   is_read: boolean | null;
   read_at?: string | null;
+  update_id?: string | null;
   actor?: { username?: string | null; display_name?: string | null; avatar_path?: string | null } | null;
   build?: { title?: string | null; slug?: string | null; owner?: { username?: string | null } | null } | null;
 };
@@ -66,6 +76,7 @@ export function NotificationsClient({ user }: { user: DashboardUser }) {
         created_at,
         is_read,
         read_at,
+        update_id,
         actor:profiles!actor_id(username, display_name, avatar_path),
         build:builds!build_id(title, slug, owner:profiles!owner_id(username))
       `)
@@ -145,7 +156,8 @@ export function NotificationsClient({ user }: { user: DashboardUser }) {
                   <div className="notification-group-label">{group.label}</div>
                   {group.items.map((notification) => {
                     const Icon = CONFIG[notification.type].icon;
-                    const href = notification.buildSlug && notification.ownerUsername ? `/${notification.ownerUsername}/${notification.buildSlug}` : "/dashboard/notifications";
+                    const href = notificationHref(notification);
+                    const avatarUrl = getAvatarUrl(notification.actorAvatarPath);
                     return (
                       <Link
                         key={notification.id}
@@ -154,7 +166,12 @@ export function NotificationsClient({ user }: { user: DashboardUser }) {
                         onClick={() => void markRead(notification.id)}
                       >
                         <span className={notification.isRead ? "notif-dot notif-dot-read" : "notif-dot"} />
-                        <span className="avatar avatar-sm avatar-stone">{notification.actorName.charAt(0).toUpperCase()}</span>
+                        <span className="avatar avatar-sm avatar-stone">
+                          {avatarUrl
+                            ? <img src={avatarUrl} alt={notification.actorName} style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "inherit" }} />
+                            : notification.actorName.charAt(0).toUpperCase()
+                          }
+                        </span>
                         <div className={CONFIG[notification.type].className}>
                           <Icon size={15} />
                         </div>
@@ -164,9 +181,6 @@ export function NotificationsClient({ user }: { user: DashboardUser }) {
                           </div>
                           <div className="comment-time">{relativeTime(notification.createdAt)}</div>
                         </div>
-                        <span className="notification-thumb">
-                          <IconPhoto size={16} />
-                        </span>
                       </Link>
                     );
                   })}
@@ -199,12 +213,24 @@ function normalizeNotification(row: NotificationRow): Notification {
     type: normalizeType(row.type),
     actorUsername,
     actorName: row.actor?.display_name || actorUsername,
+    actorAvatarPath: row.actor?.avatar_path ?? null,
     buildTitle: row.build?.title || "this build",
     buildSlug: row.build?.slug || null,
     ownerUsername: row.build?.owner?.username || null,
+    updateId: row.update_id ?? null,
     createdAt: row.created_at || new Date().toISOString(),
     isRead: Boolean(row.is_read || row.read_at),
   };
+}
+
+function notificationHref(notification: Notification): string {
+  if (notification.type === "new_follower") return `/${notification.actorUsername}`;
+  if (!notification.buildSlug || !notification.ownerUsername) return "/dashboard/notifications";
+  const base = `/${notification.ownerUsername}/${notification.buildSlug}`;
+  if (notification.type === "new_like") return `${base}?tab=Updates`;
+  // comment, reply, mention — go to Updates tab if the comment was on a specific update, else Discussion
+  const tab = notification.updateId ? "Updates" : "Discussion";
+  return `${base}?tab=${tab}`;
 }
 
 function normalizeType(value: unknown): NotifType {

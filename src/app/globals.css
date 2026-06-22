@@ -569,11 +569,21 @@ img {
   text-transform: uppercase;
 }
 
-.badge-phase,
+.badge-phase {
+  background: rgba(28, 25, 23, 0.75);
+  color: #fff;
+}
+
 .badge-private {
   background: var(--bb-stone-100);
   color: var(--bb-stone-800);
 }
+
+.badge-stage-planning        { background: #2563eb; color: #fff; }
+.badge-stage-pre_construction { background: #ea580c; color: #fff; }
+.badge-stage-construction    { background: #ca8a04; color: #fff; }
+.badge-stage-landscaping     { background: #0d9488; color: #fff; }
+.badge-stage-complete        { background: #16a34a; color: #fff; }
 
 .badge-active,
 .badge-new {
@@ -1787,8 +1797,10 @@ img {
   position: absolute;
   top: 10px;
   left: 10px;
+  right: 10px;
   display: flex;
-  gap: 6px;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 
 .catalogue-card-body {
@@ -6957,13 +6969,13 @@ img {
 .lightbox-info {
   width: 280px;
   flex-shrink: 0;
-  background: var(--bb-surface);
+  background: #1c1917;
   padding: 18px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 18px;
-  border-left: 1px solid var(--bb-border);
+  border-left: 1px solid rgba(255,255,255,0.08);
 }
 .lightbox-info-top {
   display: flex;
@@ -6971,6 +6983,10 @@ img {
 }
 .lightbox-close-btn {
   flex-shrink: 0;
+  color: rgba(255,255,255,0.6);
+}
+.lightbox-close-btn:hover {
+  color: #fff;
 }
 .lightbox-build-block {
   display: flex;
@@ -6982,28 +6998,38 @@ img {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--bb-muted);
+  color: rgba(255,255,255,0.4);
 }
 .lightbox-build-title {
   font-size: 14px;
   font-weight: 600;
-  color: var(--bb-text);
+  color: #f5f5f4;
   line-height: 1.3;
 }
 .lightbox-build-style {
   font-size: 11px;
-  color: var(--bb-muted);
+  color: rgba(255,255,255,0.45);
 }
 .lightbox-build-link {
   margin-top: 6px;
   align-self: flex-start;
+}
+.lightbox-info .lightbox-build-link {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.85);
+}
+.lightbox-info .lightbox-build-link:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.4);
+  color: #fff;
 }
 .lightbox-section-label {
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--bb-muted);
+  color: rgba(255,255,255,0.4);
   margin-bottom: 8px;
 }
 .lightbox-tags-block { }
@@ -7013,9 +7039,33 @@ img {
   gap: 8px;
 }
 .lightbox-tag-card {
-  padding: 10px 12px;
-  background: var(--bb-surface-2);
+  background: #292524;
   border-radius: 8px;
+  overflow: hidden;
+}
+.lightbox-tag-card-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+}
+.lightbox-tag-thumb {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: #3c3836;
+}
+.lightbox-tag-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.lightbox-tag-text {
+  flex: 1;
+  min-width: 0;
 }
 .lightbox-tag-category {
   font-size: 10px;
@@ -7028,21 +7078,21 @@ img {
 .lightbox-tag-name {
   font-size: 13px;
   font-weight: 500;
-  color: var(--bb-text);
+  color: #e7e5e4;
 }
 .lightbox-tag-details {
   font-size: 11px;
-  color: var(--bb-muted);
+  color: rgba(255,255,255,0.45);
   margin-top: 2px;
 }
 .lightbox-no-tags {
   font-size: 12px;
-  color: var(--bb-muted);
+  color: rgba(255,255,255,0.4);
 }
 .lightbox-notes-block { }
 .lightbox-notes-text {
   font-size: 12px;
-  color: var(--bb-text);
+  color: #d6d3d1;
   line-height: 1.5;
 }
 @media (max-width: 700px) {
@@ -7053,7 +7103,7 @@ img {
   .lightbox-info {
     width: 100%;
     border-left: none;
-    border-top: 1px solid var(--bb-border);
+    border-top: 1px solid rgba(255,255,255,0.08);
     max-height: 40vh;
   }
   .lightbox-image-pane img { max-height: 55vh; }
@@ -7562,6 +7612,18 @@ img {
   display: none; /* hidden on desktop */
 }
 
+/* ── Dashboard home: desktop shows full layout, mobile uses dropdown ── */
+.dashboard-mobile-filter,
+.dashboard-mobile-content {
+  display: none;
+}
+
+.dashboard-update-launcher-wrap,
+.dashboard-desktop-feed,
+.dashboard-desktop-sidebar {
+  display: block;
+}
+
 .bb-tab-bar-item {
   flex: 1;
   display: flex;
@@ -7709,6 +7771,24 @@ img {
   .bb-nav-mobile-bell {
     display: inline-flex;
     position: relative;
+  }
+
+  /* Dashboard mobile layout */
+  .dashboard-update-launcher-wrap,
+  .dashboard-desktop-feed,
+  .dashboard-desktop-sidebar {
+    display: none;
+  }
+
+  .dashboard-mobile-filter {
+    display: block;
+    position: relative;
+    z-index: 10;
+    margin-bottom: 16px;
+  }
+
+  .dashboard-mobile-content {
+    display: block;
   }
 
   /* Add bottom clearance so content isn't hidden behind the tab bar */
@@ -8075,7 +8155,7 @@ img {
   .lightbox-info {
     width: 100%;
     border-left: none;
-    border-top: 1px solid var(--bb-border);
+    border-top: 1px solid rgba(255,255,255,0.08);
     max-height: 40dvh;
   }
 }

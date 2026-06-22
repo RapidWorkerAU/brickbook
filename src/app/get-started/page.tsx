@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useState, Suspense } from 'react'
 import { LoadingButton } from '@/components/action-buttons'
-import { IconEye, IconEyeOff, IconBrandGoogle } from '@tabler/icons-react'
+import { IconEye, IconEyeOff } from '@tabler/icons-react'
 import { createClient } from '@/lib/supabase/client'
 
 function GetStartedForm() {
@@ -70,19 +70,6 @@ function GetStartedForm() {
     } finally {
       setLoading(false)
     }
-  }
-
-  const handleGoogle = async () => {
-    setError('')
-    setMessage('')
-    const supabase = createClient()
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=/dashboard`,
-      },
-    })
-    if (error) setError(error.message)
   }
 
   const switchTab = (t: 'login' | 'signup') => {
@@ -223,17 +210,6 @@ function GetStartedForm() {
             </LoadingButton>
 
           </form>
-
-          {/* Divider */}
-          <div className="divider-label my-5">
-            <span>or</span>
-          </div>
-
-          {/* Google OAuth */}
-          <button type="button" onClick={handleGoogle} className="btn btn-secondary w-full justify-center gap-2">
-            <IconBrandGoogle size={16} />
-            Continue with Google
-          </button>
 
           {/* Footer copy */}
           {tab === 'signup' && (

@@ -1,15 +1,6 @@
-﻿import Link from "next/link";
-import { redirect } from "next/navigation";
+﻿import { redirect } from "next/navigation";
 import Nav from "@/components/Nav";
-import { DashboardFeedList, DashboardMyBuildsList, DashboardSuggestedBuildsList } from "@/app/dashboard/dashboard-home-lists";
-import { DashboardUpdateLauncher } from "@/app/dashboard/dashboard-update-launcher";
-import {
-  IconBell,
-  IconMessageCircle,
-  IconPlus,
-  IconTrendingUp,
-  IconUsers,
-} from "@tabler/icons-react";
+import { DashboardHomeClient } from "@/app/dashboard/dashboard-home-client";
 import { getSignedImageUrl, getSignedImageUrls } from "@/lib/storage";
 import { createClient } from "@/lib/supabase/server";
 
@@ -42,6 +33,15 @@ type Follow = {
   build_id: string;
 };
 
+export type RecentNotification = {
+  id: string;
+  type: string | null;
+  is_read: boolean | null;
+  created_at: string | null;
+  actor: { username?: string | null; display_name?: string | null } | null;
+  build: { title?: string | null; slug?: string | null; owner: { username?: string | null } | null } | null;
+};
+
 type FeedUpdate = {
   id: string;
   build_id: string;
@@ -70,6 +70,7 @@ export default async function DashboardPage() {
     { data: myBuildsData },
     { data: followsData },
     { count: commentCount },
+    { data: recentNotificationsData },
   ] = await Promise.all([
     supabase
       .from("builds")
@@ -78,6 +79,12 @@ export default async function DashboardPage() {
       .order("created_at", { ascending: false }),
     supabase.from("build_follows").select("build_id").eq("follower_id", user.id),
     Promise.resolve({ count: 0 }),
+    supabase
+      .from("notifications")
+      .select("id,type,is_read,created_at,actor:profiles!actor_id(username,display_name),build:builds!build_id(title,slug,owner:profiles!owner_id(username))")
+      .eq("recipient_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(5),
   ]);
 
   const myBuilds = (myBuildsData ?? []) as Build[];
@@ -222,103 +229,17 @@ export default async function DashboardPage() {
   return (
     <div className="dashboard-page">
       <Nav user={{ username: profile.username, display_name: profile.display_name ?? undefined, avatar_path: profile.avatar_path ?? undefined }} />
-
-      <div className="max-w-[1280px] mx-auto px-6 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
-          <div className="min-w-0">
-            <DashboardUpdateLauncher builds={myBuilds.map((build) => ({ id: build.id, title: build.title }))} />
-
-            <div className="flex items-center justify-between mb-4">
-              <h1 className="text-[15px] font-semibold text-bb-black">Following</h1>
-              <Link href="/discover" className="text-[12px] text-bb-amber hover:opacity-80">
-                Discover more builds
-              </Link>
-            </div>
-
-            <DashboardFeedList followedCards={followedCards} />
-          </div>
-
-          <div className="space-y-4">
-            <div className="card">
-              <div className="card-body pb-3">
-                <div className="flex items-center justify-between mb-3">
-                  <h2 className="text-[13px] font-semibold text-bb-black">My builds</h2>
-                  <Link href="/dashboard/builds" className="text-[11px] text-[var(--bb-amber)] font-medium hover:underline">View all</Link>
-                </div>
-                <DashboardMyBuildsList builds={myBuildCards} username={profile.username} />
-              </div>
-              <div className="card-footer">
-                <Link href="/dashboard/builds/new" className="add-btn">
-                  <IconPlus size={13} /> Add a build
-                </Link>
-              </div>
-            </div>
-
-            <div className="card">
-              <div className="card-body">
-                <h2 className="text-[13px] font-semibold text-bb-black mb-3">Your activity</h2>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="stat-card bg-stone-50 border-0 p-3">
-                    <div className="stat-value text-[20px]">{followerCount ?? 0}</div>
-                    <div className="stat-label">Followers</div>
-                  </div>
-                  <div className="stat-card bg-stone-50 border-0 p-3">
-                    <div className="stat-value text-[20px]">0</div>
-                    <div className="stat-label">Updates</div>
-                  </div>
-                  <div className="stat-card bg-stone-50 border-0 p-3">
-                    <div className="stat-value text-[20px]">{follows.length}</div>
-                    <div className="stat-label">Following</div>
-                  </div>
-                  <div className="stat-card bg-stone-50 border-0 p-3">
-                    <div className="stat-value text-[20px]">{commentCount ?? 0}</div>
-                    <div className="stat-label">Comments</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="card">
-              <div className="card-body pb-3">
-                <div className="flex items-center gap-2 mb-3">
-                  <IconTrendingUp size={14} className="text-stone-400" />
-                  <h2 className="text-[13px] font-semibold text-bb-black">Suggested builds</h2>
-                </div>
-                <DashboardSuggestedBuildsList builds={suggestedBuildCards} />
-              </div>
-              <div className="card-footer">
-                <Link href="/discover" className="btn btn-ghost btn-sm w-full justify-center gap-1 text-stone-400">
-                  <IconUsers size={13} /> Browse all builds
-                </Link>
-              </div>
-            </div>
-
-            <div className="card">
-              <div className="card-body pb-0">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
-                    <IconBell size={14} className="text-stone-400" />
-                    <h2 className="text-[13px] font-semibold text-bb-black">Notifications</h2>
-                  </div>
-                  <span className="badge badge-private">Soon</span>
-                </div>
-                <div className="notif-item -mx-4 px-4">
-                  <div className="notif-dot notif-dot-read" />
-                  <div className="avatar avatar-sm avatar-stone flex-shrink-0"><IconMessageCircle size={13} /></div>
-                  <div>
-                    <div className="text-[11px]">Notifications will appear here once live notification reads are wired.</div>
-                  </div>
-                </div>
-              </div>
-              <div className="card-footer">
-                <Link href="/dashboard/notifications" className="btn btn-ghost btn-sm w-full justify-center text-stone-400">
-                  View all notifications
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <DashboardHomeClient
+        launcherBuilds={myBuilds.map((build) => ({ id: build.id, title: build.title }))}
+        followedCards={followedCards}
+        myBuildCards={myBuildCards}
+        username={profile.username}
+        suggestedBuildCards={suggestedBuildCards}
+        followerCount={followerCount ?? 0}
+        followingCount={follows.length}
+        commentCount={commentCount ?? 0}
+        recentNotifications={(recentNotificationsData ?? []) as unknown as RecentNotification[]}
+      />
     </div>
   );
 }

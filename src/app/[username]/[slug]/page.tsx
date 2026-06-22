@@ -11,10 +11,12 @@ export type ViewerPlanningBuild = {
 
 export default async function PublicBuildProfilePage({
   params,
+  searchParams,
 }: {
   params: Promise<{ username: string; slug: string }>;
+  searchParams: Promise<{ tab?: string }>;
 }) {
-  const { username, slug } = await params;
+  const [{ username, slug }, { tab: initialTab }] = await Promise.all([params, searchParams]);
   const supabase = await createClient();
   const [build, { data: { user } }] = await Promise.all([
     getPublicBuild(username, slug),
@@ -50,5 +52,5 @@ export default async function PublicBuildProfilePage({
     }
   }
 
-  return <BuildProfileClient build={build} username={username} viewerPlanningBuilds={viewerPlanningBuilds} />;
+  return <BuildProfileClient build={build} username={username} viewerPlanningBuilds={viewerPlanningBuilds} initialTab={initialTab} />;
 }
