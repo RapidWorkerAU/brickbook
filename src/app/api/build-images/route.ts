@@ -15,7 +15,12 @@ export async function POST(request: Request) {
   } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const formData = await request.formData();
+  let formData: FormData;
+  try {
+    formData = await request.formData();
+  } catch {
+    return NextResponse.json({ error: "Upload too large. Please try fewer or smaller photos." }, { status: 413 });
+  }
   const buildId = getString(formData, "build_id");
   const milestoneId = getString(formData, "milestone_id");
   const roomId = getString(formData, "room_id");

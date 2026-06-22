@@ -199,6 +199,11 @@ export function ImagesClient({
 
   const upload = async (files: File[], notes: string) => {
     if (!files.length) return;
+    const totalMB = files.reduce((sum, f) => sum + f.size, 0) / 1024 / 1024;
+    if (totalMB > 45) {
+      setError(`Total upload size is ${Math.round(totalMB)}MB — please upload in smaller batches (under 45MB).`);
+      return;
+    }
     setUploading(true);
     setError("");
     const formData = new FormData();
@@ -295,7 +300,7 @@ export function ImagesClient({
             <IconPlus size={14} /> {mode === "inspiration" ? "Add inspiration" : "Upload images"}
           </button>
         </div>
-        {error ? <div className="alert alert-error mb-4">{error}</div> : null}
+        {error && !uploadModalOpen ? <div className="alert alert-error mb-4">{error}</div> : null}
         {uploadModalOpen ? (
           <UploadImagesModal
             milestones={milestones}
@@ -307,7 +312,8 @@ export function ImagesClient({
             mode={mode}
             useRoomTypes={useRoomTypes}
             uploading={uploading}
-            onClose={() => setUploadModalOpen(false)}
+            error={error}
+            onClose={() => { setUploadModalOpen(false); setError(""); }}
             onMilestoneChange={setMilestoneId}
             onRoomChange={setRoomId}
             onRoomTypeChange={setRoomType}
@@ -669,6 +675,7 @@ function UploadImagesModal({
   mode,
   useRoomTypes = false,
   uploading,
+  error,
   onClose,
   onMilestoneChange,
   onRoomChange,
@@ -685,6 +692,7 @@ function UploadImagesModal({
   mode: "library" | "inspiration";
   useRoomTypes?: boolean;
   uploading: boolean;
+  error: string;
   onClose: () => void;
   onMilestoneChange: (value: string) => void;
   onRoomChange: (value: string) => void;
@@ -774,6 +782,7 @@ function UploadImagesModal({
           <p className="upload-batch-hint">All photos in this upload will share the same room and settings. Upload in separate batches if you need different rooms or notes per photo.</p>
         </div>
         <div className="bb-modal-footer">
+          {error ? <p className="alert alert-error" style={{ margin: 0, flex: 1 }}>{error}</p> : null}
           <button className="btn btn-secondary" type="button" onClick={onClose} disabled={uploading}>Cancel</button>
           <LoadingButton className="btn btn-primary" loading={uploading} disabled={selectedFiles.length === 0} onClick={() => onUpload(selectedFiles, notes)}>
             <IconPlus size={14} /> {submitLabel}

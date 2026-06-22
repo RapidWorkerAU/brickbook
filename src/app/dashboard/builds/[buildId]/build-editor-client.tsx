@@ -244,6 +244,7 @@ export function BuildEditorClient({
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [convertModal, setConvertModal] = useState<{ targetStage: string; builderName: string; suburbName: string } | null>(null);
+  const [milestones, setMilestones] = useState(initialMilestones);
   const [rooms, setRooms] = useState(initialRooms);
   const [coverPreview, setCoverPreview] = useState(build.coverImageUrl ?? "");
   const [coverFileName, setCoverFileName] = useState("");
@@ -612,7 +613,7 @@ export function BuildEditorClient({
         ) : null}
 
         {tab === "Milestones" ? (
-          <MilestonesClient build={build} user={user} initialMilestones={initialMilestones} showChrome={false} />
+          <MilestonesClient build={build} user={user} initialMilestones={initialMilestones} showChrome={false} onMilestonesChange={setMilestones} />
         ) : null}
 
         {tab === "Rooms" ? (
@@ -623,7 +624,7 @@ export function BuildEditorClient({
           <ImagesClient
             build={build}
             user={user}
-            milestones={initialMilestones.map((milestone) => ({ id: milestone.id, title: milestone.title }))}
+            milestones={milestones.map((milestone) => ({ id: milestone.id, title: milestone.title }))}
             rooms={rooms.map((room) => ({ id: room.id, name: room.name }))}
             initialImages={initialImages}
             buildSelections={initialSelections.map((s) => ({
@@ -643,7 +644,7 @@ export function BuildEditorClient({
           <ImagesClient
             build={build}
             user={user}
-            milestones={initialMilestones.map((milestone) => ({ id: milestone.id, title: milestone.title }))}
+            milestones={milestones.map((milestone) => ({ id: milestone.id, title: milestone.title }))}
             rooms={rooms.map((room) => ({ id: room.id, name: room.name }))}
             initialImages={initialImages}
             showChrome={false}

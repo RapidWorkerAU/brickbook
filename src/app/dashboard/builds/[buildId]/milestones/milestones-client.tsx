@@ -70,13 +70,16 @@ export function MilestonesClient({
   user,
   initialMilestones,
   showChrome = true,
+  onMilestonesChange,
 }: {
   build: ManagedBuild;
   user: DashboardUser;
   initialMilestones: EditableMilestone[];
   showChrome?: boolean;
+  onMilestonesChange?: (milestones: EditableMilestone[]) => void;
 }) {
   const [milestones, setMilestones] = useState(initialMilestones);
+  const notify = (next: EditableMilestone[]) => { onMilestonesChange?.(next); };
   const [draft, setDraft] = useState<EditableMilestone | null>(null);
   const [error, setError] = useState("");
   const [savingId, setSavingId] = useState<string | null>(null);
@@ -102,9 +105,9 @@ export function MilestonesClient({
     setSavingId(null);
     if (!response.ok) { setError(payload?.error ?? "Unable to save milestone."); return; }
     if (draft.id) {
-      setMilestones((c) => c.map((m) => (m.id === draft.id ? payload.milestone : m)));
+      setMilestones((c) => { const next = c.map((m) => (m.id === draft.id ? payload.milestone : m)); notify(next); return next; });
     } else {
-      setMilestones((c) => [...c, payload.milestone].sort(sortMilestones));
+      setMilestones((c) => { const next = [...c, payload.milestone].sort(sortMilestones); notify(next); return next; });
       setCurrentPage(1);
     }
     setDraft(null);
@@ -114,7 +117,7 @@ export function MilestonesClient({
     const response = await fetch(`/api/milestones/${id}`, { method: "DELETE" });
     const payload = await response.json().catch(() => null);
     if (!response.ok) { setError(payload?.error ?? "Unable to delete milestone."); return; }
-    setMilestones((c) => c.filter((m) => m.id !== id));
+    setMilestones((c) => { const next = c.filter((m) => m.id !== id); notify(next); return next; });
   };
 
   const toggleExpanded = (id: string) => {

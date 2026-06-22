@@ -10,6 +10,7 @@ export const MILESTONE_CATEGORIES = [
   "Earthworks",
   "Slab",
   "Frame",
+  "Double Brick",
   "External Walls",
   "Roof",
   "Lockup",

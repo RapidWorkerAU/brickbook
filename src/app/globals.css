@@ -3428,10 +3428,18 @@ img {
   color: var(--bb-stone-600);
   font-size: 11px;
   cursor: pointer;
+  touch-action: manipulation;
   transition: border-color 0.15s, background 0.15s, color 0.15s;
 }
 
 .milestone-category-chip:hover {
+  border-color: var(--bb-stone-400);
+  color: var(--bb-black);
+}
+
+/* Immediate press feedback on touch before React re-renders */
+.milestone-category-chip:not(.milestone-category-chip-active):active {
+  background: var(--bb-stone-100);
   border-color: var(--bb-stone-400);
   color: var(--bb-black);
 }
@@ -3446,6 +3454,13 @@ img {
   background: var(--bb-stone-700);
   border-color: var(--bb-stone-700);
   color: var(--bb-white);
+}
+
+/* On touch devices, skip the transition so selected state is instant */
+@media (hover: none) {
+  .milestone-category-chip {
+    transition: none;
+  }
 }
 
 .milestone-category-tags {
