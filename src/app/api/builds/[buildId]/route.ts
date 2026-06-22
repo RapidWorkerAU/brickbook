@@ -132,6 +132,33 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ bu
   return NextResponse.json({ build: data });
 }
 
+export async function DELETE(_request: Request, { params }: { params: Promise<{ buildId: string }> }) {
+  const { buildId } = await params;
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const { data: build } = await supabase
+    .from("builds")
+    .select("id")
+    .eq("id", buildId)
+    .eq("owner_id", user.id)
+    .maybeSingle();
+
+  if (!build) return NextResponse.json({ error: "Build not found" }, { status: 404 });
+
+  const { error } = await supabase
+    .from("builds")
+    .delete()
+    .eq("id", buildId)
+    .eq("owner_id", user.id);
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+
+  return NextResponse.json({ success: true });
+}
+
 function emptyToNull(value: unknown) {
   const stringValue = String(value ?? "").trim();
   return stringValue || null;

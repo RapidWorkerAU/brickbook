@@ -29,13 +29,14 @@ import {
   IconSend,
   IconShare,
   IconToiletPaper,
+  IconTrash,
   IconX,
 } from '@tabler/icons-react'
-import type { PublicBuildDetail, PublicComment, PublicSelection } from '@/lib/public-data'
+import type { PublicBuildDetail, PublicComment, PublicSelection, InspirationTag } from '@/lib/public-data'
 import type { ViewerPlanningBuild } from '@/app/[username]/[slug]/page'
 
 type Tab = 'Overview' | 'Updates' | 'Discussion' | 'Timeline' | 'Images' | 'Inspiration' | 'Selections' | 'Standard' | 'Wishlist' | 'Saved Builds' | 'Our Planning'
-const BASE_BUILD_TABS: Tab[] = ['Updates', 'Discussion', 'Timeline', 'Images', 'Inspiration', 'Selections', 'Standard']
+const BASE_BUILD_TABS: Tab[] = ['Overview', 'Updates', 'Discussion', 'Timeline', 'Images', 'Inspiration', 'Selections', 'Standard']
 const PLANNING_TABS: Tab[] = ['Overview', 'Inspiration', 'Wishlist', 'Saved Builds', 'Selections', 'Discussion']
 
 const STAGE_LABELS: Record<string, string> = {
@@ -329,12 +330,17 @@ function UpdateOverlay({
   currentUserId,
   onClose,
   initialImageIndex = 0,
+  isOwner = false,
+  buildId,
 }: {
   update: Update
   currentUserId: string | null
   onClose: () => void
   initialImageIndex?: number
+  isOwner?: boolean
+  buildId?: string
 }) {
+  const router = useRouter()
   const [liked, setLiked] = useState(false)
   const [likeCount, setLikeCount] = useState(update.likes)
   const [liking, setLiking] = useState(false)
@@ -344,6 +350,40 @@ function UpdateOverlay({
   const [commentCount, setCommentCount] = useState(update.commentCount)
   const [commentsOffset, setCommentsOffset] = useState(0)
   const [hasMoreComments, setHasMoreComments] = useState(true)
+  const [postMenuOpen, setPostMenuOpen] = useState(false)
+  const [deleteState, setDeleteState] = useState<'idle' | 'confirm' | 'deleting'>('idle')
+  const [deleteError, setDeleteError] = useState('')
+  const postMenuRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!postMenuOpen) return
+    function handleClick(e: MouseEvent) {
+      if (postMenuRef.current && !postMenuRef.current.contains(e.target as Node)) {
+        setPostMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [postMenuOpen])
+
+  const deleteUpdate = async () => {
+    setDeleteState('deleting')
+    setDeleteError('')
+    try {
+      const res = await fetch(`/api/build-updates/${update.id}`, { method: 'DELETE' })
+      if (!res.ok) {
+        const data = await res.json().catch(() => null)
+        setDeleteError(data?.error ?? 'Delete failed.')
+        setDeleteState('confirm')
+        return
+      }
+      onClose()
+      router.refresh()
+    } catch {
+      setDeleteError('Something went wrong.')
+      setDeleteState('confirm')
+    }
+  }
   const [loadingComments, setLoadingComments] = useState(false)
   const [commentError, setCommentError] = useState('')
   const [postingComment, setPostingComment] = useState(false)
@@ -509,7 +549,52 @@ function UpdateOverlay({
           <div className="update-modal-header">
             <span className="badge badge-phase">{update.milestone}</span>
             <span className="muted-row">{update.timeAgo}</span>
+            {isOwner && buildId ? (
+              <div className="comment-row-actions" ref={postMenuRef} style={{ marginLeft: 'auto' }}>
+                <button
+                  className="comment-menu-trigger"
+                  aria-label="Post actions"
+                  aria-expanded={postMenuOpen}
+                  onClick={() => { setPostMenuOpen((v) => !v); setDeleteState('idle'); setDeleteError(''); }}
+                >
+                  <span aria-hidden="true">...</span>
+                </button>
+                {postMenuOpen ? (
+                  <div className="comment-action-menu">
+                    <Link
+                      href={`/dashboard/builds/${buildId}/updates/${update.id}/edit`}
+                      onClick={() => setPostMenuOpen(false)}
+                    >
+                      <IconEdit size={13} /> Edit
+                    </Link>
+                    <button
+                      type="button"
+                      className="comment-action-menu-delete"
+                      onClick={() => { setDeleteState('confirm'); setPostMenuOpen(false); }}
+                    >
+                      <IconTrash size={13} /> Delete
+                    </button>
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
           </div>
+          {deleteState !== 'idle' ? (
+            <div style={{ padding: '10px 0', borderBottom: '1px solid var(--bb-border)' }}>
+              {deleteState === 'confirm' ? (
+                <div style={{ background: 'var(--bb-red-light)', borderRadius: 'var(--bb-radius-md)', padding: '12px 14px' }}>
+                  <p style={{ margin: '0 0 10px', fontSize: 13, color: 'var(--bb-text)', fontWeight: 600 }}>Delete this update permanently?</p>
+                  {deleteError ? <p style={{ margin: '0 0 8px', fontSize: 12, color: 'var(--bb-red)' }}>{deleteError}</p> : null}
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <button className="btn btn-secondary btn-sm" onClick={() => setDeleteState('idle')}>Cancel</button>
+                    <button className="btn btn-sm" style={{ background: 'var(--bb-red)', color: '#fff', border: 'none' }} onClick={deleteUpdate}>Yes, delete</button>
+                  </div>
+                </div>
+              ) : (
+                <p style={{ fontSize: 13, color: 'var(--bb-muted)', margin: 0 }}>Deleting...</p>
+              )}
+            </div>
+          ) : null}
           <div className="update-modal-caption">
             <p>{update.caption}</p>
           </div>
@@ -892,26 +977,28 @@ function TimelineTab({
                     <div className="timeline-duration-copy">{formatDuration(displayPhaseDays(milestone))} in {milestone.title}</div>
                   </div>
 
-                  <div className="timeline-metrics-row">
-                    <div className="timeline-metric">
-                      <IconRuler size={15} />
-                      <span>{formatDuration(displayPhaseDays(milestone))}</span>
-                      <small>in phase</small>
+                  <div className="timeline-card-bottom">
+                    <div className="timeline-metrics-row">
+                      <div className="timeline-metric">
+                        <IconRuler size={15} />
+                        <span>{formatDuration(displayPhaseDays(milestone))}</span>
+                        <small>in phase</small>
+                      </div>
+                      <div className="timeline-metric">
+                        <IconCamera size={15} />
+                        <span>{milestone.updates}</span>
+                        <small>update{milestone.updates === 1 ? '' : 's'}</small>
+                      </div>
                     </div>
-                    <div className="timeline-metric">
-                      <IconCamera size={15} />
-                      <span>{milestone.updates}</span>
-                      <small>update{milestone.updates === 1 ? '' : 's'}</small>
-                    </div>
-                  </div>
 
-                  <div className="timeline-photo-section">
-                    <TimelinePhotoStrip
-                      photos={imagesByMilestone.get(milestone.id) ?? []}
-                      updatesById={updatesById}
-                      onOpenImage={setSelectedImage}
-                      onOpenUpdate={onOpenUpdate}
-                    />
+                    <div className="timeline-photo-section">
+                      <TimelinePhotoStrip
+                        photos={imagesByMilestone.get(milestone.id) ?? []}
+                        updatesById={updatesById}
+                        onOpenImage={setSelectedImage}
+                        onOpenUpdate={onOpenUpdate}
+                      />
+                    </div>
                   </div>
                 </div>
               )}
@@ -997,11 +1084,16 @@ function TimelinePhotoStrip({
 function ImagesTab({ build }: { build: PublicBuildDetail }) {
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
-  const images = build.images.length
+  const [brokenIds, setBrokenIds] = useState<Set<string>>(new Set())
+
+  const allImages = build.images.length
     ? build.images
     : [{ id: build.id, imageUrl: build.imageUrl, milestone: build.phase, milestoneId: null, updateId: null, commentCount: 0, notes: null }]
+  const images = allImages.filter((img) => !brokenIds.has(img.id))
   const paginatedImages = pageItems(images, currentPage)
   const selected = selectedIndex == null ? null : images[selectedIndex] ?? null
+
+  const markBroken = (id: string) => setBrokenIds((prev) => new Set([...prev, id]))
 
   return (
     <>
@@ -1011,7 +1103,7 @@ function ImagesTab({ build }: { build: PublicBuildDetail }) {
             {item.imageUrl ? (
               // Signed Supabase URLs are rendered directly until remote image patterns are finalized.
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={item.imageUrl} alt={`${item.milestone} build update`} />
+              <img src={item.imageUrl} alt={`${item.milestone} build update`} onError={() => markBroken(item.id)} />
             ) : (
               <Image src="/images/comingsoon.jpg" alt="" fill sizes="(min-width: 1024px) 22vw, 33vw" />
             )}
@@ -1028,7 +1120,7 @@ function ImagesTab({ build }: { build: PublicBuildDetail }) {
       {selected ? (
         <PhotoCarouselOverlay
           title={selected.milestone}
-          images={images.map((image) => ({ url: image.imageUrl, title: image.milestone, notes: image.notes ?? null }))}
+          images={images.map((image) => ({ url: image.imageUrl, title: image.milestone, notes: image.notes ?? null, selectionTags: image.selectionTags ?? [] }))}
           initialIndex={Math.max(0, selectedIndex ?? 0)}
           onClose={() => setSelectedIndex(null)}
         />
@@ -1095,7 +1187,7 @@ function PhotoCarouselOverlay({
   onClose,
   showNotes = false,
 }: {
-  images: { url: string | null; title: string; notes: string | null }[]
+  images: { url: string | null; title: string; notes: string | null; selectionTags?: InspirationTag[] }[]
   initialIndex: number
   title: string
   onClose: () => void
@@ -1103,45 +1195,80 @@ function PhotoCarouselOverlay({
 }) {
   const [index, setIndex] = useState(initialIndex)
   const current = images[index] ?? images[0]
+  const touchStartX = useRef<number | null>(null)
 
-  const move = (direction: -1 | 1) => {
-    setIndex((currentIndex) => (currentIndex + direction + images.length) % images.length)
-  }
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+      if (e.key === 'ArrowLeft') setIndex((i) => (i - 1 + images.length) % images.length)
+      if (e.key === 'ArrowRight') setIndex((i) => (i + 1) % images.length)
+    }
+    document.addEventListener('keydown', handleKey)
+    return () => document.removeEventListener('keydown', handleKey)
+  }, [onClose, images.length])
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = '' }
+  }, [])
+
+  const tags = current?.selectionTags ?? []
 
   return (
     <div className="update-modal photo-lightbox" role="dialog" aria-modal="true">
       <button className="update-modal-backdrop" type="button" aria-label="Close photo" onClick={onClose} />
-      <div className="update-modal-panel">
-        <button className="btn-icon update-modal-close" type="button" aria-label="Close photo" onClick={onClose}>
-          <IconX size={18} />
-        </button>
-        <div className="update-modal-media">
+      <div className="photo-lightbox-panel">
+        <div
+          className="photo-lightbox-image-area"
+          onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX }}
+          onTouchEnd={(e) => {
+            if (touchStartX.current === null || images.length <= 1) return
+            const dx = e.changedTouches[0].clientX - touchStartX.current
+            if (Math.abs(dx) > 40) setIndex((i) => dx < 0 ? (i + 1) % images.length : (i - 1 + images.length) % images.length)
+            touchStartX.current = null
+          }}
+        >
           {current?.url ? (
             // Signed Supabase URLs are rendered directly until remote image patterns are finalized.
             // eslint-disable-next-line @next/next/no-img-element
-            <img className="timeline-modal-image" src={current.url} alt={current.title || title} />
+            <img src={current.url} alt={current.title || title} />
           ) : (
-            <Image src="/images/comingsoon.jpg" alt="" fill sizes="70vw" />
+            <Image src="/images/comingsoon.jpg" alt="" fill sizes="100vw" />
           )}
+          <button className="photo-lightbox-close-btn" type="button" aria-label="Close photo" onClick={onClose}>
+            <IconX size={16} />
+          </button>
+          {images.length > 1 && (
+            <span className="photo-lightbox-count">{index + 1} / {images.length}</span>
+          )}
+          {images.length > 1 ? (
+            <>
+              <button className="carousel-control carousel-control-prev" type="button" aria-label="Previous photo" onClick={() => setIndex((i) => (i - 1 + images.length) % images.length)}>{"<"}</button>
+              <button className="carousel-control carousel-control-next" type="button" aria-label="Next photo" onClick={() => setIndex((i) => (i + 1) % images.length)}>{">"}</button>
+            </>
+          ) : null}
         </div>
-        {showNotes ? (
-          <aside className="update-modal-detail">
-            <div className="update-modal-header">
-              <span className="badge badge-phase">{current?.title ?? title}</span>
-              <span className="muted-row">{index + 1} / {images.length}</span>
+        {/* Overlay bar: absolute on desktop, static row below image on mobile */}
+        <div className="photo-lightbox-overlay-bar">
+          <span className="badge badge-phase">{current?.title ?? title}</span>
+          {tags.length > 0 && (
+            <div className="photo-lightbox-tag-row">
+              {tags.map((tag) => {
+                const label = tag.colourName || tag.productName || tag.itemName || tag.brand || tag.subcategory || tag.category || 'Selection'
+                return (
+                  <span key={tag.selectionId} className="photo-lightbox-tag">
+                    {tag.imageUrl && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <span className="photo-lightbox-tag-thumb"><img src={tag.imageUrl} alt="" /></span>
+                    )}
+                    {label}
+                  </span>
+                )
+              })}
             </div>
-            <div className="update-modal-caption">
-              <p>{current?.notes || 'No notes added yet.'}</p>
-            </div>
-          </aside>
-        ) : null}
-        {images.length > 1 ? (
-          <>
-            <button className="carousel-control carousel-control-prev" type="button" aria-label="Previous photo" onClick={() => move(-1)}>{"<"}</button>
-            <button className="carousel-control carousel-control-next" type="button" aria-label="Next photo" onClick={() => move(1)}>{">"}</button>
-            <span className="image-count">{index + 1} / {images.length}</span>
-          </>
-        ) : null}
+          )}
+          {showNotes && current?.notes ? <p className="photo-lightbox-overlay-notes">{current.notes}</p> : null}
+        </div>
       </div>
     </div>
   )
@@ -1179,7 +1306,7 @@ function UpdatesTab({ updates, onOpen }: { updates: Update[]; onOpen: (update: U
 
 const SELECTION_TYPE_LABELS: Record<string, string> = {
   colour: 'Colour',
-  construction: 'Construction',
+  construction: 'Exterior & Structure',
   cabinetry: 'Cabinetry',
   appliance: 'Appliance',
   electrical: 'Electrical',
@@ -1191,32 +1318,100 @@ const ROOM_TYPE_OPTIONS = ['Kitchen', 'Scullery', 'Laundry', 'Bathroom', 'Ensuit
 
 function selectionLabels(selection: PublicSelection) {
   const typeLabel = selection.selectionType ? SELECTION_TYPE_LABELS[selection.selectionType] ?? titleCase(selection.selectionType) : 'Selection'
-  const badgeLabel = selection.materialType || selection.subcategory || selection.category || typeLabel
-  const visualLabel = selection.colourName || selection.materialType || selection.subcategory || typeLabel
-  const colourName = selection.colourName || selection.itemName || selection.productName || selection.category || 'Selection'
-  const areaPartMaterial = [selection.category, selection.subcategory, selection.materialType].filter(Boolean).join(' / ')
+  const st = selection.selectionType ?? ''
   const roomLabel = selection.roomType ? formatRoomType(selection.roomType) : selection.roomName || selection.location || null
-  const details = [
-    { label: 'Brand / Area / Part / Material', value: [selection.brand, areaPartMaterial].filter(Boolean).join(' / ') },
-    { label: 'Room', value: roomLabel },
-    { label: 'Item', value: selection.itemName || selection.productName },
-    { label: 'Model', value: selection.model },
-    { label: 'Code', value: selection.code },
-    { label: 'Supplier', value: selection.supplier },
-    { label: 'Notes', value: selection.notes },
-  ].filter((item) => item.value)
 
-  return { badgeLabel, visualLabel, colourName, roomLabel, details }
+  const badgeLabel = (st === 'appliance' || st === 'electrical' || st === 'tapware')
+    ? (selection.subcategory || selection.materialType || typeLabel)
+    : (selection.materialType || selection.subcategory || selection.category || typeLabel)
+
+  const cardTitle = (st === 'appliance' || st === 'electrical' || st === 'tapware')
+    ? (selection.productName || selection.brand || selection.subcategory || 'Selection')
+    : st === 'other'
+    ? (selection.itemName || selection.productName || selection.category || 'Selection')
+    : (selection.colourName || selection.productName || selection.category || 'Selection')
+
+  const cardSubtitle = (st === 'appliance' || st === 'electrical' || st === 'tapware')
+    ? (selection.materialType || null)
+    : st === 'construction'
+    ? (selection.subcategory || null)
+    : (selection.finish || null)
+
+  const visualLabel = selection.colourName || selection.productName || selection.itemName || selection.materialType || selection.subcategory || typeLabel
+
+  let rawDetails: { label: string; value: string | null | undefined }[]
+  if (st === 'appliance') {
+    rawDetails = [
+      { label: 'Brand', value: selection.brand },
+      { label: 'Appliance type', value: selection.subcategory },
+      { label: 'Finish', value: selection.materialType },
+      { label: 'Product code', value: selection.model },
+      { label: 'Supplier', value: selection.supplier },
+      { label: 'Notes', value: selection.notes },
+    ]
+  } else if (st === 'electrical' || st === 'tapware') {
+    rawDetails = [
+      { label: 'Brand', value: selection.brand },
+      { label: 'Fitting', value: selection.subcategory },
+      { label: 'Finish', value: selection.materialType },
+      { label: 'Product code', value: selection.model },
+      { label: 'Supplier', value: selection.supplier },
+      { label: 'Notes', value: selection.notes },
+    ]
+  } else if (st === 'construction') {
+    rawDetails = [
+      { label: 'Brand', value: selection.brand },
+      { label: 'Area / Part / Material', value: [selection.category, selection.subcategory, selection.materialType].filter(Boolean).join(' / ') },
+      { label: 'Colour', value: selection.colourName },
+      { label: 'Product code', value: selection.code },
+      { label: 'Supplier', value: selection.supplier },
+      { label: 'Notes', value: selection.notes },
+    ]
+  } else if (st === 'cabinetry') {
+    rawDetails = [
+      { label: 'Brand', value: selection.brand },
+      { label: 'Cabinet', value: selection.subcategory },
+      { label: 'Material', value: selection.materialType },
+      { label: 'Finish', value: selection.finish },
+      { label: 'Product code', value: selection.code },
+      { label: 'Supplier', value: selection.supplier },
+      { label: 'Notes', value: selection.notes },
+    ]
+  } else if (st === 'colour') {
+    rawDetails = [
+      { label: 'Brand', value: selection.brand },
+      { label: 'Area / Part', value: [selection.category, selection.subcategory].filter(Boolean).join(' / ') },
+      { label: 'Material', value: selection.materialType },
+      { label: 'Finish', value: selection.finish },
+      { label: 'Colour code', value: selection.code },
+      { label: 'Supplier', value: selection.supplier },
+      { label: 'Notes', value: selection.notes },
+    ]
+  } else {
+    rawDetails = [
+      { label: 'Category', value: selection.category },
+      { label: 'Detail', value: selection.subcategory },
+      { label: 'Material', value: selection.materialType },
+      { label: 'Brand', value: selection.brand },
+      { label: 'Supplier', value: selection.supplier },
+      { label: 'Notes', value: selection.notes },
+    ]
+  }
+  const details = rawDetails.filter((item) => item.value)
+
+  return { badgeLabel, visualLabel, cardTitle, cardSubtitle, roomLabel, details }
 }
 
 function SelectionCard({ selection }: { selection: PublicSelection }) {
   const [expanded, setExpanded] = useState(false)
-  const { badgeLabel, visualLabel, colourName, roomLabel, details } = selectionLabels(selection)
+  const { badgeLabel, visualLabel, cardTitle, cardSubtitle, roomLabel, details } = selectionLabels(selection)
 
   return (
     <article className="card management-image-card selection-card">
       <div className={`management-image-media selection-card-image ${selection.imageUrl ? 'selection-card-image-uploaded' : 'selection-card-image-placeholder'}`}>
-        {roomLabel ? <span className="selection-card-room-badge">{roomLabel}</span> : null}
+        {(selection.selectionType === 'construction' ? selection.category : roomLabel) ? (
+          <span className="selection-card-room-badge">{selection.selectionType === 'construction' ? selection.category : roomLabel}</span>
+        ) : null}
         {selection.imageUrl ? (
           // Signed Supabase URLs are rendered directly until remote image patterns are finalized.
           // eslint-disable-next-line @next/next/no-img-element
@@ -1236,8 +1431,8 @@ function SelectionCard({ selection }: { selection: PublicSelection }) {
             <span className="selection-card-topline">
               <span className="badge badge-phase">{badgeLabel}</span>
             </span>
-            <span className="selection-card-title">{colourName}</span>
-            {selection.finish ? <span className="selection-card-detail">{selection.finish}</span> : null}
+            <span className="selection-card-title">{cardTitle}</span>
+            {cardSubtitle ? <span className="selection-card-detail">{cardSubtitle}</span> : null}
           </span>
           <IconChevronDown className={expanded ? 'management-image-chevron-expanded' : ''} size={16} />
         </button>
@@ -1262,7 +1457,7 @@ function SelectionCard({ selection }: { selection: PublicSelection }) {
 }
 
 function SelectionsTab({ build }: { build: PublicBuildDetail }) {
-  const [columnCount, setColumnCount] = useState(5)
+  const [columnCount, setColumnCount] = useState(4)
   const [activeRoomType, setActiveRoomType] = useState('all')
   const [currentPage, setCurrentPage] = useState(1)
   const roomTypeOptions = useMemo(() => {
@@ -1297,10 +1492,8 @@ function SelectionsTab({ build }: { build: PublicBuildDetail }) {
 
   useEffect(() => {
     const updateColumnCount = () => {
-      if (window.innerWidth < 560) setColumnCount(1)
-      else if (window.innerWidth < 860) setColumnCount(2)
-      else if (window.innerWidth < 1180) setColumnCount(3)
-      else setColumnCount(5)
+      if (window.innerWidth <= 767) setColumnCount(2)
+      else setColumnCount(4)
     }
 
     updateColumnCount()
@@ -2302,7 +2495,11 @@ export function BuildProfileClient({ build, username, viewerPlanningBuilds = [] 
         <div className="page-container">
           <div className="tab-list">
             {visibleTabs.map((tab) => (
-              <button key={tab} className={`tab ${activeTab === tab ? 'tab-active' : ''}`} onClick={() => setActiveTab(tab)}>
+              <button
+                key={tab}
+                className={`tab ${activeTab === tab ? 'tab-active' : ''}${!isPlanning && tab === 'Overview' ? ' tab-mobile-only' : ''}`}
+                onClick={() => setActiveTab(tab)}
+              >
                 {tab}
               </button>
             ))}
@@ -2311,9 +2508,9 @@ export function BuildProfileClient({ build, username, viewerPlanningBuilds = [] 
       </div>
 
       <main className="page-container content-section">
-        <div className="build-layout">
+        <div className="build-layout" data-tab={activeTab}>
           <div>
-            {activeTab === 'Overview' && <OverviewTab build={build} />}
+            {activeTab === 'Overview' && isPlanning && <OverviewTab build={build} />}
             {activeTab === 'Updates' && (
               <UpdatesTab updates={updates} onOpen={(update) => setSelectedUpdate({ update, imageIndex: 0 })} />
             )}
@@ -2351,7 +2548,7 @@ export function BuildProfileClient({ build, username, viewerPlanningBuilds = [] 
             {activeTab === 'Wishlist' && <WishlistTab build={build} />}
             {activeTab === 'Saved Builds' && <PlanningBuildsTab build={build} />}
             {activeTab === 'Our Planning' && <PlanningHistoryTab build={build} />}
-            {selectedUpdate ? <UpdateOverlay update={selectedUpdate.update} currentUserId={build.currentUserId} initialImageIndex={selectedUpdate.imageIndex} onClose={() => setSelectedUpdate(null)} /> : null}
+            {selectedUpdate ? <UpdateOverlay update={selectedUpdate.update} currentUserId={build.currentUserId} initialImageIndex={selectedUpdate.imageIndex} onClose={() => setSelectedUpdate(null)} isOwner={isOwner} buildId={build.id} /> : null}
             {saveToPlanOpen && viewerPlanningBuilds.length > 1 ? (
               <div className="bb-modal" role="dialog" aria-modal="true" aria-labelledby="save-plan-title">
                 <button className="bb-modal-backdrop" type="button" aria-label="Close" onClick={() => setSaveToPlanOpen(false)} />

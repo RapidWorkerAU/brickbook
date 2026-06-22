@@ -6,7 +6,7 @@ import { LoadingButton, ConfirmDeleteButton } from "@/components/action-buttons"
 import { PaginationControls, pageItems } from "@/components/PaginationControls";
 import { SearchableSelect } from "@/components/SearchableSelect";
 import type { SelectionTypeValue } from "@/lib/selection-types";
-import { IconCheck, IconChevronDown, IconPhoto, IconPlus, IconSearch, IconX } from "@tabler/icons-react";
+import { IconCheck, IconChevronDown, IconFilter, IconPhoto, IconPlus, IconSearch, IconX } from "@tabler/icons-react";
 import type { DashboardUser, ManagedBuild } from "@/app/dashboard/builds/[buildId]/management-data";
 
 export type EditableRoom = {
@@ -52,25 +52,25 @@ const SELECTION_TYPES = [
   {
     id: "colour" satisfies SelectionTypeValue,
     label: "Colour",
-    categoryLabel: "House area",
+    categoryLabel: "Area",
     subcategoryLabel: "Part",
     itemLabel: "Selection name",
     options: {
-      category: ["Exterior", "Interior", "Roof", "Brickwork", "Cabinetry", "Flooring", "Walls", "Windows and doors"],
-      subcategory: ["Main colour", "Feature colour", "Trim", "Door", "Wall", "Ceiling", "Cabinet fronts", "Benchtop", "Splashback"],
-      material: ["Paint", "Render", "Brick", "Tile", "Laminate", "Stone", "Timber", "Metal", "Carpet"],
+      category: ["Interior", "Walls", "Ceiling", "Flooring", "Cabinetry", "Windows and doors"],
+      subcategory: ["Main colour", "Feature colour", "Trim", "Door", "Wall", "Ceiling", "Cabinet fronts", "Benchtop", "Splashback", "Skirting"],
+      material: ["Paint", "Render", "Tile", "Laminate", "Stone", "Timber", "Metal", "Carpet"],
     },
   },
   {
     id: "construction" satisfies SelectionTypeValue,
-    label: "Construction",
-    categoryLabel: "Construction area",
+    label: "Exterior & Structure",
+    categoryLabel: "Area",
     subcategoryLabel: "Part",
     itemLabel: "Item",
     options: {
-      category: ["Roof", "Brickwork", "Hardstand", "Windows and doors", "Cladding", "Garage", "Alfresco / patio"],
-      subcategory: ["Roof sheeting / tiles", "Gutters", "Fascia", "Downpipes", "Main brick", "Feature brick", "Driveway", "Paths", "Alfresco", "Patio"],
-      material: ["Colorbond", "Tile", "Brick", "Concrete", "Exposed aggregate", "Paver", "Stone", "Timber", "Aluminium"],
+      category: ["Roof", "Facade", "Brickwork", "Render", "Hardstand", "Windows and doors", "Cladding", "Gutters and drainage", "Garage", "Alfresco / patio"],
+      subcategory: ["Roof sheeting / tiles", "Gutters", "Fascia", "Downpipes", "Soffit", "Main brick", "Feature brick", "Main render", "Feature render", "Exterior trim", "Window frame", "Door frame", "Front door", "Driveway", "Paths", "Alfresco", "Patio"],
+      material: ["Colorbond", "Tile", "Brick", "Render", "Paint", "Concrete", "Exposed aggregate", "Paver", "Stone", "Timber", "Aluminium", "PVC", "Fibre cement", "Weatherboard"],
     },
   },
   {
@@ -188,6 +188,10 @@ export function SelectionsClient({
   const [expandedSelectionIds, setExpandedSelectionIds] = useState<Set<string>>(new Set());
   const [columnCount, setColumnCount] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
+  const [filterOpen, setFilterOpen] = useState(false);
+
+  const activeFilterCount = selectedRoomIds.length + selectedTypeIds.length;
+  const clearFilters = () => { setSelectedRoomIds([]); setSelectedTypeIds([]); };
 
   const rooms = initialRooms;
   const roomNames = useMemo(() => new Map(rooms.map((room) => [room.id, room.name])), [rooms]);
@@ -225,10 +229,10 @@ export function SelectionsClient({
 
   useEffect(() => {
     const updateColumnCount = () => {
-      if (window.innerWidth < 560) setColumnCount(1);
-      else if (window.innerWidth < 820) setColumnCount(2);
-      else if (window.innerWidth < 1040) setColumnCount(3);
-      else if (window.innerWidth < 1280) setColumnCount(4);
+      const w = window.innerWidth;
+      if (w <= 767) setColumnCount(2);
+      else if (w < 1040) setColumnCount(3);
+      else if (w < 1280) setColumnCount(4);
       else setColumnCount(5);
     };
 
@@ -361,6 +365,35 @@ export function SelectionsClient({
         </div>
       </div>
       {error ? <div className="alert alert-error mb-4">{error}</div> : null}
+
+      {/* Mobile filter button — hidden on desktop */}
+      <div className="mobile-filter-bar">
+        <button type="button" className="mobile-filter-btn" onClick={() => setFilterOpen(true)}>
+          <IconFilter size={14} /> Filters
+          {activeFilterCount > 0 && <span className="mobile-filter-count">{activeFilterCount}</span>}
+        </button>
+      </div>
+
+      {filterOpen && (
+        <div className="bb-modal bb-filter-modal" role="dialog" aria-modal="true" aria-label="Filters">
+          <div className="bb-modal-panel">
+            <div className="bb-modal-header">
+              <h2 className="bb-modal-title">Filters</h2>
+              <button type="button" className="btn-icon" aria-label="Close" onClick={() => setFilterOpen(false)}><IconX size={16} /></button>
+            </div>
+            <div className="bb-modal-body">
+              <div className="selection-side-section">
+                <MultiSelectFilter label="Rooms" allLabel="All rooms" options={roomFilterOptions} selectedIds={selectedRoomIds} onChange={(ids) => { setSelectedRoomIds(ids); setCurrentPage(1); }} />
+                <MultiSelectFilter label="Selection type" allLabel="All types" options={typeFilterOptions} selectedIds={selectedTypeIds} onChange={(ids) => { setSelectedTypeIds(ids); setCurrentPage(1); }} />
+              </div>
+            </div>
+            <div className="bb-modal-footer">
+              {activeFilterCount > 0 && <button type="button" className="btn btn-secondary" onClick={clearFilters}>Clear filters</button>}
+              <button type="button" className="btn btn-primary" onClick={() => setFilterOpen(false)}>Apply</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="selection-workspace">
         <aside className="selection-sidebar">
@@ -572,7 +605,8 @@ function SelectionForm({
   const fileRef = useRef<HTMLInputElement>(null);
   const type = SELECTION_TYPES.find((item) => item.id === draft.selection_type) ?? SELECTION_TYPES[0];
   const set = (key: keyof SelectionDraft, value: string) => onChange({ ...draft, [key]: value });
-  const canSave = Boolean((draft.item_name || draft.product_name || draft.colour_name || draft.category || "").trim());
+  const st = draft.selection_type ?? "";
+  const canSave = Boolean((draft.item_name || draft.product_name || draft.colour_name || draft.category || draft.subcategory || draft.brand || "").trim());
 
   const handleImage = (file: File | null) => {
     if (!file) return;
@@ -597,17 +631,33 @@ function SelectionForm({
         </div>
 
         <div className="form-grid-2">
-          <SearchableSelect label={type.categoryLabel} value={draft.category ?? ""} onChange={(value) => set("category", value)} options={type.options.category} />
+          {["colour", "construction", "other"].includes(st) && (
+            <SearchableSelect label={type.categoryLabel} value={draft.category ?? ""} onChange={(value) => set("category", value)} options={type.options.category} />
+          )}
           <SearchableSelect label={type.subcategoryLabel} value={draft.subcategory ?? ""} onChange={(value) => set("subcategory", value)} options={type.options.subcategory} />
-          <Select label="Room" value={draft.room_id ?? ""} onChange={(value) => set("room_id", value)} options={[{ id: "", title: "No room" }, ...buildRooms.map((room) => ({ id: room.id, title: room.name }))]} />
-          <Input label={type.itemLabel} value={draft.item_name ?? ""} onChange={(value) => set("item_name", value)} />
-          <SearchableSelect label="Material / product type" value={draft.material_type ?? ""} onChange={(value) => set("material_type", value)} options={type.options.material} />
+          {st !== "construction" && (
+            <Select label="Room" value={draft.room_id ?? ""} onChange={(value) => set("room_id", value)} options={[{ id: "", title: "No room" }, ...buildRooms.map((room) => ({ id: room.id, title: room.name }))]} />
+          )}
+          {["colour", "construction", "cabinetry"].includes(st) && (
+            <Input label="Colour" value={draft.colour_name ?? ""} onChange={(value) => set("colour_name", value)} />
+          )}
+          <SearchableSelect label={["appliance", "electrical", "tapware"].includes(st) ? "Finish" : "Material / product type"} value={draft.material_type ?? ""} onChange={(value) => set("material_type", value)} options={type.options.material} />
           <Input label="Brand" value={draft.brand ?? ""} onChange={(value) => set("brand", value)} />
-          <Input label="Product name" value={draft.product_name ?? ""} onChange={(value) => set("product_name", value)} />
-          <Input label="Model / code" value={draft.model ?? ""} onChange={(value) => set("model", value)} />
-          <Input label="Colour" value={draft.colour_name ?? ""} onChange={(value) => set("colour_name", value)} />
-          <Input label="Colour / supplier code" value={draft.code ?? ""} onChange={(value) => set("code", value)} />
-          <Input label="Finish" value={draft.finish ?? ""} onChange={(value) => set("finish", value)} />
+          {["appliance", "electrical", "tapware"].includes(st) && (
+            <Input label={["electrical", "tapware"].includes(st) ? "Product / description" : "Product name"} value={draft.product_name ?? ""} onChange={(value) => set("product_name", value)} />
+          )}
+          {["appliance", "electrical", "tapware"].includes(st) && (
+            <Input label="Product code" value={draft.model ?? ""} onChange={(value) => set("model", value)} />
+          )}
+          {["colour", "construction", "cabinetry"].includes(st) && (
+            <Input label={st === "colour" ? "Colour code" : "Product code"} value={draft.code ?? ""} onChange={(value) => set("code", value)} />
+          )}
+          {["colour", "cabinetry"].includes(st) && (
+            <Input label="Finish" value={draft.finish ?? ""} onChange={(value) => set("finish", value)} placeholder="e.g. Matte, Satin, Gloss" />
+          )}
+          {st === "other" && (
+            <Input label="Item name" value={draft.item_name ?? ""} onChange={(value) => set("item_name", value)} />
+          )}
           <Input label="Supplier" value={draft.supplier ?? ""} onChange={(value) => set("supplier", value)} />
           <Input label="Source link" value={draft.product_url ?? ""} onChange={(value) => set("product_url", value)} placeholder="https://" />
           <Select label="Visibility" value={draft.visibility ?? "public"} onChange={(value) => set("visibility", value)} options={VISIBILITY_OPTIONS.map((value) => ({ id: value, title: titleCase(value) }))} />
@@ -688,26 +738,103 @@ function SelectionCard({
 }) {
   const type = SELECTION_TYPES.find((item) => item.id === selection.selection_type);
   const typeLabel = type?.label ?? selection.selection_type ?? "Selection";
-  const badgeLabel = selection.material_type || selection.subcategory || selection.category || typeLabel;
-  const colourName = selection.colour_name || selection.item_name || selection.product_name || selection.category || "Selection";
-  const visualLabel = selection.colour_name || selection.material_type || selection.subcategory || type?.label || "Selection";
+  const st = selection.selection_type ?? "";
   const imageUrl = selection.imageUrl || null;
-  const areaPartMaterial = [selection.category, selection.subcategory, selection.material_type].filter(Boolean).join(" / ");
-  const details = [
-    { label: "Brand / Area / Part / Material", value: [selection.brand, areaPartMaterial].filter(Boolean).join(" / ") },
-    { label: "Room", value: roomName },
-    { label: "Item", value: selection.item_name || selection.product_name },
-    { label: "Model", value: selection.model },
-    { label: "Code", value: selection.code },
-    { label: "Supplier", value: selection.supplier },
-    { label: "Visibility", value: selection.visibility ?? "public" },
-    { label: "Notes", value: selection.notes },
-  ].filter((item) => item.value);
+
+  const badgeLabel = (st === "appliance" || st === "electrical" || st === "tapware")
+    ? (selection.subcategory || selection.material_type || typeLabel)
+    : (selection.material_type || selection.subcategory || selection.category || typeLabel);
+
+  const cardTitle = (st === "appliance" || st === "electrical" || st === "tapware")
+    ? (selection.product_name || selection.brand || selection.subcategory || "Selection")
+    : st === "other"
+    ? (selection.item_name || selection.product_name || selection.category || "Selection")
+    : (selection.colour_name || selection.product_name || selection.category || "Selection");
+
+  const cardSubtitle = (st === "appliance" || st === "electrical" || st === "tapware")
+    ? (selection.material_type || null)
+    : st === "construction"
+    ? (selection.subcategory || null)
+    : (selection.finish || null);
+
+  const visualLabel = selection.colour_name || selection.product_name || selection.item_name || selection.material_type || selection.subcategory || typeLabel;
+  const imageBadge = st === "construction" ? (selection.category || null) : roomName;
+
+  let details: { label: string; value: string | null | undefined }[];
+  if (st === "appliance") {
+    details = [
+      { label: "Brand", value: selection.brand },
+      { label: "Appliance type", value: selection.subcategory },
+      { label: "Finish", value: selection.material_type },
+      { label: "Product code", value: selection.model },
+      { label: "Room", value: roomName },
+      { label: "Supplier", value: selection.supplier },
+      { label: "Visibility", value: selection.visibility ?? "public" },
+      { label: "Notes", value: selection.notes },
+    ];
+  } else if (st === "electrical" || st === "tapware") {
+    details = [
+      { label: "Brand", value: selection.brand },
+      { label: "Fitting", value: selection.subcategory },
+      { label: "Finish", value: selection.material_type },
+      { label: "Product code", value: selection.model },
+      { label: "Room", value: roomName },
+      { label: "Supplier", value: selection.supplier },
+      { label: "Visibility", value: selection.visibility ?? "public" },
+      { label: "Notes", value: selection.notes },
+    ];
+  } else if (st === "construction") {
+    details = [
+      { label: "Brand", value: selection.brand },
+      { label: "Area / Part / Material", value: [selection.category, selection.subcategory, selection.material_type].filter(Boolean).join(" / ") },
+      { label: "Colour", value: selection.colour_name },
+      { label: "Product code", value: selection.code },
+      { label: "Supplier", value: selection.supplier },
+      { label: "Visibility", value: selection.visibility ?? "public" },
+      { label: "Notes", value: selection.notes },
+    ];
+  } else if (st === "cabinetry") {
+    details = [
+      { label: "Brand", value: selection.brand },
+      { label: "Cabinet", value: selection.subcategory },
+      { label: "Material", value: selection.material_type },
+      { label: "Finish", value: selection.finish },
+      { label: "Product code", value: selection.code },
+      { label: "Room", value: roomName },
+      { label: "Supplier", value: selection.supplier },
+      { label: "Visibility", value: selection.visibility ?? "public" },
+      { label: "Notes", value: selection.notes },
+    ];
+  } else if (st === "colour") {
+    details = [
+      { label: "Brand", value: selection.brand },
+      { label: "Area / Part", value: [selection.category, selection.subcategory].filter(Boolean).join(" / ") },
+      { label: "Material", value: selection.material_type },
+      { label: "Finish", value: selection.finish },
+      { label: "Colour code", value: selection.code },
+      { label: "Room", value: roomName },
+      { label: "Supplier", value: selection.supplier },
+      { label: "Visibility", value: selection.visibility ?? "public" },
+      { label: "Notes", value: selection.notes },
+    ];
+  } else {
+    details = [
+      { label: "Category", value: selection.category },
+      { label: "Detail", value: selection.subcategory },
+      { label: "Material", value: selection.material_type },
+      { label: "Brand", value: selection.brand },
+      { label: "Room", value: roomName },
+      { label: "Supplier", value: selection.supplier },
+      { label: "Visibility", value: selection.visibility ?? "public" },
+      { label: "Notes", value: selection.notes },
+    ];
+  }
+  const filteredDetails = details.filter((item) => item.value);
 
   return (
     <article className="card management-image-card selection-card">
       <div className={`management-image-media selection-card-image ${imageUrl ? "selection-card-image-uploaded" : "selection-card-image-placeholder"}`}>
-        {roomName ? <span className="selection-card-room-badge">{roomName}</span> : null}
+        {imageBadge ? <span className="selection-card-room-badge">{imageBadge}</span> : null}
         {imageUrl ? (
           <>
           {/* Signed Supabase URLs should render as native images. */}
@@ -729,14 +856,14 @@ function SelectionCard({
             <span className="selection-card-topline">
               <span className="badge badge-phase">{badgeLabel}</span>
             </span>
-            <span className="selection-card-title">{colourName}</span>
-            {selection.finish ? <span className="selection-card-detail">{selection.finish}</span> : null}
+            <span className="selection-card-title">{cardTitle}</span>
+            {cardSubtitle ? <span className="selection-card-detail">{cardSubtitle}</span> : null}
           </span>
           <IconChevronDown className={expanded ? "management-image-chevron-expanded" : ""} size={16} />
         </button>
         {expanded ? (
           <div className="management-image-details selection-card-expanded">
-            {details.map((item) => (
+            {filteredDetails.map((item) => (
               <div className="selection-card-detail-row" key={item.label}>
                 <span>{item.label}</span>
                 <strong>{item.value}</strong>

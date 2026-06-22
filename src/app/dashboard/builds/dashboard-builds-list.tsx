@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { PaginationControls, pageItems } from "@/components/PaginationControls";
-import { IconEdit, IconExternalLink, IconEye, IconEyeOff, IconFileText, IconPhoto, IconPlus, IconUsers } from "@tabler/icons-react";
+import { IconEdit, IconExternalLink, IconEye, IconEyeOff, IconFileText, IconPhoto, IconPlus, IconTrash, IconUsers } from "@tabler/icons-react";
 
 export type DashboardBuildListItem = {
   id: string;
@@ -18,8 +19,29 @@ export type DashboardBuildListItem = {
 };
 
 export function DashboardBuildsList({ builds, username }: { builds: DashboardBuildListItem[]; username: string }) {
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const paginatedBuilds = pageItems(builds, currentPage);
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; title: string } | null>(null);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+
+  async function confirmDelete() {
+    if (!deleteTarget) return;
+    setDeleting(true);
+    setDeleteError(null);
+    try {
+      const res = await fetch(`/api/builds/${deleteTarget.id}`, { method: "DELETE" });
+      const data = await res.json();
+      if (!res.ok) { setDeleteError(data.error ?? "Delete failed."); return; }
+      setDeleteTarget(null);
+      router.refresh();
+    } catch {
+      setDeleteError("Something went wrong. Please try again.");
+    } finally {
+      setDeleting(false);
+    }
+  }
 
   if (!builds.length) {
     return (
@@ -76,6 +98,14 @@ export function DashboardBuildsList({ builds, username }: { builds: DashboardBui
                       <IconExternalLink size={14} />
                     </Link>
                   ) : null}
+                  <button
+                    onClick={() => setDeleteTarget({ id: build.id, title: build.title })}
+                    className="btn-icon"
+                    aria-label="Delete build"
+                    style={{ color: "var(--bb-red)" }}
+                  >
+                    <IconTrash size={14} />
+                  </button>
                   <Link href={`/dashboard/builds/${build.id}`} className="btn btn-secondary btn-sm">
                     <IconEdit size={13} /> Edit build
                   </Link>
@@ -104,6 +134,64 @@ export function DashboardBuildsList({ builds, username }: { builds: DashboardBui
         totalCount={builds.length}
         onPageChange={setCurrentPage}
       />
+
+      {/* Delete confirmation modal */}
+      {deleteTarget && (
+        <div
+          style={{
+            position: "fixed", inset: 0, zIndex: 200,
+            background: "rgba(0,0,0,0.45)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            padding: "20px",
+          }}
+          onClick={() => { if (!deleting) setDeleteTarget(null); }}
+        >
+          <div
+            style={{
+              background: "var(--bb-surface)", borderRadius: "var(--bb-radius-xl)",
+              border: "1px solid var(--bb-border)", padding: "28px 24px",
+              maxWidth: 440, width: "100%", boxShadow: "0 12px 40px rgba(0,0,0,0.18)",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: "flex", alignItems: "flex-start", gap: 14, marginBottom: 16 }}>
+              <div style={{ width: 40, height: 40, borderRadius: 10, background: "var(--bb-red-light)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <IconTrash size={18} style={{ color: "var(--bb-red)" }} />
+              </div>
+              <div>
+                <h3 style={{ margin: "0 0 4px", fontSize: 16, fontWeight: 700, color: "var(--bb-text)" }}>Delete build?</h3>
+                <p style={{ margin: 0, fontSize: 14, color: "var(--bb-muted)", lineHeight: 1.5 }}>
+                  <strong style={{ color: "var(--bb-text)" }}>{deleteTarget.title}</strong> and all of its data will be permanently deleted. This cannot be undone.
+                </p>
+              </div>
+            </div>
+
+            {deleteError && (
+              <p style={{ margin: "0 0 14px", fontSize: 13, color: "var(--bb-red)", background: "var(--bb-red-light)", padding: "8px 12px", borderRadius: "var(--bb-radius-md)" }}>
+                {deleteError}
+              </p>
+            )}
+
+            <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+              <button
+                onClick={() => setDeleteTarget(null)}
+                disabled={deleting}
+                className="btn btn-secondary btn-sm"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                disabled={deleting}
+                className="btn btn-sm"
+                style={{ background: "var(--bb-red)", color: "#fff", border: "none", opacity: deleting ? 0.6 : 1 }}
+              >
+                {deleting ? "Deleting..." : "Yes, delete permanently"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

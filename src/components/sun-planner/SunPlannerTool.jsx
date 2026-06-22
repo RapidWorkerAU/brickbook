@@ -151,6 +151,7 @@ export default function SunPlannerTool() {
   const [mobileOk, setMobileOk]               = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen]   = useState(false);
   const [mobileInfoOpen, setMobileInfoOpen]   = useState(false);
+  const [stripExpanded, setStripExpanded]     = useState(false);
   const [sessionRestored, setSessionRestored] = useState(false);
   const [toast, setToast]                     = useState(null);
 
@@ -167,10 +168,16 @@ export default function SunPlannerTool() {
   const isTiny      = windowWidth < 480;
 
   // ── Suppress body bottom-padding (mobile tab bar) for full-screen tool ──────
+  // Also set html/body background to dark so iPhone safe-area insets aren't white.
   useEffect(() => {
-    const prev = document.body.style.paddingBottom;
+    const prevPb  = document.body.style.paddingBottom;
+    const prevBg  = document.documentElement.style.backgroundColor;
     document.body.style.paddingBottom = "0";
-    return () => { document.body.style.paddingBottom = prev; };
+    document.documentElement.style.backgroundColor = "#080b10";
+    return () => {
+      document.body.style.paddingBottom = prevPb;
+      document.documentElement.style.backgroundColor = prevBg;
+    };
   }, []);
 
   // ── Toolbar height ────────────────────────────────────────────────────────
@@ -345,11 +352,14 @@ export default function SunPlannerTool() {
           if (sl?.suburb) setSelectedLocation(sl);
           if (se && ["summer", "equinox", "winter"].includes(se)) setSeason(se);
           if (lm) {
-            setLaunchMode(lm);
-            if (bd) setBlockModeData(bd);
+            // Block mode is only valid if a block was actually confirmed (has a location)
+            const blockValid = lm !== "block" || bd?.location?.lat;
+            if (blockValid) {
+              setLaunchMode(lm);
+              if (bd) setBlockModeData(bd);
+              fromUrl = true; // skip the launch modal
+            }
           }
-          // If we restored session data, skip the launch modal
-          if (lm) fromUrl = true;
         }
       } catch {}
     }
@@ -360,6 +370,8 @@ export default function SunPlannerTool() {
   // ── Session persist ───────────────────────────────────────────────────────
   useEffect(() => {
     if (!sessionRestored || launchMode === null) return;
+    // Don't save block mode until a block has actually been confirmed (has location)
+    if (launchMode === "block" && !blockModeData?.location?.lat) return;
     try {
       sessionStorage.setItem("sun-planner", JSON.stringify({
         northBearing, selectedLocation, season, launchMode, blockModeData,
@@ -1048,6 +1060,30 @@ export default function SunPlannerTool() {
               }}>
                 {commentary.headline}
               </span>
+              {/* Expand / collapse toggle */}
+              {stripExpanded ? (
+                <button
+                  onClick={() => setStripExpanded(false)}
+                  style={{
+                    flexShrink: 0, height: 26, padding: "0 8px", borderRadius: 5,
+                    border: "1px solid rgba(255,255,255,0.10)",
+                    background: "none",
+                    color: "rgba(255,255,255,0.38)", fontSize: 11, fontWeight: 400,
+                    cursor: "pointer", whiteSpace: "nowrap",
+                  }}
+                >See less</button>
+              ) : (
+                <button
+                  onClick={() => setStripExpanded(true)}
+                  style={{
+                    flexShrink: 0, height: 26, width: 26, borderRadius: 5,
+                    border: "1px solid rgba(255,255,255,0.10)",
+                    background: "none",
+                    color: "rgba(255,255,255,0.38)", fontSize: 13,
+                    cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                  }}
+                >▾</button>
+              )}
               <button
                 onClick={() => setMobileInfoOpen(true)}
                 style={{
@@ -1059,10 +1095,16 @@ export default function SunPlannerTool() {
                 }}
               >See more</button>
             </div>
-            {/* Detail paragraph — full text */}
+            {/* Detail paragraph — 2-line clamped when collapsed, full when expanded */}
             <div style={{
               color: "rgba(255,255,255,0.48)", fontSize: 11, lineHeight: 1.55,
               paddingLeft: 23,
+              ...(stripExpanded ? {} : {
+                display: "-webkit-box",
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+              }),
             }}>
               {commentary.detail}
             </div>

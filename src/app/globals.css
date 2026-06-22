@@ -44,6 +44,8 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
 }
 
 body {
@@ -61,6 +63,13 @@ input,
 textarea,
 select {
   font: inherit;
+}
+
+/* Prevent iOS Safari auto-zoom on input focus (triggers when font-size < 16px) */
+input,
+textarea,
+select {
+  font-size: max(16px, 1em);
 }
 
 button {
@@ -2033,6 +2042,11 @@ img {
   background: var(--bb-white);
 }
 
+/* Hidden on desktop — shows only inside the ≤767px media query */
+.tab-mobile-only {
+  display: none;
+}
+
 .tab-list {
   display: flex;
   overflow-x: auto;
@@ -2353,6 +2367,117 @@ img {
 
 .photo-lightbox .update-modal-panel:has(.update-modal-detail) .update-modal-media {
   border-radius: var(--bb-radius-lg) 0 0 var(--bb-radius-lg);
+}
+
+/* Photo lightbox - full-screen image carousel */
+.photo-lightbox-panel {
+  position: relative;
+  z-index: 1;
+  background: #000;
+  border-radius: var(--bb-radius-lg);
+  overflow: hidden;
+}
+
+.photo-lightbox-image-area {
+  position: relative;
+  display: block;
+  line-height: 0;
+}
+
+.photo-lightbox-image-area img {
+  display: block;
+  max-width: min(90vw, 1000px);
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.photo-lightbox-overlay-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  padding: 40px 12px 12px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.photo-lightbox-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.photo-lightbox-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px 2px 3px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  font-size: 10px;
+  color: #fff;
+}
+
+.photo-lightbox-tag-thumb {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.photo-lightbox-tag-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.photo-lightbox-overlay-notes {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 12px;
+  margin: 0;
+}
+
+.photo-lightbox-count {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  pointer-events: none;
+}
+
+.photo-lightbox-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  border: none;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.photo-lightbox-close-btn:hover {
+  background: rgba(0, 0, 0, 0.72);
 }
 
 .update-modal-close {
@@ -3075,11 +3200,6 @@ img {
 }
 
 @media (max-width: 560px) {
-  .timeline-summary-grid,
-  .timeline-metrics-row {
-    grid-template-columns: 1fr;
-  }
-
   .timeline-item,
   .timeline-gap-row {
     grid-template-columns: 28px minmax(0, 1fr);
@@ -3091,8 +3211,35 @@ img {
   }
 }
 
+@media (max-width: 767px) {
+  /* ── Summary stat cards: 2×2 grid with smaller text ── */
+  .timeline-summary-card {
+    padding: 10px 12px;
+  }
+
+  .timeline-summary-card strong {
+    font-size: 16px;
+    margin-top: 6px;
+  }
+
+  .timeline-summary-card .timeline-summary-value-small {
+    font-size: 13px;
+  }
+
+  /* ── Photo strip: horizontal scroll ── */
+  .timeline-photo-strip {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .timeline-photo-strip::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .image-grid {
-  columns: 180px;
+  columns: 2;
   column-gap: 6px;
 }
 
@@ -3211,6 +3358,51 @@ img {
 .milestone-count {
   color: var(--bb-stone-400);
   font-size: 10px;
+}
+
+.milestone-category-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.milestone-category-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  border: 1px solid var(--bb-stone-200);
+  background: var(--bb-white);
+  color: var(--bb-stone-600);
+  font-size: 11px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.milestone-category-chip:hover {
+  border-color: var(--bb-stone-400);
+  color: var(--bb-black);
+}
+
+.milestone-category-chip-active {
+  background: var(--bb-black);
+  border-color: var(--bb-black);
+  color: var(--bb-white);
+}
+
+.milestone-category-chip-active:hover {
+  background: var(--bb-stone-700);
+  border-color: var(--bb-stone-700);
+  color: var(--bb-white);
+}
+
+.milestone-category-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
 }
 
 .sidebar-link-row {
@@ -3692,6 +3884,11 @@ img {
 .editor-details-nav-item:hover {
   background: var(--bb-stone-100);
   color: var(--bb-black);
+}
+
+/* Desktop: hide the mobile dropdown */
+.editor-details-dropdown {
+  display: none;
 }
 
 .editor-details-card {
@@ -4376,6 +4573,150 @@ img {
   gap: 10px;
 }
 
+/* Update management tab - tile grid */
+.update-mgmt-tile {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--bb-stone-100);
+}
+
+.update-mgmt-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--bb-transition), opacity var(--bb-transition);
+}
+
+.update-mgmt-tile:hover img {
+  transform: scale(1.02);
+  opacity: 0.78;
+}
+
+.update-mgmt-no-img {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bb-stone-300);
+}
+
+.update-mgmt-tile--selected {
+  outline: 3px solid var(--bb-amber);
+  outline-offset: -3px;
+}
+
+.update-mgmt-check {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.update-mgmt-check input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.update-mgmt-check-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.85);
+  background: rgba(28,25,23,0.35);
+  transition: background var(--bb-transition), border-color var(--bb-transition);
+}
+
+.update-mgmt-check input:checked + .update-mgmt-check-box {
+  background: var(--bb-amber);
+  border-color: var(--bb-amber);
+}
+
+.update-mgmt-check-box::after {
+  content: '';
+  display: none;
+  width: 5px;
+  height: 9px;
+  border: 2px solid #fff;
+  border-top: 0;
+  border-left: 0;
+  transform: rotate(45deg) translate(-1px, -1px);
+}
+
+.update-mgmt-check input:checked + .update-mgmt-check-box::after {
+  display: block;
+}
+
+.update-mgmt-hover-actions {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(28,25,23,0.42);
+  opacity: 0;
+  transition: opacity var(--bb-transition);
+  pointer-events: none;
+}
+
+.update-mgmt-tile:hover .update-mgmt-hover-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.update-mgmt-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: var(--bb-radius-md);
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(255,255,255,0.18);
+  border: 1.5px solid rgba(255,255,255,0.4);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--bb-transition);
+  white-space: nowrap;
+}
+
+.update-mgmt-action-btn:hover {
+  background: rgba(255,255,255,0.32);
+  color: #fff;
+}
+
+.update-mgmt-action-delete:hover {
+  background: rgba(220,38,38,0.75);
+  border-color: transparent;
+}
+
+.bulk-action-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--bb-surface);
+  border: 1px solid var(--bb-border);
+  border-radius: var(--bb-radius-lg);
+  margin-bottom: 8px;
+}
+
+.bulk-action-count {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--bb-text);
+  margin-right: auto;
+}
+
 .management-row {
   display: flex;
   align-items: center;
@@ -4513,6 +4854,9 @@ img {
   display: flex;
   flex-direction: column;
   line-height: 1.35;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .management-image-copy .management-row-title,
@@ -4953,6 +5297,10 @@ img {
   font-size: 13px;
   font-weight: 600;
   line-height: 1.3;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .selection-card-detail {
@@ -4960,6 +5308,17 @@ img {
   color: var(--bb-stone-600);
   font-size: 12px;
   line-height: 1.5;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.management-image-summary[aria-expanded="true"] .selection-card-title,
+.management-image-summary[aria-expanded="true"] .selection-card-detail {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
 }
 
 .selection-card-expanded {
@@ -5764,7 +6123,7 @@ img {
 
 @media (max-width: 767px) {
   .icon-tile-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .new-build-cover-picker {
@@ -5799,7 +6158,7 @@ img {
   }
 
   .selection-sidebar {
-    position: static;
+    display: none;
   }
 
   .dashboard-build-thumb {
@@ -5811,11 +6170,76 @@ img {
   }
 
   .editor-details-sidebar {
-    position: static;
+    display: none;
+  }
+
+  /* Mobile section picker dropdown */
+  .editor-details-dropdown {
+    display: block;
+    position: relative;
+    z-index: 10;
+  }
+
+  .editor-details-dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    padding: 10px 12px;
+    background: var(--bb-white);
+    border: 0.5px solid var(--bb-stone-200);
+    border-radius: var(--bb-radius-lg);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--bb-black);
+    cursor: pointer;
+    text-align: left;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .editor-details-dropdown-icon {
+    display: flex;
+    align-items: center;
+    color: var(--bb-stone-600);
+  }
+
+  .editor-details-dropdown-label {
+    flex: 1;
+    text-align: left;
+  }
+
+  .editor-details-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: var(--bb-white);
+    border: 0.5px solid var(--bb-stone-200);
+    border-radius: var(--bb-radius-lg);
+    padding: 8px;
+    z-index: 20;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    display: grid;
+    gap: 4px;
   }
 
   .editor-details-nav-item {
     justify-content: flex-start;
+  }
+
+  /* Editor topbar: breadcrumb above, actions as a row below */
+  .dashboard-topbar-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 12px 0;
+  }
+
+  .dashboard-topbar-inner .dashboard-actions {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
   }
 
   .editor-cover-content {
@@ -5832,11 +6256,8 @@ img {
     justify-content: center;
   }
 
-  .selection-toolbar,
-  .selection-add-menu,
-  .selection-add-menu > .btn {
+  .selection-toolbar {
     width: 100%;
-    justify-content: center;
   }
 
   .update-photo-grid {
@@ -5878,6 +6299,53 @@ img {
 
   .update-modal-media .square-carousel {
     max-height: 48vh;
+  }
+
+  .photo-lightbox-panel {
+    width: 100vw;
+    height: 100dvh;
+    max-height: none;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+
+  .photo-lightbox-image-area {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .photo-lightbox-image-area img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+  }
+
+  .photo-lightbox-overlay-bar {
+    position: static;
+    background: #111;
+    padding: 10px 14px;
+    padding-bottom: max(10px, env(safe-area-inset-bottom, 10px));
+    pointer-events: auto;
+    flex-shrink: 0;
+  }
+
+  .photo-lightbox-overlay-notes {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .photo-lightbox-close-btn {
+    position: fixed;
+    top: max(16px, env(safe-area-inset-top, 16px));
+    right: 16px;
+    z-index: 200;
   }
 
   .dashboard-actions,
@@ -6001,8 +6469,19 @@ img {
     grid-template-columns: 1fr;
   }
 
+  /* Sidebar hidden on mobile for all tabs except Overview */
   .build-sidebar {
-    order: -1;
+    display: none;
+  }
+
+  /* Show sidebar when Overview tab is active */
+  .build-layout[data-tab="Overview"] .build-sidebar {
+    display: flex;
+  }
+
+  /* Overview tab shows in mobile tab bar for non-planning builds */
+  .tab-mobile-only {
+    display: inline-flex;
   }
 
   .profile-actions {
@@ -7108,13 +7587,21 @@ img {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 56px;
+    /* Height grows to fill safe area; items live in the 56px content zone above it */
+    height: calc(56px + env(safe-area-inset-bottom, 0px));
     padding-bottom: env(safe-area-inset-bottom, 0px);
+    align-items: flex-start;
     background: rgba(255, 255, 255, 0.96);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-top: 1px solid var(--bb-border);
     z-index: 50;
+  }
+
+  /* Each item fills the 56px visible row */
+  .bb-tab-bar-item,
+  .bb-tab-bar-add {
+    height: 56px;
   }
 
   /* Show mobile notification bell */
@@ -7344,16 +7831,32 @@ img {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  /* ── 12. Build profile hero — smaller padding ────────────────── */
+  /* ── 12. Build profile hero — no extra space above image ────── */
 
-  .build-profile-hero {
-    padding-block: 24px 0;
-  }
-
-  /* ── 13. Profile stats — stay horizontal (already works) ─────── */
+  /* ── 13. Profile stats — compact so all 4 fit on one line ───── */
 
   .profile-stats {
-    gap: 8px;
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+
+  .profile-stat-group {
+    gap: 6px;
+  }
+
+  .profile-stat-value {
+    font-size: 13px;
+  }
+
+  .profile-stat-label {
+    font-size: 10px;
+  }
+
+  /* Share btn-icon matches btn-sm height in profile action bar */
+  .build-profile-actions .btn-icon {
+    min-height: 36px;
+    min-width: 36px;
+    padding: 7px;
   }
 
   /* ── 14. Form inputs — larger hit area on mobile ─────────────── */
@@ -7431,10 +7934,10 @@ img {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  /* ── 24. Icon tile grid — 4 icons per row on mobile ──────────── */
+  /* ── 24. Icon tile grid — 2 icons per row on mobile ──────────── */
 
   .icon-tile-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 
   /* ── 25. Lightbox — full-screen stack on mobile ──────────────── */
@@ -7644,7 +8147,14 @@ img {
   color: var(--bb-text);
 }
 
-/* On mobile the quick-add sheet inherits the full-screen modal rules */
+/* On mobile the quick-add sheet overrides its desktop sizing to go full-screen */
+@media (max-width: 767px) {
+  .bb-quick-add-panel {
+    width: 100%;
+    height: 100dvh;
+    max-height: 100dvh;
+  }
+}
 
 /* ── Dashboard build row actions — horizontal on mobile ──────── */
 /* Overrides the global .dashboard-actions flex-direction: column */

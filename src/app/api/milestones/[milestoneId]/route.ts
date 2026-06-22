@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
+function toDbStatus(status: string) {
+  if (status === "active") return "in_progress";
+  if (status === "complete") return "complete";
+  return "pending";
+}
+
 async function getOwnedMilestone(supabase: Awaited<ReturnType<typeof createClient>>, milestoneId: string, userId: string) {
   const { data } = await supabase
     .from("milestones")
@@ -24,18 +30,21 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ mi
   const title = String(body?.title ?? "").trim();
   if (!title) return NextResponse.json({ error: "Title is required." }, { status: 400 });
 
+  const categories = Array.isArray(body?.milestone_categories) ? body.milestone_categories as string[] : [];
+
   const { data, error } = await supabase
     .from("milestones")
     .update({
       title,
-      status: String(body?.status ?? "pending"),
+      status: toDbStatus(String(body?.status ?? "pending")),
       visibility: String(body?.visibility ?? "public"),
       sort_order: Number(body?.sort_order ?? 0),
       start_date: body?.start_date || null,
       end_date: body?.end_date || null,
+      milestone_categories: categories,
     })
     .eq("id", milestoneId)
-    .select("id,title,status,start_date,end_date,visibility,sort_order")
+    .select("id,title,status,start_date,end_date,visibility,sort_order,milestone_categories")
     .single();
 
   if (error || !data) return NextResponse.json({ error: error?.message ?? "Failed to save milestone." }, { status: 400 });

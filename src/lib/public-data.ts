@@ -102,6 +102,7 @@ export type PublicBuildImage = {
   updateId: string | null;
   commentCount: number;
   notes?: string | null;
+  selectionTags?: InspirationTag[];
 };
 
 export type PublicBuildUpdate = {
@@ -150,6 +151,7 @@ export type InspirationTag = {
   colourName: string | null;
   materialType: string | null;
   roomType: string | null;
+  imageUrl?: string | null;
 };
 
 export type InspirationImage = {
@@ -608,7 +610,7 @@ export async function getPublicBuild(username: string, slug: string): Promise<Pu
     { data: planningSavedBuildsData },
   ] = await Promise.all([
     supabase.from("milestones").select("id,title,status,start_date,end_date,sort_order").eq("build_id", card.id).order("sort_order", { ascending: true }),
-    supabase.from("build_images").select("id,storage_path,milestone_id,update_id,selection_id,image_kind,notes").eq("build_id", card.id).order("created_at", { ascending: false }).limit(120),
+    supabase.from("build_images").select("id,storage_path,milestone_id,update_id,selection_id,image_kind,notes").eq("build_id", card.id).not("storage_path", "is", null).order("created_at", { ascending: false }).limit(120),
     supabase.from("build_updates").select("id,content,milestone_id,created_at").eq("build_id", card.id).order("created_at", { ascending: false }).limit(30),
     supabase.from("comments").select("update_id").eq("build_id", card.id).not("update_id", "is", null),
     supabase.from("update_likes").select("update_id"),
@@ -678,6 +680,29 @@ export async function getPublicBuild(username: string, slug: string): Promise<Pu
     if (!like.update_id) continue;
     likeCountsByUpdate.set(like.update_id, (likeCountsByUpdate.get(like.update_id) ?? 0) + 1);
   }
+  const galleryImageIds = galleryImageRows.map((img) => img.id);
+  const galleryTagsByImageId = new Map<string, InspirationTag[]>();
+  if (galleryImageIds.length > 0) {
+    type GalleryTagRow = {
+      image_id: string;
+      selections: { id: string; category: string | null; subcategory: string | null; item_name: string | null; brand: string | null; product_name: string | null; colour_name: string | null; material_type: string | null; image_path: string | null; rooms: { room_type: string | null } | null } | null;
+    };
+    const { data: galleryTagsData } = await supabase
+      .from("image_selection_tags")
+      .select("image_id,selections(id,category,subcategory,item_name,brand,product_name,colour_name,material_type,image_path,rooms(room_type))")
+      .in("image_id", galleryImageIds);
+    const tagRows = (galleryTagsData ?? []) as unknown as GalleryTagRow[];
+    const selectionImagePaths = [...new Set(tagRows.map((t) => t.selections?.image_path).filter(Boolean) as string[])];
+    const selectionImageUrls = selectionImagePaths.length > 0 ? await getSignedImageUrls(selectionImagePaths) : new Map<string, string>();
+    for (const tag of tagRows) {
+      const s = tag.selections;
+      if (!s) continue;
+      const existing = galleryTagsByImageId.get(tag.image_id) ?? [];
+      existing.push({ selectionId: s.id, category: s.category, subcategory: s.subcategory, itemName: s.item_name, brand: s.brand, productName: s.product_name, colourName: s.colour_name, materialType: s.material_type, roomType: s.rooms?.room_type ?? null, imageUrl: s.image_path ? (selectionImageUrls.get(s.image_path) ?? null) : null });
+      galleryTagsByImageId.set(tag.image_id, existing);
+    }
+  }
+
   const commentRows = (commentsData ?? []) as CommentRow[];
   const imageCommentCounts = new Map<string, number>();
   for (const comment of (imageCommentsData ?? []) as { image_id: string | null }[]) {
@@ -767,18 +792,23 @@ export async function getPublicBuild(username: string, slug: string): Promise<Pu
     },
     imageUrl: fallbackImage,
     milestones,
-    images: galleryImageRows.map((image) => {
-      const path = image.storage_path ?? "";
-      return {
-        id: image.id,
-        imageUrl: signedImageUrls.get(path) ?? fallbackImage,
-        milestone: image.milestone_id ? milestoneNames.get(image.milestone_id) ?? "Build" : "Build",
-        milestoneId: image.milestone_id ?? null,
-        updateId: image.update_id ?? null,
-        commentCount: imageCommentCounts.get(image.id) ?? 0,
-        notes: image.notes ?? null,
-      };
-    }),
+    images: galleryImageRows
+      .map((image) => {
+        const path = image.storage_path ?? "";
+        const imageUrl = path ? (signedImageUrls.get(path) ?? null) : null;
+        if (!imageUrl) return null;
+        return {
+          id: image.id,
+          imageUrl,
+          milestone: image.milestone_id ? milestoneNames.get(image.milestone_id) ?? "Build" : "Build",
+          milestoneId: image.milestone_id ?? null,
+          updateId: image.update_id ?? null,
+          commentCount: imageCommentCounts.get(image.id) ?? 0,
+          notes: image.notes ?? null,
+          selectionTags: galleryTagsByImageId.get(image.id) ?? [],
+        };
+      })
+      .filter((img): img is NonNullable<typeof img> => img !== null),
     inspirationImages: inspirationImageRows.map((image) => {
       const path = image.storage_path ?? "";
       return {
@@ -961,6 +991,7 @@ export async function getPaginatedPublicBuilds({
   phases = [] as string[],
   types = [] as string[],
   states = [] as string[],
+  milestoneCategories = [] as string[],
   sort = "recent",
   limit = 24,
 }: {
@@ -969,6 +1000,7 @@ export async function getPaginatedPublicBuilds({
   phases?: string[];
   types?: string[];
   states?: string[];
+  milestoneCategories?: string[];
   sort?: string;
   limit?: number;
 } = {}): Promise<{ builds: PublicBuildCard[]; hasMore: boolean }> {
@@ -977,13 +1009,26 @@ export async function getPaginatedPublicBuilds({
     "id,title,slug,owner_id,cover_image_path,builder_id,builder_name,builder:builders!builder_id(id,name,slug),suburb_name,estate_name,style,home_design_style,state,created_at";
   const styleFilter = [...phases, ...types];
 
+  // When milestone categories are selected, pre-fetch the build IDs that have a matching milestone tag
+  let categoryBuildIds: Set<string> | null = null;
+  if (milestoneCategories.length > 0) {
+    const { data: milestoneRows } = await supabase
+      .from("milestones")
+      .select("build_id")
+      .overlaps("milestone_categories", milestoneCategories);
+    const ids = ((milestoneRows ?? []) as { build_id: string }[]).map((r) => r.build_id);
+    if (ids.length === 0) return { builds: [], hasMore: false };
+    categoryBuildIds = new Set(ids);
+  }
+
   if (sort === "followers" || sort === "updates") {
     let idQ = supabase.from("builds").select("id").eq("is_listed", true).order("created_at", { ascending: false }).limit(500);
     if (search) idQ = idQ.or(`title.ilike.%${search}%,builder_name.ilike.%${search}%,suburb_name.ilike.%${search}%`);
     if (styleFilter.length > 0) idQ = idQ.in("style", styleFilter);
     if (states.length > 0) idQ = idQ.in("state", states);
     const { data: idRows } = await idQ;
-    const ids = ((idRows ?? []) as { id: string }[]).map((r) => r.id);
+    let ids = ((idRows ?? []) as { id: string }[]).map((r) => r.id);
+    if (categoryBuildIds) ids = ids.filter((id) => categoryBuildIds!.has(id));
     if (ids.length === 0) return { builds: [], hasMore: false };
 
     const countTable = sort === "followers" ? "build_follows" : "build_updates";
@@ -1006,6 +1051,7 @@ export async function getPaginatedPublicBuilds({
   if (search) q = q.or(`title.ilike.%${search}%,builder_name.ilike.%${search}%,suburb_name.ilike.%${search}%`);
   if (styleFilter.length > 0) q = q.in("style", styleFilter);
   if (states.length > 0) q = q.in("state", states);
+  if (categoryBuildIds) q = q.in("id", [...categoryBuildIds]);
 
   const { data, error: qError } = await q;
   if (qError) console.error("[getPaginatedPublicBuilds] query error:", qError.message, qError.details);

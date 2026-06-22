@@ -11,11 +11,12 @@ import { MilestonesClient, type EditableMilestone } from "@/app/dashboard/builds
 import { RoomsClient } from "@/app/dashboard/builds/[buildId]/rooms/rooms-client";
 import { SelectionsClient, type EditableRoom, type EditableSelection } from "@/app/dashboard/builds/[buildId]/selections/selections-client";
 import { PlanningClient, type PlanningEditorSave } from "@/app/dashboard/builds/[buildId]/planning/planning-client";
+import { UpdatesManagement, type ManageableUpdate } from "@/app/dashboard/builds/[buildId]/updates/updates-management";
 import { PdfThumbnail } from "@/components/PdfThumbnail";
-import { IconArrowLeft, IconBuildingCommunity, IconCheck, IconChevronDown, IconCircleCheck, IconExternalLink, IconFileText, IconHardHat, IconPhoto, IconPlant, IconRuler, IconSearch, IconX } from "@tabler/icons-react";
+import { IconArrowLeft, IconBuildingCommunity, IconCheck, IconChevronDown, IconCircleCheck, IconExternalLink, IconFileText, IconHardHat, IconPhoto, IconPlant, IconPlus, IconRuler, IconSearch, IconX } from "@tabler/icons-react";
 import type { EditableBuild, PlanningBuilder, PlanningSuburb } from "@/app/dashboard/builds/[buildId]/page";
 
-const ALL_EDITOR_TABS = ["Details", "Planning", "Rooms", "Milestones", "Images", "Inspiration", "Selections", "Visibility"] as const;
+const ALL_EDITOR_TABS = ["Details", "Planning", "Rooms", "Milestones", "Images", "Inspiration", "Selections", "Updates", "Visibility"] as const;
 type EditorTab = (typeof ALL_EDITOR_TABS)[number];
 const DETAIL_SECTIONS = ["Profile", "Key specs", "Size", "Design", "Floorplan", "Window Schedule", "Cabinetry Plan"] as const;
 type DetailSection = (typeof DETAIL_SECTIONS)[number];
@@ -25,6 +26,18 @@ const PLAN_SECTION_TYPES: Partial<Record<DetailSection, string>> = {
   "Window Schedule": "window_schedule",
   "Cabinetry Plan": "cabinetry_plan",
 };
+
+function getSectionIcon(section: DetailSection, size = 15): ReactNode {
+  switch (section) {
+    case "Profile":         return <IconBuildingCommunity size={size} />;
+    case "Key specs":       return <img src="/icons/bedroom.svg" alt="" />;
+    case "Size":            return <IconRuler size={size} />;
+    case "Design":          return <img src="/icons/style.svg" alt="" />;
+    case "Floorplan":       return <img src="/icons/construction.svg" alt="" />;
+    case "Window Schedule": return <IconRuler size={size} />;
+    case "Cabinetry Plan":  return <img src="/icons/kitchen.svg" alt="" />;
+  }
+}
 
 type NavUser = { username: string; display_name?: string; avatar_path?: string };
 
@@ -182,6 +195,7 @@ export function BuildEditorClient({
   initialPlanningSuburbs,
   initialPlanningBuilders,
   initialSavedBuilds,
+  initialUpdates,
   builderOptions,
 }: {
   build: EditableBuild;
@@ -193,10 +207,13 @@ export function BuildEditorClient({
   initialPlanningSuburbs: PlanningSuburb[];
   initialPlanningBuilders: PlanningBuilder[];
   initialSavedBuilds: PlanningEditorSave[];
+  initialUpdates: ManageableUpdate[];
   builderOptions: string[];
 }) {
   const [tab, setTab] = useState<EditorTab>("Details");
   const [detailsSection, setDetailsSection] = useState<DetailSection>("Profile");
+  const [detailsDropdownOpen, setDetailsDropdownOpen] = useState(false);
+  const detailsDropdownRef = useRef<HTMLDivElement | null>(null);
   const [form, setForm] = useState({
     title: build.title,
     builderName: build.builder_name ?? "",
@@ -244,6 +261,17 @@ export function BuildEditorClient({
     };
   }, [coverPreview]);
 
+  useEffect(() => {
+    if (!detailsDropdownOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (detailsDropdownRef.current && !detailsDropdownRef.current.contains(e.target as Node)) {
+        setDetailsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [detailsDropdownOpen]);
+
   const chooseCover = () => coverInputRef.current?.click();
 
   const onCoverChange = (fileList: FileList | null) => {
@@ -271,7 +299,7 @@ export function BuildEditorClient({
   const isPlanningBuild = build.stage === 'planning';
   const visibleEditorTabs: EditorTab[] = isPlanningBuild
     ? ["Details", "Planning", "Inspiration", "Visibility"]
-    : ["Details", "Rooms", "Milestones", "Images", "Inspiration", "Selections", "Visibility"];
+    : ["Details", "Rooms", "Milestones", "Images", "Inspiration", "Selections", "Updates", "Visibility"];
 
   const saveBuild = async (overrides?: Partial<typeof form>) => {
     setSaving(true);
@@ -355,6 +383,36 @@ export function BuildEditorClient({
         {error ? <div className="alert alert-error mb-4">{error}</div> : null}
         {tab === "Details" ? (
           <div className="editor-details-layout">
+            {/* Mobile-only section picker dropdown */}
+            <div className="editor-details-dropdown" ref={detailsDropdownRef}>
+              <button
+                type="button"
+                className="editor-details-dropdown-trigger"
+                onClick={() => setDetailsDropdownOpen((v) => !v)}
+              >
+                <span className="editor-details-dropdown-icon">{getSectionIcon(detailsSection)}</span>
+                <span className="editor-details-dropdown-label">{detailsSection}</span>
+                <IconChevronDown size={14} style={{ transform: detailsDropdownOpen ? "rotate(180deg)" : "none", transition: "transform 0.15s", flexShrink: 0 }} />
+              </button>
+              {detailsDropdownOpen && (
+                <div className="editor-details-dropdown-menu">
+                  <div className="editor-details-sidebar-title">Build details</div>
+                  {DETAIL_SECTIONS.map((section) => (
+                    <button
+                      key={section}
+                      type="button"
+                      className={`editor-details-nav-item${detailsSection === section ? " editor-details-nav-item-active" : ""}`}
+                      onClick={() => { setDetailsSection(section); setDetailsDropdownOpen(false); }}
+                    >
+                      {getSectionIcon(section)}
+                      <span>{section}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Desktop sidebar */}
             <aside className="editor-details-sidebar">
               <div className="editor-details-sidebar-title">Build details</div>
               {DETAIL_SECTIONS.map((section) => (
@@ -364,13 +422,7 @@ export function BuildEditorClient({
                   className={`editor-details-nav-item ${detailsSection === section ? "editor-details-nav-item-active" : ""}`}
                   onClick={() => setDetailsSection(section)}
                 >
-                  {section === "Profile" ? <IconBuildingCommunity size={15} /> : null}
-                  {section === "Key specs" ? <img src="/icons/bedroom.svg" alt="" /> : null}
-                  {section === "Size" ? <IconRuler size={15} /> : null}
-                  {section === "Design" ? <img src="/icons/style.svg" alt="" /> : null}
-                  {section === "Floorplan" ? <img src="/icons/construction.svg" alt="" /> : null}
-                  {section === "Window Schedule" ? <IconRuler size={15} /> : null}
-                  {section === "Cabinetry Plan" ? <img src="/icons/kitchen.svg" alt="" /> : null}
+                  {getSectionIcon(section)}
                   <span>{section}</span>
                 </button>
               ))}
@@ -609,6 +661,21 @@ export function BuildEditorClient({
             imageOptions={initialImages.map((image, index) => ({ id: image.id, imageUrl: image.imageUrl, label: `Build image ${index + 1}` }))}
             showChrome={false}
           />
+        ) : null}
+
+        {tab === "Updates" ? (
+          <>
+            <div className="dashboard-header">
+              <div>
+                <h1 className="dashboard-title">Updates</h1>
+                <p className="dashboard-subtitle">{build.title}</p>
+              </div>
+              <Link href={`/dashboard/builds/${build.id}/updates/new`} className="btn btn-primary">
+                <IconPlus size={14} /> New update
+              </Link>
+            </div>
+            <UpdatesManagement updates={initialUpdates} buildId={build.id} />
+          </>
         ) : null}
 
         {tab === "Visibility" ? (

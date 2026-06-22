@@ -10,6 +10,7 @@ export async function GET(req: NextRequest) {
       phases: p.get("phases")?.split(",").filter(Boolean) ?? [],
       types: p.get("types")?.split(",").filter(Boolean) ?? [],
       states: p.get("states")?.split(",").filter(Boolean) ?? [],
+      milestoneCategories: p.get("milestoneCategories")?.split(",").filter(Boolean) ?? [],
       sort: p.get("sort") ?? "recent",
     });
     return NextResponse.json(result);

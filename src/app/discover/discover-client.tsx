@@ -18,6 +18,7 @@ import {
   IconX,
 } from "@tabler/icons-react";
 import type { InspirationImage, PublicBuildCard } from "@/lib/public-data";
+import { MILESTONE_CATEGORIES } from "@/lib/milestone-categories";
 
 type DiscoverMode = "builds" | "inspiration";
 
@@ -129,6 +130,7 @@ export function DiscoverClient({
 const PHASE_OPTIONS = PHASES.filter((p) => p !== "All").map((p) => ({ id: p, label: p }));
 const TYPE_OPTIONS = TYPES.filter((t) => t !== "All").map((t) => ({ id: t, label: t }));
 const STATE_OPTIONS = ["ACT", "NSW", "NT", "QLD", "SA", "TAS", "VIC", "WA"].map((s) => ({ id: s, label: s }));
+const STAGE_OPTIONS = MILESTONE_CATEGORIES.map((c) => ({ id: c, label: c }));
 
 function BuildsPane({ initialBuilds, initialHasMore }: { initialBuilds: PublicBuildCard[]; initialHasMore: boolean }) {
   const [items, setItems] = useState<PublicBuildCard[]>(initialBuilds);
@@ -140,6 +142,7 @@ function BuildsPane({ initialBuilds, initialHasMore }: { initialBuilds: PublicBu
   const [selectedPhases, setSelectedPhases] = useState<string[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [selectedStates, setSelectedStates] = useState<string[]>([]);
+  const [selectedStages, setSelectedStages] = useState<string[]>([]);
   const [sort, setSort] = useState("recent");
   const [filterModalOpen, setFilterModalOpen] = useState(false);
   const sentinelRef = useRef<HTMLDivElement>(null);
@@ -157,6 +160,7 @@ function BuildsPane({ initialBuilds, initialHasMore }: { initialBuilds: PublicBu
       if (selectedPhases.length) params.set("phases", selectedPhases.join(","));
       if (selectedTypes.length) params.set("types", selectedTypes.join(","));
       if (selectedStates.length) params.set("states", selectedStates.join(","));
+      if (selectedStages.length) params.set("milestoneCategories", selectedStages.join(","));
       const res = await fetch(`/api/discover/builds?${params}`);
       const data = await res.json() as { builds: PublicBuildCard[]; hasMore: boolean };
       const newItems = data.builds ?? [];
@@ -171,7 +175,7 @@ function BuildsPane({ initialBuilds, initialHasMore }: { initialBuilds: PublicBu
     } finally {
       setLoading(false);
     }
-  }, [debouncedSearch, selectedPhases, selectedTypes, selectedStates, sort]);
+  }, [debouncedSearch, selectedPhases, selectedTypes, selectedStates, selectedStages, sort]);
 
   useEffect(() => {
     if (!initialized.current) { initialized.current = true; return; }
@@ -188,9 +192,9 @@ function BuildsPane({ initialBuilds, initialHasMore }: { initialBuilds: PublicBu
     return () => obs.disconnect();
   }, []);
 
-  const clearFilters = () => { setSearch(""); setSelectedPhases([]); setSelectedTypes([]); setSelectedStates([]); };
-  const hasFilters = search || selectedPhases.length > 0 || selectedTypes.length > 0 || selectedStates.length > 0;
-  const filterCount = (search ? 1 : 0) + selectedPhases.length + selectedTypes.length + selectedStates.length;
+  const clearFilters = () => { setSearch(""); setSelectedPhases([]); setSelectedTypes([]); setSelectedStates([]); setSelectedStages([]); };
+  const hasFilters = search || selectedPhases.length > 0 || selectedTypes.length > 0 || selectedStates.length > 0 || selectedStages.length > 0;
+  const filterCount = (search ? 1 : 0) + selectedPhases.length + selectedTypes.length + selectedStates.length + selectedStages.length;
 
   return (
     <main className="page-container content-section">
@@ -214,6 +218,7 @@ function BuildsPane({ initialBuilds, initialHasMore }: { initialBuilds: PublicBu
             <MultiSelectFilter label="State" allLabel="All states" options={STATE_OPTIONS} selectedIds={selectedStates} onChange={setSelectedStates} />
             <MultiSelectFilter label="Phase" allLabel="All phases" options={PHASE_OPTIONS} selectedIds={selectedPhases} onChange={setSelectedPhases} />
             <MultiSelectFilter label="Build type" allLabel="All types" options={TYPE_OPTIONS} selectedIds={selectedTypes} onChange={setSelectedTypes} />
+            <MultiSelectFilter label="Build stage" allLabel="All stages" options={STAGE_OPTIONS} selectedIds={selectedStages} onChange={setSelectedStages} />
           </div>
         </aside>
 
@@ -308,6 +313,7 @@ function BuildsPane({ initialBuilds, initialHasMore }: { initialBuilds: PublicBu
                 <MultiSelectFilter label="State" allLabel="All states" options={STATE_OPTIONS} selectedIds={selectedStates} onChange={setSelectedStates} />
                 <MultiSelectFilter label="Phase" allLabel="All phases" options={PHASE_OPTIONS} selectedIds={selectedPhases} onChange={setSelectedPhases} />
                 <MultiSelectFilter label="Build type" allLabel="All types" options={TYPE_OPTIONS} selectedIds={selectedTypes} onChange={setSelectedTypes} />
+                <MultiSelectFilter label="Build stage" allLabel="All stages" options={STAGE_OPTIONS} selectedIds={selectedStages} onChange={setSelectedStages} />
               </div>
             </div>
             <div className="bb-modal-footer">

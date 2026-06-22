@@ -4,6 +4,7 @@ import type { LibraryImage } from "@/app/dashboard/builds/[buildId]/images/image
 import type { EditableMilestone } from "@/app/dashboard/builds/[buildId]/milestones/milestones-client";
 import type { EditableRoom, EditableSelection } from "@/app/dashboard/builds/[buildId]/selections/selections-client";
 import type { PlanningEditorSave } from "@/app/dashboard/builds/[buildId]/planning/planning-client";
+import type { ManageableUpdate } from "@/app/dashboard/builds/[buildId]/updates/updates-management";
 
 export type PlanningSuburb = { id: string; build_id: string; suburb_name: string; notes: string | null; sort_order: number; created_at: string };
 export type PlanningBuilder = { id: string; build_id: string; builder_name: string; website: string | null; notes: string | null; sort_order: number; created_at: string };
@@ -96,11 +97,11 @@ export default async function BuildEditorPage({
 
   if (!build) redirect("/dashboard/builds");
 
-  const [imageData, { data: milestoneData }, { data: selectionData }, { data: roomData }, { data: planningSuburbData }, { data: planningBuilderData }] = await Promise.all([
+  const [imageData, { data: milestoneData }, { data: selectionData }, { data: roomData }, { data: planningSuburbData }, { data: planningBuilderData }, { data: updateData }] = await Promise.all([
     getBuildImages(supabase, build.id),
     supabase
       .from("milestones")
-      .select("id,title,status,start_date,end_date,visibility,sort_order")
+      .select("id,title,status,start_date,end_date,visibility,sort_order,milestone_categories")
       .eq("build_id", build.id)
       .order("sort_order"),
     supabase
@@ -123,6 +124,11 @@ export default async function BuildEditorPage({
       .select("id,build_id,builder_name,website,notes,sort_order,created_at")
       .eq("build_id", build.id)
       .order("sort_order"),
+    supabase
+      .from("build_updates")
+      .select("id,content,milestone_id,created_at")
+      .eq("build_id", build.id)
+      .order("created_at", { ascending: false }),
   ]);
   const builderOptions = await getBuilderOptions();
 
@@ -180,6 +186,29 @@ export default async function BuildEditorPage({
       });
     }
   });
+  const updateImagePaths = new Map<string, string[]>();
+  for (const img of images) {
+    if (img.update_id && img.storage_path) {
+      const existing = updateImagePaths.get(img.update_id) ?? [];
+      existing.push(img.storage_path);
+      updateImagePaths.set(img.update_id, existing);
+    }
+  }
+  const milestoneNameMap = new Map((milestoneData ?? []).map((m) => [m.id, m.title as string]));
+  const initialUpdates: ManageableUpdate[] = (updateData ?? []).map((u) => {
+    const paths = updateImagePaths.get(u.id) ?? [];
+    const imageUrls = paths.map((p) => signedUrls.get(p) ?? null).filter(Boolean) as string[];
+    return {
+      id: u.id,
+      content: u.content as string | null,
+      milestoneName: u.milestone_id ? (milestoneNameMap.get(u.milestone_id) ?? null) : null,
+      createdAt: u.created_at as string,
+      imageCount: paths.length,
+      imageUrl: imageUrls[0] ?? null,
+      imageUrls,
+    };
+  });
+
   const userContext = {
     username: profile.username,
     display_name: profile.display_name ?? undefined,
@@ -208,6 +237,7 @@ export default async function BuildEditorPage({
       initialPlanningSuburbs={(planningSuburbData ?? []) as PlanningSuburb[]}
       initialPlanningBuilders={(planningBuilderData ?? []) as PlanningBuilder[]}
       initialSavedBuilds={initialSavedBuilds}
+      initialUpdates={initialUpdates}
     />
   );
 }

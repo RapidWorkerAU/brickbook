@@ -5,7 +5,7 @@ import Nav from "@/components/Nav";
 import { LoadingButton, ConfirmDeleteButton } from "@/components/action-buttons";
 import { PaginationControls } from "@/components/PaginationControls";
 import { MultiSelectFilter } from "@/components/MultiSelectFilter";
-import { IconChevronDown, IconPhoto, IconPlus, IconX } from "@tabler/icons-react";
+import { IconChevronDown, IconFilter, IconPhoto, IconPlus, IconX } from "@tabler/icons-react";
 import type { DashboardUser, ManagedBuild } from "@/app/dashboard/builds/[buildId]/management-data";
 
 export type BuildSelection = {
@@ -101,6 +101,10 @@ export function ImagesClient({
   const [selectedVisibilityIds, setSelectedVisibilityIds] = useState<string[]>([]);
   const [columnCount, setColumnCount] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
+  const [filterOpen, setFilterOpen] = useState(false);
+
+  const activeFilterCount = selectedRoomIds.length + selectedMilestoneIds.length + selectedVisibilityIds.length;
+  const clearFilters = () => { setSelectedRoomIds([]); setSelectedMilestoneIds([]); setSelectedVisibilityIds([]); };
   const milestoneNames = new Map(milestones.map((milestone) => [milestone.id, milestone.title]));
   const roomNames = new Map(rooms.map((room) => [room.id, room.name]));
   const visibleImages = useMemo(
@@ -181,10 +185,10 @@ export function ImagesClient({
 
   useEffect(() => {
     const updateColumnCount = () => {
-      if (window.innerWidth < 560) setColumnCount(1);
-      else if (window.innerWidth < 820) setColumnCount(2);
-      else if (window.innerWidth < 1040) setColumnCount(3);
-      else if (window.innerWidth < 1280) setColumnCount(4);
+      const w = window.innerWidth;
+      if (w <= 767) setColumnCount(2);
+      else if (w < 1040) setColumnCount(3);
+      else if (w < 1280) setColumnCount(4);
       else setColumnCount(5);
     };
 
@@ -334,7 +338,38 @@ export function ImagesClient({
           />
         ) : null}
         {visibleImages.length ? (
-          <div className="selection-workspace">
+          <>
+            {/* Mobile filter button — hidden on desktop */}
+            <div className="mobile-filter-bar">
+              <button type="button" className="mobile-filter-btn" onClick={() => setFilterOpen(true)}>
+                <IconFilter size={14} /> Filters
+                {activeFilterCount > 0 && <span className="mobile-filter-count">{activeFilterCount}</span>}
+              </button>
+            </div>
+
+            {filterOpen && (
+              <div className="bb-modal bb-filter-modal" role="dialog" aria-modal="true" aria-label="Filters">
+                <div className="bb-modal-panel">
+                  <div className="bb-modal-header">
+                    <h2 className="bb-modal-title">Filters</h2>
+                    <button type="button" className="btn-icon" aria-label="Close" onClick={() => setFilterOpen(false)}><IconX size={16} /></button>
+                  </div>
+                  <div className="bb-modal-body">
+                    <div className="selection-side-section">
+                      <MultiSelectFilter label="Rooms" allLabel="All rooms" options={roomFilterOptions} selectedIds={selectedRoomIds} onChange={(ids) => { setSelectedRoomIds(ids); setCurrentPage(1); }} />
+                      {mode === "library" && <MultiSelectFilter label="Milestones" allLabel="All milestones" options={milestoneFilterOptions} selectedIds={selectedMilestoneIds} onChange={(ids) => { setSelectedMilestoneIds(ids); setCurrentPage(1); }} />}
+                      <MultiSelectFilter label="Visibility" allLabel="All visibility" options={visibilityFilterOptions} selectedIds={selectedVisibilityIds} onChange={(ids) => { setSelectedVisibilityIds(ids); setCurrentPage(1); }} />
+                    </div>
+                  </div>
+                  <div className="bb-modal-footer">
+                    {activeFilterCount > 0 && <button type="button" className="btn btn-secondary" onClick={clearFilters}>Clear filters</button>}
+                    <button type="button" className="btn btn-primary" onClick={() => setFilterOpen(false)}>Apply</button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div className="selection-workspace">
             <aside className="selection-sidebar">
               <div className="selection-side-section">
                 <MultiSelectFilter
@@ -415,7 +450,8 @@ export function ImagesClient({
               </div>
             )}
             </div>
-          </div>
+            </div>
+          </>
         ) : (
           <div className="empty-state">
             <IconPhoto size={32} />

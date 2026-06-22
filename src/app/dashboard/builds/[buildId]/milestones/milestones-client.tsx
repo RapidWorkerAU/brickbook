@@ -6,6 +6,7 @@ import { ConfirmDeleteButton, LoadingButton } from "@/components/action-buttons"
 import { PaginationControls, pageItems } from "@/components/PaginationControls";
 import { IconCheck, IconChevronDown, IconPlus, IconSearch, IconX } from "@tabler/icons-react";
 import type { DashboardUser, ManagedBuild } from "@/app/dashboard/builds/[buildId]/management-data";
+import { MILESTONE_CATEGORIES } from "@/lib/milestone-categories";
 
 export type EditableMilestone = {
   id: string;
@@ -15,6 +16,7 @@ export type EditableMilestone = {
   end_date: string | null;
   visibility: string | null;
   sort_order: number | null;
+  milestone_categories: string[] | null;
 };
 
 const STATUS_OPTIONS = [
@@ -29,7 +31,7 @@ const VISIBILITY_OPTIONS = [
   { value: "private", label: "Private" },
 ];
 
-const BLANK: EditableMilestone = { id: "", title: "", status: "pending", start_date: "", end_date: "", visibility: "public", sort_order: 0 };
+const BLANK: EditableMilestone = { id: "", title: "", status: "pending", start_date: "", end_date: "", visibility: "public", sort_order: 0, milestone_categories: [] };
 const TILE_PAGE_SIZE = 18;
 
 function statusIcon(status: string | null | undefined) {
@@ -87,14 +89,14 @@ export function MilestonesClient({
     const nextOrder = milestones.reduce((max, m) => Math.max(max, Number(m.sort_order ?? 0)), -1) + 1;
     setDraft({ ...BLANK, sort_order: nextOrder });
   };
-  const openEdit = (m: EditableMilestone) => setDraft({ ...m, status: m.status || "pending", visibility: m.visibility || "public", start_date: m.start_date || "", end_date: m.end_date || "" });
+  const openEdit = (m: EditableMilestone) => setDraft({ ...m, status: m.status || "pending", visibility: m.visibility || "public", start_date: m.start_date || "", end_date: m.end_date || "", milestone_categories: m.milestone_categories ?? [] });
   const closeModal = () => { if (!savingId) setDraft(null); };
 
   const save = async () => {
     if (!draft?.title.trim()) return;
     const key = draft.id || "new";
     setSavingId(key); setError("");
-    const body = { build_id: build.id, title: draft.title.trim(), status: draft.status || "pending", visibility: draft.visibility || "public", sort_order: Number(draft.sort_order ?? milestones.length), start_date: draft.start_date || null, end_date: draft.end_date || null };
+    const body = { build_id: build.id, title: draft.title.trim(), status: draft.status || "pending", visibility: draft.visibility || "public", sort_order: Number(draft.sort_order ?? milestones.length), start_date: draft.start_date || null, end_date: draft.end_date || null, milestone_categories: draft.milestone_categories ?? [] };
     const response = await fetch(draft.id ? `/api/milestones/${draft.id}` : "/api/milestones", { method: draft.id ? "PATCH" : "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
     const payload = await response.json().catch(() => null);
     setSavingId(null);
@@ -262,6 +264,13 @@ function MilestoneTile({ milestone, expanded, onToggle, onEdit, onDelete }: { mi
                 <strong>{item.value}</strong>
               </div>
             ))}
+            {(milestone.milestone_categories ?? []).length > 0 && (
+              <div className="milestone-category-tags">
+                {(milestone.milestone_categories ?? []).map((cat) => (
+                  <span key={cat} className="badge badge-phase">{cat}</span>
+                ))}
+              </div>
+            )}
             <div className="dashboard-actions justify-end">
               <button className="btn btn-secondary btn-sm" type="button" onClick={onEdit}>Edit</button>
               <ConfirmDeleteButton iconOnly onConfirm={onDelete} />
@@ -275,6 +284,15 @@ function MilestoneTile({ milestone, expanded, onToggle, onEdit, onDelete }: { mi
 
 function MilestoneModal({ milestone, saving, onChange, onClose, onSave }: { milestone: EditableMilestone; saving: boolean; onChange: (m: EditableMilestone) => void; onClose: () => void; onSave: () => void }) {
   const set = (key: keyof EditableMilestone, value: string) => onChange({ ...milestone, [key]: value });
+  const selectedCategories = milestone.milestone_categories ?? [];
+
+  const toggleCategory = (cat: string) => {
+    const next = selectedCategories.includes(cat)
+      ? selectedCategories.filter((c) => c !== cat)
+      : [...selectedCategories, cat];
+    onChange({ ...milestone, milestone_categories: next });
+  };
+
   return (
     <div className="bb-modal" role="dialog" aria-modal="true" aria-labelledby="milestone-modal-title">
       <button className="bb-modal-backdrop" type="button" aria-label="Close" onClick={onClose} />
@@ -311,6 +329,26 @@ function MilestoneModal({ milestone, saving, onChange, onClose, onSave }: { mile
             <div className="form-group">
               <label className="form-label">End date</label>
               <input className="form-input" type="date" value={milestone.end_date ?? ""} onChange={(e) => set("end_date", e.target.value)} />
+            </div>
+          </div>
+          <div className="form-group">
+            <label className="form-label">Stage tags</label>
+            <p className="form-hint">Tag this milestone with the stages it covers. Others can filter the discover page to find builds at similar stages.</p>
+            <div className="milestone-category-picker">
+              {MILESTONE_CATEGORIES.map((cat) => {
+                const active = selectedCategories.includes(cat);
+                return (
+                  <button
+                    key={cat}
+                    type="button"
+                    className={`milestone-category-chip${active ? " milestone-category-chip-active" : ""}`}
+                    onClick={() => toggleCategory(cat)}
+                  >
+                    {active && <IconCheck size={11} />}
+                    {cat}
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>

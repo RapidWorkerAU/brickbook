@@ -5,7 +5,7 @@ import Nav from "@/components/Nav";
 import { ConfirmDeleteButton, LoadingButton } from "@/components/action-buttons";
 import { PaginationControls, pageItems } from "@/components/PaginationControls";
 import { SearchableSelect } from "@/components/SearchableSelect";
-import { IconCheck, IconChevronDown, IconPlus, IconSearch, IconX } from "@tabler/icons-react";
+import { IconCheck, IconChevronDown, IconFilter, IconPlus, IconSearch, IconX } from "@tabler/icons-react";
 import type { DashboardUser, ManagedBuild } from "@/app/dashboard/builds/[buildId]/management-data";
 import type { EditableRoom } from "@/app/dashboard/builds/[buildId]/selections/selections-client";
 
@@ -113,6 +113,10 @@ export function RoomsClient({
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [filterOpen, setFilterOpen] = useState(false);
+
+  const activeFilterCount = selectedTypes.length + selectedLevels.length;
+  const clearFilters = () => { setSelectedTypes([]); setSelectedLevels([]); };
 
   const openAdd = () => { setDraft(BLANK); setModalOpen(true); };
   const openEdit = (room: EditableRoom) => {
@@ -187,7 +191,37 @@ export function RoomsClient({
       {error ? <div className="alert alert-error mb-4">{error}</div> : null}
 
       {rooms.length > 0 ? (
-        <div className="selection-workspace">
+        <>
+          {/* Mobile filter button — hidden on desktop */}
+          <div className="mobile-filter-bar">
+            <button type="button" className="mobile-filter-btn" onClick={() => setFilterOpen(true)}>
+              <IconFilter size={14} /> Filters
+              {activeFilterCount > 0 && <span className="mobile-filter-count">{activeFilterCount}</span>}
+            </button>
+          </div>
+
+          {filterOpen && (
+            <div className="bb-modal bb-filter-modal" role="dialog" aria-modal="true" aria-label="Filters">
+              <div className="bb-modal-panel">
+                <div className="bb-modal-header">
+                  <h2 className="bb-modal-title">Filters</h2>
+                  <button type="button" className="btn-icon" aria-label="Close" onClick={() => setFilterOpen(false)}><IconX size={16} /></button>
+                </div>
+                <div className="bb-modal-body">
+                  <div className="selection-side-section">
+                    <MultiSelectFilter label="Room type" allLabel="All types" options={typeOptions} selectedIds={selectedTypes} onChange={setSelectedTypes} />
+                    <MultiSelectFilter label="Level" allLabel="All levels" options={levelOptions} selectedIds={selectedLevels} onChange={setSelectedLevels} />
+                  </div>
+                </div>
+                <div className="bb-modal-footer">
+                  {activeFilterCount > 0 && <button type="button" className="btn btn-secondary" onClick={clearFilters}>Clear filters</button>}
+                  <button type="button" className="btn btn-primary" onClick={() => setFilterOpen(false)}>Apply</button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="selection-workspace">
           <aside className="selection-sidebar">
             <div className="selection-side-section">
               <MultiSelectFilter label="Room type" allLabel="All types" options={typeOptions} selectedIds={selectedTypes} onChange={setSelectedTypes} />
@@ -224,7 +258,8 @@ export function RoomsClient({
               </div>
             )}
           </div>
-        </div>
+          </div>
+        </>
       ) : (
         <div className="empty-state">
           {/* eslint-disable-next-line @next/next/no-img-element */}
