@@ -651,7 +651,7 @@ export async function getPublicBuild(username: string, slug: string): Promise<Pu
   const imageRows = (imagesData ?? []) as ImageRow[];
   const selectionImageRows = imageRows.filter((image) => image.selection_id);
   const inspirationImageRows = imageRows.filter((image) => image.image_kind === "inspiration");
-  const galleryImageRows = imageRows.filter((image) => !image.selection_id && image.image_kind !== "inspiration");
+  const galleryImageRows = imageRows.filter((image) => !image.selection_id && image.image_kind !== "inspiration" && image.image_kind !== "plan");
   const selectionRows = (selectionsData ?? []) as SelectionRow[];
   const imagePaths = [
     ...imageRows.map((image) => image.storage_path).filter(Boolean),

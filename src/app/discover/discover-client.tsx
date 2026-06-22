@@ -552,6 +552,7 @@ function InspirationLightbox({ images, index, onClose, onNavigate }: {
   const image = images[index];
   const hasPrev = index > 0;
   const hasNext = index < images.length - 1;
+  const touchStartX = useRef<number | null>(null);
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -574,7 +575,19 @@ function InspirationLightbox({ images, index, onClose, onNavigate }: {
     <div className="lightbox" role="dialog" aria-modal="true">
       <button className="lightbox-backdrop" type="button" aria-label="Close" onClick={onClose} />
       <div className="lightbox-inner">
-        <div className="lightbox-image-pane">
+        <div
+          className="lightbox-image-pane"
+          onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX }}
+          onTouchEnd={(e) => {
+            if (touchStartX.current === null) return;
+            const dx = e.changedTouches[0].clientX - touchStartX.current;
+            if (Math.abs(dx) > 40) {
+              if (dx < 0 && hasNext) onNavigate(index + 1);
+              if (dx > 0 && hasPrev) onNavigate(index - 1);
+            }
+            touchStartX.current = null;
+          }}
+        >
           <img src={image.imageUrl!} alt={image.buildTitle} />
           {hasPrev && <button type="button" className="lightbox-nav lightbox-nav-prev" onClick={() => onNavigate(index - 1)} aria-label="Previous image"><IconArrowLeft size={18} /></button>}
           {hasNext && <button type="button" className="lightbox-nav lightbox-nav-next" onClick={() => onNavigate(index + 1)} aria-label="Next image"><IconArrowRight size={18} /></button>}

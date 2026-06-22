@@ -72,6 +72,7 @@ type Update = {
 function SquareImageCarousel({ images, fallbackAlt, initialIndex = 0 }: { images: string[]; fallbackAlt: string; initialIndex?: number }) {
   const [index, setIndex] = useState(Math.max(0, Math.min(initialIndex, images.length - 1)))
   const current = images[index] ?? null
+  const touchStartX = useRef<number | null>(null)
 
   const move = (direction: -1 | 1) => {
     setIndex((currentIndex) => {
@@ -81,7 +82,16 @@ function SquareImageCarousel({ images, fallbackAlt, initialIndex = 0 }: { images
   }
 
   return (
-    <div className="square-carousel">
+    <div
+      className="square-carousel"
+      onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX }}
+      onTouchEnd={(e) => {
+        if (touchStartX.current === null || images.length <= 1) return
+        const dx = e.changedTouches[0].clientX - touchStartX.current
+        if (Math.abs(dx) > 40) move(dx < 0 ? 1 : -1)
+        touchStartX.current = null
+      }}
+    >
       {current ? (
         // Signed Supabase URLs are rendered directly until remote image patterns are finalized.
         // eslint-disable-next-line @next/next/no-img-element
@@ -2191,7 +2201,7 @@ type BuildProfileClientProps = {
 export function BuildProfileClient({ build, username, viewerPlanningBuilds = [] }: BuildProfileClientProps) {
   const router = useRouter()
   const isPlanning = build.stage === 'planning'
-  const [activeTab, setActiveTab] = useState<Tab>(isPlanning ? 'Overview' : 'Updates')
+  const [activeTab, setActiveTab] = useState<Tab>('Overview')
   const [following, setFollowing] = useState(build.isFollowing)
   const [followerCount, setFollowerCount] = useState(build.followers)
   const [comment, setComment] = useState('')

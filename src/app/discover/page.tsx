@@ -1,6 +1,8 @@
 import { DiscoverClient } from "@/app/discover/discover-client";
 import { getPaginatedPublicBuilds, getPaginatedInspirationImages, getInspirationFilterMeta } from "@/lib/public-data";
 
+export const dynamic = 'force-dynamic';
+
 export default async function DiscoverPage() {
   const [buildsResult, inspoResult, inspoMeta] = await Promise.all([
     getPaginatedPublicBuilds({ offset: 0, limit: 24 }),
