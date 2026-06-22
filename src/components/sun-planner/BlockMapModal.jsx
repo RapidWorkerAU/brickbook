@@ -126,7 +126,11 @@ function LocationStep({ onSelect, onCancel }) {
     if (!isOpen) return;
     const h = (e) => { if (!wrapRef.current?.contains(e.target)) setIsOpen(false); };
     document.addEventListener("mousedown", h);
-    return () => document.removeEventListener("mousedown", h);
+    document.addEventListener("touchstart", h);
+    return () => {
+      document.removeEventListener("mousedown", h);
+      document.removeEventListener("touchstart", h);
+    };
   }, [isOpen]);
 
   const handlePick = useCallback(async (p) => {
@@ -221,7 +225,7 @@ function LocationStep({ onSelect, onCancel }) {
             disabled={resolving}
             style={{
               flex: 1, background: "transparent", border: "none", outline: "none",
-              color: "#ffffff", fontSize: 14, caretColor: "#5b7fff",
+              color: "#ffffff", fontSize: 16, caretColor: "#5b7fff",
             }}
           />
           {query && (
@@ -244,6 +248,7 @@ function LocationStep({ onSelect, onCancel }) {
               <button
                 key={p.place_id}
                 onMouseDown={(e) => { e.preventDefault(); handlePick(p); }}
+                onTouchStart={(e) => { e.preventDefault(); handlePick(p); }}
                 style={{
                   width: "100%", display: "flex", alignItems: "flex-start",
                   gap: 10, padding: "11px 14px",

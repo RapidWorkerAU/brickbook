@@ -116,33 +116,6 @@ export default function PlanCanvas({
     [scale, position, onScaleChange, onPositionChange]
   );
 
-  // Middle-mouse-button drag
-  const isMmbDragging = useRef(false);
-  const lastPos       = useRef({ x: 0, y: 0 });
-
-  const handleMouseDown = useCallback((e) => {
-    if (e.evt.button === 1) {
-      e.evt.preventDefault();
-      isMmbDragging.current = true;
-      lastPos.current = { x: e.evt.clientX, y: e.evt.clientY };
-    }
-  }, []);
-
-  const handleMouseMove = useCallback((e) => {
-    if (!isMmbDragging.current) return;
-    const dx = e.evt.clientX - lastPos.current.x;
-    const dy = e.evt.clientY - lastPos.current.y;
-    lastPos.current = { x: e.evt.clientX, y: e.evt.clientY };
-    onPositionChange((prev) => ({ x: prev.x + dx, y: prev.y + dy }));
-  }, [onPositionChange]);
-
-  const handleMouseUp = useCallback((e) => {
-    if (e.evt.button === 1) isMmbDragging.current = false;
-  }, []);
-
-  const handleDragMove = useCallback((e) => {
-    onPositionChange({ x: e.target.x(), y: e.target.y() });
-  }, [onPositionChange]);
 
   if (!size.width) return <div ref={containerRef} style={{ width: "100%", height: "100%" }} />;
 
@@ -163,13 +136,7 @@ export default function PlanCanvas({
         scaleY={scale}
         x={position.x}
         y={position.y}
-        draggable
         onWheel={handleWheel}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onDragMove={handleDragMove}
-        onDragEnd={(e) => { onPositionChange({ x: e.target.x(), y: e.target.y() }); }}
       >
         {/* Plan layer */}
         <Layer>

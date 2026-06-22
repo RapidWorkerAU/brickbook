@@ -14,7 +14,7 @@ export default function NorthArrow({ x, y, bearing, onChange }) {
 
   const handleMouseDown = useCallback(
     (e) => {
-      if (e.evt.button !== 0) return;
+      if (e.evt.button !== 0 || !onChange) return;
       e.evt.preventDefault();
       e.cancelBubble = true; // don't let Stage start a pan drag
 
@@ -47,6 +47,41 @@ export default function NorthArrow({ x, y, bearing, onChange }) {
     [x, y, onChange]
   );
 
+  const handleTouchStart = useCallback(
+    (e) => {
+      if (!onChange) return;
+      e.evt.preventDefault();
+      e.cancelBubble = true;
+      const touch = e.evt.touches[0];
+      if (!touch) return;
+
+      const stage = e.target.getStage();
+      const rect  = stage.container().getBoundingClientRect();
+      const cx    = rect.left + x;
+      const cy    = rect.top  + y;
+
+      const updateBearing = (clientX, clientY) => {
+        const dx  = clientX - cx;
+        const dy  = clientY - cy;
+        const deg = Math.atan2(dx, -dy) * (180 / Math.PI);
+        onChange(normDeg(deg));
+      };
+
+      const onMove = (ev) => {
+        const t = ev.touches[0];
+        if (t) updateBearing(t.clientX, t.clientY);
+      };
+      const onEnd = () => {
+        window.removeEventListener("touchmove", onMove);
+        window.removeEventListener("touchend",  onEnd);
+      };
+
+      window.addEventListener("touchmove", onMove, { passive: false });
+      window.addEventListener("touchend",  onEnd);
+    },
+    [x, y, onChange]
+  );
+
   const setCursorGrab = useCallback((e) => {
     e.target.getStage().container().style.cursor = "grab";
   }, []);
@@ -64,6 +99,7 @@ export default function NorthArrow({ x, y, bearing, onChange }) {
         stroke="rgba(255,255,255,0.18)"
         strokeWidth={1}
         onMouseDown={handleMouseDown}
+        onTouchStart={handleTouchStart}
         onMouseEnter={setCursorGrab}
         onMouseLeave={clearCursor}
       />

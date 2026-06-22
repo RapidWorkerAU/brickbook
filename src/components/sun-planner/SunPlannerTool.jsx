@@ -1253,19 +1253,31 @@ export default function SunPlannerTool() {
               </div>
             )}
 
-            {/* North bearing — show nudge controls if not locked */}
-            <div style={{ padding: "12px 20px", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", gap: 12 }}>
-              <div style={{ flex: 1 }}>
-                <div style={{ color: "rgba(255,255,255,0.35)", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 2 }}>North Bearing</div>
-                <div style={{ color: "#fff", fontSize: 20, fontFamily: "'SF Mono','Fira Code',monospace", fontWeight: 600 }}>{formatBearing(northBearing)}</div>
-              </div>
-              {northLocked ? (
-                <div style={{ padding: "6px 12px", borderRadius: 6, background: "rgba(52,211,153,0.1)", border: "1px solid rgba(52,211,153,0.3)", color: "#34D399", fontSize: 11, fontWeight: 600 }}>🔒 From map</div>
-              ) : (
-                <div style={{ display: "flex", gap: 8 }}>
-                  <button onClick={() => nudgeBearing(-1)} style={{ width: 40, height: 40, borderRadius: 8, border: "1px solid rgba(255,255,255,0.14)", background: "rgba(255,255,255,0.06)", color: "#fff", cursor: "pointer", fontSize: 16 }}>◀</button>
-                  <button onClick={() => nudgeBearing(1)}  style={{ width: 40, height: 40, borderRadius: 8, border: "1px solid rgba(255,255,255,0.14)", background: "rgba(255,255,255,0.06)", color: "#fff", cursor: "pointer", fontSize: 16 }}>▶</button>
+            {/* North bearing */}
+            <div style={{ padding: "12px 20px 14px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: northLocked ? 0 : 10 }}>
+                <div style={{ flex: 1 }}>
+                  <div style={{ color: "rgba(255,255,255,0.35)", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 2 }}>North Bearing</div>
+                  <div style={{ color: "#fff", fontSize: 20, fontFamily: "'SF Mono','Fira Code',monospace", fontWeight: 600 }}>{formatBearing(northBearing)}</div>
                 </div>
+                {northLocked && (
+                  <div style={{ padding: "6px 12px", borderRadius: 6, background: "rgba(52,211,153,0.1)", border: "1px solid rgba(52,211,153,0.3)", color: "#34D399", fontSize: 11, fontWeight: 600 }}>🔒 From map</div>
+                )}
+              </div>
+              {!northLocked && (
+                <>
+                  <input
+                    type="range" min={0} max={359} step={1} value={normDeg(northBearing)}
+                    onChange={(e) => setNorthBearing(parseInt(e.target.value, 10))}
+                    style={{ width: "100%", accentColor: "#5b7fff", display: "block", marginBottom: 8, height: 20 }}
+                  />
+                  <div style={{ display: "flex", gap: 6 }}>
+                    <button onClick={() => nudgeBearing(-5)} style={{ flex: 1, height: 38, borderRadius: 8, border: "1px solid rgba(255,255,255,0.14)", background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.75)", cursor: "pointer", fontSize: 12, fontWeight: 600 }}>-5°</button>
+                    <button onClick={() => nudgeBearing(-1)} style={{ flex: 1, height: 38, borderRadius: 8, border: "1px solid rgba(255,255,255,0.14)", background: "rgba(255,255,255,0.06)", color: "#fff", cursor: "pointer", fontSize: 15 }}>◀</button>
+                    <button onClick={() => nudgeBearing(1)}  style={{ flex: 1, height: 38, borderRadius: 8, border: "1px solid rgba(255,255,255,0.14)", background: "rgba(255,255,255,0.06)", color: "#fff", cursor: "pointer", fontSize: 15 }}>▶</button>
+                    <button onClick={() => nudgeBearing(5)}  style={{ flex: 1, height: 38, borderRadius: 8, border: "1px solid rgba(255,255,255,0.14)", background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.75)", cursor: "pointer", fontSize: 12, fontWeight: 600 }}>+5°</button>
+                  </div>
+                </>
               )}
             </div>
 

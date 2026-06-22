@@ -86,6 +86,8 @@ function parseAddressComponents(components = []) {
 export default function LocationPicker({ selectedLocation, onSelect }) {
   const [query, setQuery]         = useState("");
   const [isOpen, setIsOpen]       = useState(false);
+  const [inputFontSize, setInputFontSize] = useState(12);
+  useEffect(() => { if (window.innerWidth < 768) setInputFontSize(16); }, []);
   const [predictions, setPredictions] = useState([]);
   const [loading, setLoading]     = useState(false);
   const [resolving, setResolving] = useState(false);
@@ -123,7 +125,11 @@ export default function LocationPicker({ selectedLocation, onSelect }) {
       if (!containerRef.current?.contains(e.target)) setIsOpen(false);
     };
     document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
+    document.addEventListener("touchstart", handler);
+    return () => {
+      document.removeEventListener("mousedown", handler);
+      document.removeEventListener("touchstart", handler);
+    };
   }, [isOpen]);
 
   // Select a prediction — fetch details to get lat/lng
@@ -220,7 +226,7 @@ export default function LocationPicker({ selectedLocation, onSelect }) {
           disabled={resolving}
           style={{
             background: "transparent", border: "none", outline: "none",
-            color: "#ffffff", fontSize: 12, width: 160, caretColor: "#5b7fff",
+            color: "#ffffff", fontSize: inputFontSize, width: 160, caretColor: "#5b7fff",
           }}
         />
         {query && (
@@ -246,6 +252,7 @@ export default function LocationPicker({ selectedLocation, onSelect }) {
             <button
               key={p.place_id}
               onMouseDown={(e) => { e.preventDefault(); handleSelect(p); }}
+              onTouchStart={(e) => { e.preventDefault(); handleSelect(p); }}
               style={{
                 width: "100%", display: "flex", alignItems: "flex-start",
                 gap: 8, padding: "9px 12px",
