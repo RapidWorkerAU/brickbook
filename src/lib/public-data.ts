@@ -47,8 +47,16 @@ export type DirectoryEntry = {
   developer?: string | null;
 };
 
+export type PublicFloorPlan = {
+  id: string;
+  imageUrl: string;
+  planType: string | null;
+  commentCount: number;
+};
+
 export type PublicBuildDetail = PublicBuildCard & {
   currentUserId: string | null;
+  floorPlans: PublicFloorPlan[];
   estate: string | null;
   state: string | null;
   status: string;
@@ -268,6 +276,8 @@ type ImageRow = {
   selection_id?: string | null;
   image_kind?: string | null;
   notes?: string | null;
+  visibility?: string | null;
+  plan_type?: string | null;
 };
 
 type UpdateRow = {
@@ -612,7 +622,7 @@ export async function getPublicBuild(username: string, slug: string): Promise<Pu
     { data: planningSavedBuildsData },
   ] = await Promise.all([
     supabase.from("milestones").select("id,title,status,start_date,end_date,sort_order").eq("build_id", card.id).order("sort_order", { ascending: true }),
-    supabase.from("build_images").select("id,storage_path,milestone_id,update_id,selection_id,image_kind,notes").eq("build_id", card.id).not("storage_path", "is", null).order("created_at", { ascending: false }).limit(120),
+    supabase.from("build_images").select("id,storage_path,milestone_id,update_id,selection_id,image_kind,notes,visibility,plan_type").eq("build_id", card.id).not("storage_path", "is", null).order("created_at", { ascending: false }).limit(120),
     supabase.from("build_updates").select("id,content,milestone_id,created_at").eq("build_id", card.id).order("created_at", { ascending: false }).limit(30),
     supabase.from("comments").select("update_id").eq("build_id", card.id).not("update_id", "is", null),
     supabase.from("update_likes").select("update_id"),
@@ -654,6 +664,7 @@ export async function getPublicBuild(username: string, slug: string): Promise<Pu
   const selectionImageRows = imageRows.filter((image) => image.selection_id);
   const inspirationImageRows = imageRows.filter((image) => image.image_kind === "inspiration");
   const galleryImageRows = imageRows.filter((image) => !image.selection_id && image.image_kind !== "inspiration" && image.image_kind !== "plan");
+  const floorPlanRows = imageRows.filter((image) => image.image_kind === "plan" && image.plan_type === "floorplan" && image.visibility === "public");
   const selectionRows = (selectionsData ?? []) as SelectionRow[];
   const imagePaths = [
     ...imageRows.map((image) => image.storage_path).filter(Boolean),
@@ -762,6 +773,13 @@ export async function getPublicBuild(username: string, slug: string): Promise<Pu
   return {
     ...card,
     currentUserId: user?.id ?? null,
+    floorPlans: floorPlanRows
+      .map((image) => {
+        const url = image.storage_path ? (signedImageUrls.get(image.storage_path) ?? null) : null;
+        if (!url) return null;
+        return { id: image.id, imageUrl: url, planType: image.plan_type ?? null, commentCount: imageCommentCounts.get(image.id) ?? 0 } satisfies PublicFloorPlan;
+      })
+      .filter((p): p is PublicFloorPlan => p !== null),
     ownerName: profile.displayName,
     estate: buildRow.estate_name ?? null,
     state: buildRow.state ?? null,

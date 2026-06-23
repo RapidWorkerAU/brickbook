@@ -2921,6 +2921,19 @@ img {
   text-transform: uppercase;
 }
 
+.timeline-panel-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+
+.timeline-sort-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+}
+
 .timeline-panel {
   display: grid;
   gap: 0;

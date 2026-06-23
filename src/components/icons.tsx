@@ -153,6 +153,10 @@ export function IconSortDescending(props: IconProps) {
   return <IconBase {...props}><path d="M4 6h9M4 12h6M4 18h3" /><path d="M17 5v14M14 16l3 3 3-3" /></IconBase>;
 }
 
+export function IconSortAscending(props: IconProps) {
+  return <IconBase {...props}><path d="M4 6h3M4 12h6M4 18h9" /><path d="M17 5v14M14 8l3-3 3 3" /></IconBase>;
+}
+
 export function IconMapPin(props: IconProps) {
   return <IconBase {...props}><path d="M12 21s7-5.3 7-12a7 7 0 0 0-14 0c0 6.7 7 12 7 12Z" /><circle cx="12" cy="9" r="2.5" /></IconBase>;
 }

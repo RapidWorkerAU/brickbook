@@ -21,6 +21,7 @@ import {
   IconCircleDashed,
   IconClock,
   IconExternalLink,
+  IconFileText,
   IconHeart,
   IconMessageCircle,
   IconEdit,
@@ -28,11 +29,13 @@ import {
   IconRuler,
   IconSend,
   IconShare,
+  IconSortAscending,
+  IconSortDescending,
   IconToiletPaper,
   IconTrash,
   IconX,
 } from '@tabler/icons-react'
-import type { PublicBuildDetail, PublicComment, PublicSelection, InspirationTag } from '@/lib/public-data'
+import type { PublicBuildDetail, PublicFloorPlan, PublicComment, PublicSelection, InspirationTag } from '@/lib/public-data'
 import type { ViewerPlanningBuild } from '@/app/[username]/[slug]/page'
 
 type Tab = 'Overview' | 'Updates' | 'Discussion' | 'Timeline' | 'Images' | 'Inspiration' | 'Selections' | 'Standard' | 'Wishlist' | 'Saved Builds' | 'Our Planning'
@@ -672,14 +675,19 @@ function UpdateOverlay({
 }
 
 function TimelinePhotoOverlay({
-  image,
+  images,
+  initialIndex,
   currentUserId,
   onClose,
 }: {
-  image: TimelinePhoto
+  images: TimelinePhoto[]
+  initialIndex: number
   currentUserId: string | null
   onClose: () => void
 }) {
+  const [index, setIndex] = useState(initialIndex)
+  const image = images[index] ?? images[0]
+  const touchStartX = useRef<number | null>(null)
   const [comment, setComment] = useState('')
   const [comments, setComments] = useState<CommentItem[]>([])
   const [commentCount, setCommentCount] = useState(0)
@@ -690,7 +698,22 @@ function TimelinePhotoOverlay({
   const [postingComment, setPostingComment] = useState(false)
 
   useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+      if (e.key === 'ArrowLeft') setIndex((i) => (i - 1 + images.length) % images.length)
+      if (e.key === 'ArrowRight') setIndex((i) => (i + 1) % images.length)
+    }
+    document.addEventListener('keydown', handleKey)
+    return () => document.removeEventListener('keydown', handleKey)
+  }, [onClose, images.length])
+
+  useEffect(() => {
     let cancelled = false
+    setComments([])
+    setCommentCount(0)
+    setCommentsOffset(0)
+    setHasMoreComments(true)
+    setCommentError('')
     async function loadComments() {
       setLoadingComments(true)
       const response = await fetch(`/api/image-comments?imageId=${encodeURIComponent(image.id)}&offset=0&limit=20`)
@@ -809,7 +832,16 @@ function TimelinePhotoOverlay({
         <button className="btn-icon update-modal-close" type="button" aria-label="Close photo" onClick={onClose}>
           <IconX size={18} />
         </button>
-        <div className="update-modal-media">
+        <div
+          className="update-modal-media"
+          onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX }}
+          onTouchEnd={(e) => {
+            if (touchStartX.current === null || images.length <= 1) return
+            const dx = e.changedTouches[0].clientX - touchStartX.current
+            if (Math.abs(dx) > 40) setIndex((i) => dx < 0 ? (i + 1) % images.length : (i - 1 + images.length) % images.length)
+            touchStartX.current = null
+          }}
+        >
           {image.imageUrl ? (
             // Signed Supabase URLs are rendered directly until remote image patterns are finalized.
             // eslint-disable-next-line @next/next/no-img-element
@@ -817,6 +849,15 @@ function TimelinePhotoOverlay({
           ) : (
             <Image src="/images/comingsoon.jpg" alt="" fill sizes="70vw" />
           )}
+          {images.length > 1 && (
+            <span className="photo-lightbox-count">{index + 1} / {images.length}</span>
+          )}
+          {images.length > 1 ? (
+            <>
+              <button className="carousel-control carousel-control-prev" type="button" aria-label="Previous photo" onClick={() => setIndex((i) => (i - 1 + images.length) % images.length)}>{'<'}</button>
+              <button className="carousel-control carousel-control-next" type="button" aria-label="Next photo" onClick={() => setIndex((i) => (i + 1) % images.length)}>{'>'}</button>
+            </>
+          ) : null}
         </div>
         <aside className="update-modal-detail">
           <div className="update-modal-header">
@@ -879,6 +920,188 @@ function TimelinePhotoOverlay({
   )
 }
 
+function FloorPlanModal({
+  plans,
+  currentUserId,
+  onClose,
+}: {
+  plans: PublicFloorPlan[]
+  currentUserId: string | null
+  onClose: () => void
+}) {
+  const [index, setIndex] = useState(0)
+  const plan = plans[index] ?? plans[0]
+  const touchStartX = useRef<number | null>(null)
+  const [comment, setComment] = useState('')
+  const [comments, setComments] = useState<CommentItem[]>([])
+  const [commentCount, setCommentCount] = useState(0)
+  const [commentsOffset, setCommentsOffset] = useState(0)
+  const [hasMoreComments, setHasMoreComments] = useState(true)
+  const [loadingComments, setLoadingComments] = useState(false)
+  const [commentError, setCommentError] = useState('')
+  const [postingComment, setPostingComment] = useState(false)
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+      if (e.key === 'ArrowLeft') setIndex((i) => (i - 1 + plans.length) % plans.length)
+      if (e.key === 'ArrowRight') setIndex((i) => (i + 1) % plans.length)
+    }
+    document.addEventListener('keydown', handleKey)
+    return () => document.removeEventListener('keydown', handleKey)
+  }, [onClose, plans.length])
+
+  useEffect(() => {
+    let cancelled = false
+    setComments([])
+    setCommentCount(0)
+    setCommentsOffset(0)
+    setHasMoreComments(true)
+    setCommentError('')
+    async function loadComments() {
+      setLoadingComments(true)
+      const response = await fetch(`/api/image-comments?imageId=${encodeURIComponent(plan.id)}&offset=0&limit=20`)
+      const payload = await response.json().catch(() => null)
+      if (cancelled) return
+      setLoadingComments(false)
+      if (!response.ok) { setCommentError(payload?.error ?? 'Unable to load comments.'); return }
+      const nextComments = normalizeOverlayComments(payload?.comments ?? [])
+      setComments(nextComments)
+      setCommentCount(nextComments.length)
+      setCommentsOffset(nextComments.length)
+      setHasMoreComments(nextComments.length === 20)
+    }
+    loadComments()
+    return () => { cancelled = true }
+  }, [plan.id])
+
+  const loadMoreComments = async () => {
+    if (loadingComments || !hasMoreComments) return
+    setLoadingComments(true)
+    const response = await fetch(`/api/image-comments?imageId=${encodeURIComponent(plan.id)}&offset=${commentsOffset}&limit=20`)
+    const payload = await response.json().catch(() => null)
+    setLoadingComments(false)
+    if (!response.ok) { setCommentError(payload?.error ?? 'Unable to load more comments.'); return }
+    const nextComments = normalizeOverlayComments(payload?.comments ?? [])
+    setComments((current) => [...current, ...nextComments])
+    setCommentCount((current) => current + nextComments.length)
+    setCommentsOffset((current) => current + nextComments.length)
+    setHasMoreComments(nextComments.length === 20)
+  }
+
+  const postComment = async () => {
+    if (!comment.trim() || postingComment) return
+    setPostingComment(true)
+    setCommentError('')
+    const formData = new FormData()
+    formData.set('image_id', plan.id)
+    formData.set('content', comment.trim())
+    const response = await fetch('/api/image-comments', { method: 'POST', body: formData })
+    const payload = await response.json().catch(() => null)
+    setPostingComment(false)
+    if (!response.ok) {
+      setCommentError(response.status === 401 ? 'Sign in to comment.' : payload?.error ?? 'Unable to post comment.')
+      return
+    }
+    setComments((current) => [...current, { id: payload.comment.id, userId: payload.comment.userId, username: payload.comment.username, content: payload.comment.content, createdAt: payload.comment.createdAt, parentCommentId: null, imageUrl: null, time: 'Just now' }])
+    setCommentCount(payload.commentCount ?? commentCount + 1)
+    setComment('')
+  }
+
+  const postReply = async (parentCommentId: string, content: string) => {
+    const formData = new FormData()
+    formData.set('image_id', plan.id)
+    formData.set('content', content)
+    formData.set('parent_comment_id', parentCommentId)
+    const response = await fetch('/api/image-comments', { method: 'POST', body: formData })
+    const payload = await response.json().catch(() => null)
+    if (!response.ok) return response.status === 401 ? 'Sign in to reply.' : payload?.error ?? 'Unable to post reply.'
+    setComments((current) => [...current, { id: payload.comment.id, userId: payload.comment.userId, username: payload.comment.username, content: payload.comment.content, createdAt: payload.comment.createdAt, parentCommentId: payload.comment.parentCommentId, imageUrl: null, time: 'Just now' }])
+    setCommentCount(payload.commentCount ?? commentCount + 1)
+    return null
+  }
+
+  return (
+    <div className="update-modal" role="dialog" aria-modal="true">
+      <button className="update-modal-backdrop" type="button" aria-label="Close floor plan" onClick={onClose} />
+      <div className="update-modal-panel">
+        <button className="btn-icon update-modal-close" type="button" aria-label="Close floor plan" onClick={onClose}>
+          <IconX size={18} />
+        </button>
+        <div
+          className="update-modal-media"
+          onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX }}
+          onTouchEnd={(e) => {
+            if (touchStartX.current === null || plans.length <= 1) return
+            const dx = e.changedTouches[0].clientX - touchStartX.current
+            if (Math.abs(dx) > 40) setIndex((i) => dx < 0 ? (i + 1) % plans.length : (i - 1 + plans.length) % plans.length)
+            touchStartX.current = null
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="timeline-modal-image" src={plan.imageUrl} alt="Floor plan" />
+          {plans.length > 1 && <span className="photo-lightbox-count">{index + 1} / {plans.length}</span>}
+          {plans.length > 1 ? (
+            <>
+              <button className="carousel-control carousel-control-prev" type="button" aria-label="Previous" onClick={() => setIndex((i) => (i - 1 + plans.length) % plans.length)}>{'<'}</button>
+              <button className="carousel-control carousel-control-next" type="button" aria-label="Next" onClick={() => setIndex((i) => (i + 1) % plans.length)}>{'>'}</button>
+            </>
+          ) : null}
+        </div>
+        <aside className="update-modal-detail">
+          <div className="update-modal-header">
+            <span className="badge badge-phase">Floor plan</span>
+            <span className="muted-row">Public</span>
+          </div>
+          <div className="update-card-actions update-modal-actions">
+            <span className="update-action"><IconMessageCircle size={15} />{commentCount}</span>
+          </div>
+          <div
+            className="update-modal-comments"
+            onScroll={(event) => {
+              const target = event.currentTarget
+              if (target.scrollTop + target.clientHeight >= target.scrollHeight - 80) void loadMoreComments()
+            }}
+          >
+            {commentError ? <div className="alert alert-error">{commentError}</div> : null}
+            {comments.map((item) => (
+              <EditableComment
+                key={item.id}
+                comment={item}
+                canEdit={Boolean(currentUserId && item.userId === currentUserId)}
+                endpoint="/api/image-comments"
+                onChange={(commentId, content) => setComments((current) => current.map((c) => c.id === commentId ? { ...c, content } : c))}
+                onDelete={(commentId) => {
+                  setComments((current) => {
+                    const next = current.filter((c) => c.id !== commentId && c.parentCommentId !== commentId)
+                    setCommentCount((count) => Math.max(0, count - (current.length - next.length)))
+                    return next
+                  })
+                }}
+                onReply={postReply}
+              />
+            ))}
+            {loadingComments ? <div className="comment-loading">Loading comments...</div> : null}
+          </div>
+          <div className="comment-input-row update-modal-comment-input">
+            <input
+              className="form-input"
+              type="text"
+              placeholder="Add a comment..."
+              value={comment}
+              onChange={(event) => setComment(event.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') void postComment() }}
+            />
+            <LoadingButton className="btn-icon" aria-label="Post comment" loading={postingComment} disabled={!comment.trim()} onClick={postComment}>
+              <IconSend size={14} />
+            </LoadingButton>
+          </div>
+        </aside>
+      </div>
+    </div>
+  )
+}
+
 function TimelineTab({
   build,
   updates,
@@ -890,7 +1113,8 @@ function TimelineTab({
   currentUserId: string | null
   onOpenUpdate: (update: Update, imageIndex?: number) => void
 }) {
-  const [selectedImage, setSelectedImage] = useState<TimelinePhoto | null>(null)
+  const [selectedEntry, setSelectedEntry] = useState<{ images: TimelinePhoto[]; index: number } | null>(null)
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
   const updatesById = useMemo(() => new Map(updates.map((update) => [update.id, update])), [updates])
   const imagesByMilestone = useMemo(() => {
     const grouped = new Map<string, TimelinePhoto[]>()
@@ -900,15 +1124,22 @@ function TimelineTab({
     })
     return grouped
   }, [build.images])
-  const completedPhaseDurations = build.milestones
+  const sortedMilestones = useMemo(() => {
+    return [...build.milestones].sort((a, b) => {
+      const aTime = a.startDate ? new Date(a.startDate).getTime() : (sortOrder === 'asc' ? Infinity : -Infinity)
+      const bTime = b.startDate ? new Date(b.startDate).getTime() : (sortOrder === 'asc' ? Infinity : -Infinity)
+      return sortOrder === 'asc' ? aTime - bTime : bTime - aTime
+    })
+  }, [build.milestones, sortOrder])
+  const completedPhaseDurations = sortedMilestones
     .map((milestone) => ({ milestone, days: completedPhaseDays(milestone) }))
     .filter((item) => item.days > 0)
-  const phaseDurations = build.milestones
+  const phaseDurations = sortedMilestones
     .filter((milestone) => milestone.status !== 'pending')
     .map((milestone) => ({ milestone, days: displayPhaseDays(milestone) }))
     .filter((item) => item.days > 0)
   const totalPhaseDays = phaseDurations.reduce((total, item) => total + item.days, 0)
-  const gapItems = build.milestones.slice(0, -1).map((milestone, index) => calcGap(milestone, build.milestones[index + 1]))
+  const gapItems = sortedMilestones.slice(0, -1).map((milestone, index) => calcGap(milestone, sortedMilestones[index + 1]))
   const totalGapDays = gapItems.reduce((total, gap) => total + (gap && !gap.isOverlap ? gap.days : 0), 0)
   const totalBuildDays = calcTotalBuildDays(build.milestones)
   const longestPhase = completedPhaseDurations.reduce<(typeof completedPhaseDurations)[number] | null>((longest, item) => {
@@ -942,8 +1173,19 @@ function TimelineTab({
         </div>
       </div>
 
+      <div className="timeline-panel-header">
+        <button
+          className="btn btn-ghost btn-sm timeline-sort-btn"
+          type="button"
+          onClick={() => setSortOrder((o) => o === 'asc' ? 'desc' : 'asc')}
+        >
+          {sortOrder === 'asc' ? <IconSortAscending size={14} /> : <IconSortDescending size={14} />}
+          {sortOrder === 'asc' ? 'Oldest first' : 'Newest first'}
+        </button>
+      </div>
+
       <div className="timeline-panel">
-      {build.milestones.map((milestone, index) => (
+      {sortedMilestones.map((milestone, index) => (
         <div className="timeline-row" key={milestone.id}>
           <div className={`timeline-item timeline-item-${milestone.status}`}>
             <div className="timeline-marker">
@@ -952,7 +1194,7 @@ function TimelineTab({
                 {milestone.status === 'active' && <IconClock size={12} />}
                 {milestone.status === 'pending' && <IconCircleDashed size={13} />}
               </div>
-              {index < build.milestones.length - 1 && (
+              {index < sortedMilestones.length - 1 && (
                 <div className={`timeline-line ${milestone.status === 'complete' ? 'timeline-line-complete' : ''}`} />
               )}
             </div>
@@ -1005,7 +1247,7 @@ function TimelineTab({
                       <TimelinePhotoStrip
                         photos={imagesByMilestone.get(milestone.id) ?? []}
                         updatesById={updatesById}
-                        onOpenImage={setSelectedImage}
+                        onOpenImage={(photos, index) => setSelectedEntry({ images: photos, index })}
                         onOpenUpdate={onOpenUpdate}
                       />
                     </div>
@@ -1014,12 +1256,12 @@ function TimelineTab({
               )}
             </div>
           </div>
-          {index < build.milestones.length - 1 ? <TimelineGapIndicator gap={gapItems[index]} /> : null}
+          {index < sortedMilestones.length - 1 ? <TimelineGapIndicator gap={gapItems[index]} /> : null}
         </div>
       ))}
       </div>
 
-      {selectedImage ? <TimelinePhotoOverlay image={selectedImage} currentUserId={currentUserId} onClose={() => setSelectedImage(null)} /> : null}
+      {selectedEntry ? <TimelinePhotoOverlay images={selectedEntry.images} initialIndex={selectedEntry.index} currentUserId={currentUserId} onClose={() => setSelectedEntry(null)} /> : null}
     </div>
   )
 }
@@ -1050,7 +1292,7 @@ function TimelinePhotoStrip({
 }: {
   photos: TimelinePhoto[]
   updatesById: Map<string, Update>
-  onOpenImage: (image: TimelinePhoto) => void
+  onOpenImage: (photos: TimelinePhoto[], index: number) => void
   onOpenUpdate: (update: Update, imageIndex?: number) => void
 }) {
   if (!photos.length) {
@@ -1068,7 +1310,7 @@ function TimelinePhotoStrip({
             key={photo.id}
             className="timeline-photo-tile"
             type="button"
-            onClick={() => update ? onOpenUpdate(update, Math.max(0, update.imageIds.indexOf(photo.id))) : onOpenImage(photo)}
+            onClick={() => update ? onOpenUpdate(update, Math.max(0, update.imageIds.indexOf(photo.id))) : onOpenImage(photos, index)}
             aria-label={`Open ${photo.milestone} photo`}
           >
             {photo.imageUrl ? (
@@ -2224,7 +2466,7 @@ type BuildProfileClientProps = {
 export function BuildProfileClient({ build, username, viewerPlanningBuilds = [], initialTab }: BuildProfileClientProps) {
   const router = useRouter()
   const isPlanning = build.stage === 'planning'
-  const resolvedInitialTab: Tab = ALL_TABS.includes(initialTab as Tab) ? (initialTab as Tab) : (isPlanning ? 'Overview' : 'Updates')
+  const resolvedInitialTab: Tab = ALL_TABS.includes(initialTab as Tab) ? (initialTab as Tab) : 'Overview'
   const [activeTab, setActiveTab] = useState<Tab>(resolvedInitialTab)
   const [following, setFollowing] = useState(build.isFollowing)
   const [followerCount, setFollowerCount] = useState(build.followers)
@@ -2241,6 +2483,7 @@ export function BuildProfileClient({ build, username, viewerPlanningBuilds = [],
   )
   const [savingPlanId, setSavingPlanId] = useState<string | null>(null)
   const [saveToPlanOpen, setSaveToPlanOpen] = useState(false)
+  const [floorPlanOpen, setFloorPlanOpen] = useState(false)
   const [saveError, setSaveError] = useState('')
   const isOwner = build.currentUserId === build.ownerId
   const hasPlanningHistory = !isPlanning && (
@@ -2493,6 +2736,11 @@ export function BuildProfileClient({ build, username, viewerPlanningBuilds = [],
             <button className="btn-icon" aria-label="Share" onClick={shareBuild}>
               <IconShare size={15} />
             </button>
+            {build.floorPlans.length > 0 && (
+              <button className="btn btn-secondary btn-sm" onClick={() => setFloorPlanOpen(true)}>
+                <IconFileText size={13} /> Floor plan
+              </button>
+            )}
             {isOwner ? (
               <Link href={`/dashboard/builds/${build.id}`} className="btn btn-secondary btn-sm">
                 <IconEdit size={13} /> Edit Build
@@ -2583,6 +2831,7 @@ export function BuildProfileClient({ build, username, viewerPlanningBuilds = [],
             {activeTab === 'Saved Builds' && <PlanningBuildsTab build={build} />}
             {activeTab === 'Our Planning' && <PlanningHistoryTab build={build} />}
             {selectedUpdate ? <UpdateOverlay update={selectedUpdate.update} currentUserId={build.currentUserId} initialImageIndex={selectedUpdate.imageIndex} onClose={() => setSelectedUpdate(null)} isOwner={isOwner} buildId={build.id} /> : null}
+            {floorPlanOpen && build.floorPlans.length > 0 ? <FloorPlanModal plans={build.floorPlans} currentUserId={build.currentUserId} onClose={() => setFloorPlanOpen(false)} /> : null}
             {saveToPlanOpen && viewerPlanningBuilds.length > 1 ? (
               <div className="bb-modal" role="dialog" aria-modal="true" aria-labelledby="save-plan-title">
                 <button className="bb-modal-backdrop" type="button" aria-label="Close" onClick={() => setSaveToPlanOpen(false)} />
