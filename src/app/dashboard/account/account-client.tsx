@@ -762,40 +762,28 @@ function EmailTable({ templates, onSendTest }: { templates: EmailTemplateMeta[];
 
   return (
     <div>
-      <table className="admin-emails-table">
-        <thead>
-          <tr>
-            <th>Template</th>
-            <th>Type</th>
-            <th>Trigger</th>
-            <th />
-          </tr>
-        </thead>
-        <tbody>
-          {visible.map((t) => (
-            <tr key={t.id}>
-              <td className="admin-email-name-cell">
-                <div className="admin-email-name">
-                  {t.name}
-                  {t.supabaseManaged && <span className="admin-email-badge-supabase">Supabase</span>}
-                </div>
-                <div className="admin-email-sub">{t.description}</div>
-              </td>
-              <td>
+      <div className="admin-email-list">
+        {visible.map((t) => (
+          <div key={t.id} className="admin-email-row">
+            <div className="admin-email-row-left">
+              <div className="admin-email-name">
+                {t.name}
+                {t.supabaseManaged && <span className="admin-email-badge-supabase">Supabase</span>}
                 <span className={`admin-email-type-badge ${t.recipient === "admin" ? "admin-email-type-admin" : ""}`}>
                   {t.recipient === "admin" ? "Admin" : "User"}
                 </span>
-              </td>
-              <td className="admin-email-trigger">{t.trigger}</td>
-              <td className="admin-email-action">
-                <button className="btn btn-secondary btn-sm" onClick={() => onSendTest(t)}>
-                  Send test
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+              </div>
+              <div className="admin-email-sub">{t.description}</div>
+              <div className="admin-email-trigger">{t.trigger}</div>
+            </div>
+            <div className="admin-email-row-right">
+              <button className="btn btn-secondary btn-sm" onClick={() => onSendTest(t)}>
+                Send test
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
       {totalPages > 1 && (
         <div className="admin-email-pagination">
           <span className="admin-email-pagination-count">

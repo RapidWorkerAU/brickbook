@@ -90,6 +90,7 @@ export function ImagesClient({
   const [visibility, setVisibility] = useState("public");
   const [error, setError] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<{ current: number; total: number } | null>(null);
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [editingImage, setEditingImage] = useState<LibraryImage | null>(null);
   const [pendingPostImageDelete, setPendingPostImageDelete] = useState<PendingPostImageDelete | null>(null);
@@ -199,30 +200,69 @@ export function ImagesClient({
 
   const upload = async (files: File[], notes: string) => {
     if (!files.length) return;
-    const totalMB = files.reduce((sum, f) => sum + f.size, 0) / 1024 / 1024;
-    if (totalMB > 45) {
-      setError(`Total upload size is ${Math.round(totalMB)}MB — please upload in smaller batches (under 45MB).`);
-      return;
-    }
     setUploading(true);
+    setUploadProgress(null);
     setError("");
-    const formData = new FormData();
-    formData.set("build_id", build.id);
-    formData.set("milestone_id", milestoneId);
-    formData.set("room_id", useRoomTypes ? "" : roomId);
-    if (useRoomTypes && roomType) formData.set("room_type", roomType);
-    formData.set("visibility", visibility);
-    formData.set("image_kind", mode === "inspiration" ? "inspiration" : "build");
-    formData.set("notes", mode === "inspiration" ? notes : "");
-    files.forEach((file) => formData.append("images", file));
-    const response = await fetch("/api/build-images", { method: "POST", body: formData });
-    const payload = await response.json().catch(() => null);
-    setUploading(false);
-    if (!response.ok) {
-      setError(payload?.error ?? "Unable to upload images.");
+
+    // Step 1: get presigned upload URLs
+    const presignRes = await fetch("/api/build-images/presign", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        buildId: build.id,
+        files: files.map((f) => ({ name: f.name, type: f.type })),
+      }),
+    });
+    const presignPayload = await presignRes.json().catch(() => null);
+    if (!presignRes.ok) {
+      setError(presignPayload?.error ?? "Unable to prepare upload.");
+      setUploading(false);
       return;
     }
-    setImages((current) => [...(payload.images as LibraryImage[]), ...current]);
+
+    // Step 2: PUT each file directly to Supabase
+    const uploads: { signedUrl: string; path: string }[] = presignPayload.uploads;
+    const uploadedPaths: string[] = [];
+    for (let i = 0; i < uploads.length; i++) {
+      setUploadProgress({ current: i + 1, total: uploads.length });
+      const { signedUrl, path } = uploads[i];
+      const putRes = await fetch(signedUrl, {
+        method: "PUT",
+        headers: { "Content-Type": files[i].type },
+        body: files[i],
+      });
+      if (!putRes.ok) {
+        setError(`Failed to upload photo ${i + 1} of ${uploads.length}.`);
+        setUploading(false);
+        setUploadProgress(null);
+        return;
+      }
+      uploadedPaths.push(path);
+    }
+
+    // Step 3: save DB records
+    const saveRes = await fetch("/api/build-images/save", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        buildId: build.id,
+        paths: uploadedPaths,
+        milestoneId: milestoneId || undefined,
+        roomId: useRoomTypes ? undefined : (roomId || undefined),
+        roomType: useRoomTypes ? (roomType || undefined) : undefined,
+        visibility,
+        imageKind: mode === "inspiration" ? "inspiration" : "build",
+        notes: mode === "inspiration" ? notes : undefined,
+      }),
+    });
+    const savePayload = await saveRes.json().catch(() => null);
+    setUploading(false);
+    setUploadProgress(null);
+    if (!saveRes.ok) {
+      setError(savePayload?.error ?? "Images uploaded but failed to save records.");
+      return;
+    }
+    setImages((current) => [...(savePayload.images as LibraryImage[]), ...current]);
     setCurrentPage(1);
     setUploadModalOpen(false);
   };
@@ -312,6 +352,7 @@ export function ImagesClient({
             mode={mode}
             useRoomTypes={useRoomTypes}
             uploading={uploading}
+            uploadProgress={uploadProgress}
             error={error}
             onClose={() => { setUploadModalOpen(false); setError(""); }}
             onMilestoneChange={setMilestoneId}
@@ -675,6 +716,7 @@ function UploadImagesModal({
   mode,
   useRoomTypes = false,
   uploading,
+  uploadProgress,
   error,
   onClose,
   onMilestoneChange,
@@ -692,6 +734,7 @@ function UploadImagesModal({
   mode: "library" | "inspiration";
   useRoomTypes?: boolean;
   uploading: boolean;
+  uploadProgress: { current: number; total: number } | null;
   error: string;
   onClose: () => void;
   onMilestoneChange: (value: string) => void;
@@ -783,6 +826,11 @@ function UploadImagesModal({
         </div>
         <div className="bb-modal-footer">
           {error ? <p className="alert alert-error" style={{ margin: 0, flex: 1 }}>{error}</p> : null}
+          {uploadProgress && !error ? (
+            <p className="upload-progress-text" style={{ margin: 0, flex: 1, fontSize: 13, color: "var(--text-muted)" }}>
+              Uploading {uploadProgress.current} of {uploadProgress.total} photo{uploadProgress.total > 1 ? "s" : ""}…
+            </p>
+          ) : null}
           <button className="btn btn-secondary" type="button" onClick={onClose} disabled={uploading}>Cancel</button>
           <LoadingButton className="btn btn-primary" loading={uploading} disabled={selectedFiles.length === 0} onClick={() => onUpload(selectedFiles, notes)}>
             <IconPlus size={14} /> {submitLabel}

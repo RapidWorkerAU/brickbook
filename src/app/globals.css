@@ -5607,6 +5607,31 @@ img {
   min-width: 0;
 }
 
+.admin-email-list {
+  font-size: 12px;
+}
+
+.admin-email-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--bb-stone-100);
+}
+
+.admin-email-row:last-child {
+  border-bottom: none;
+}
+
+.admin-email-row-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-email-row-right {
+  flex-shrink: 0;
+}
+
 .admin-emails-table {
   width: 100%;
   border-collapse: collapse;
@@ -5650,26 +5675,23 @@ img {
 .admin-email-name {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 5px;
   font-size: 12px;
   font-weight: 600;
   color: var(--bb-black);
-  white-space: nowrap;
 }
 
 .admin-email-sub {
   font-size: 11px;
   color: var(--bb-stone-400);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   margin-top: 1px;
 }
 
 .admin-email-trigger {
   color: var(--bb-stone-400);
-  white-space: nowrap;
   font-size: 11px;
+  margin-top: 2px;
 }
 
 .admin-email-action {
@@ -7830,23 +7852,26 @@ img {
     border-left: none;
     border-right: none;
     border-top: none;
-    border-bottom: 1px solid var(--bb-border);
+    border-bottom: 0.5px solid var(--bb-stone-200);
     box-shadow: none;
     position: static;
+    background: var(--bb-white);
   }
 
   .account-settings-user {
-    display: none; /* avatar shown in nav — redundant on mobile */
+    display: none;
   }
 
   .account-settings-nav {
     display: flex;
     flex-direction: row;
     overflow-x: auto;
+    overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
     scrollbar-width: none;
-    padding: 10px 12px;
-    gap: 6px;
+    padding: 0;
+    gap: 0;
   }
 
   .account-settings-nav::-webkit-scrollbar {
@@ -7856,11 +7881,15 @@ img {
   .account-settings-nav-item {
     flex-shrink: 0;
     white-space: nowrap;
-    border-radius: 20px;
-    border: 1px solid var(--bb-stone-200);
-    padding: 7px 14px;
-    margin-bottom: 0;
-    font-size: 13px;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    background: transparent;
+    color: var(--bb-stone-400);
+    padding: 10px 16px;
+    margin-bottom: -1px;
+    font-size: 12px;
+    width: auto;
     gap: 0;
   }
 
@@ -7868,18 +7897,22 @@ img {
     display: none;
   }
 
+  .account-settings-nav-item:hover {
+    color: var(--bb-black);
+  }
+
   .account-settings-nav-item-active {
-    background: var(--bb-black);
-    color: var(--bb-white);
-    border-color: var(--bb-black);
+    border-bottom-color: var(--bb-black);
+    color: var(--bb-black);
+    background: transparent;
     font-weight: 500;
   }
 
   .account-settings-nav-item-divided {
-    border-top: 1px solid var(--bb-stone-200);
+    border-top: none;
     margin-top: 0;
-    padding-top: 7px;
-    border-radius: 20px;
+    padding-top: 10px;
+    border-radius: 0;
   }
 
   .account-settings-nav-section-label {
