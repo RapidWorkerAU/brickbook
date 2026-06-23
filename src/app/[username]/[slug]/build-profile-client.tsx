@@ -1080,7 +1080,7 @@ function PdfCanvas({ url }: { url: string }) {
         const ctx = canvas.getContext('2d')
         if (!ctx || cancelled) return
 
-        const task = page.render({ canvasContext: ctx, viewport })
+        const task = page.render({ canvasContext: ctx, canvas, viewport })
         renderTaskRef.current = task
 
         await task.promise
