@@ -114,6 +114,10 @@ export function DashboardFeedList({ followedCards }: { followedCards: FeedCard[]
 export function DashboardMyBuildsList({ builds, username }: { builds: MyBuild[]; username: string }) {
   const visible = builds.slice(0, 5);
 
+  if (builds.length === 0) {
+    return <p className="text-[12px] text-stone-400 py-1">No builds yet.</p>;
+  }
+
   return (
     <div className="build-list">
       {visible.map((build) => (
@@ -140,7 +144,6 @@ export function DashboardMyBuildsList({ builds, username }: { builds: MyBuild[];
           </div>
         </Link>
       ))}
-      {builds.length === 0 ? <p className="text-[12px] text-stone-400">No builds yet.</p> : null}
     </div>
   );
 }
@@ -158,14 +161,11 @@ export function DashboardSuggestedBuildsList({ builds }: { builds: SuggestedBuil
         const href = build.ownerUsername && build.slug ? `/${build.ownerUsername}/${build.slug}` : "/discover";
         return (
           <div key={build.id} className="flex items-center justify-between py-2 border-b border-stone-100 last:border-0">
-            <div>
-              <div className="text-[12px] font-medium text-bb-black">{build.title}</div>
-              <div className="text-[10px] text-stone-400">
-                {build.suburb_name || "No suburb"}&nbsp;·&nbsp;
-                <span className="badge badge-phase text-[9px] px-1.5 py-0">{build.style || "Build"}</span>
-              </div>
+            <div className="min-w-0 mr-3">
+              <div className="text-[12px] font-medium text-bb-black truncate">{build.title}</div>
+              {build.suburb_name ? <div className="text-[10px] text-stone-400">{build.suburb_name}</div> : null}
             </div>
-            <Link href={href} className="btn btn-accent btn-sm text-[10px] px-2.5 py-1">View</Link>
+            <Link href={href} className="btn btn-accent btn-sm text-[10px] px-2.5 py-1 flex-shrink-0">View</Link>
           </div>
         );
       })}

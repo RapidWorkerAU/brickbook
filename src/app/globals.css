@@ -2359,8 +2359,9 @@ img {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
   width: min(100%, 1120px);
-  max-height: min(92vh, 760px);
-  overflow: visible;
+  height: min(88vh, 760px);
+  max-height: min(88vh, 760px);
+  overflow: hidden;
   border-radius: var(--bb-radius-lg);
   background: var(--bb-white);
 }
@@ -2545,11 +2546,11 @@ img {
 
 .update-modal-close {
   position: absolute;
-  top: -16px;
-  right: -16px;
+  top: 10px;
+  right: 10px;
   z-index: 2;
   background: var(--bb-white);
-  box-shadow: 0 10px 24px rgba(28, 25, 23, 0.18);
+  box-shadow: 0 2px 8px rgba(28, 25, 23, 0.12);
 }
 
 .update-modal-media {
@@ -2557,6 +2558,7 @@ img {
   align-items: center;
   justify-content: center;
   min-width: 0;
+  min-height: 0;
   overflow: hidden;
   border-radius: var(--bb-radius-lg) 0 0 var(--bb-radius-lg);
   background: var(--bb-black);
@@ -2569,7 +2571,7 @@ img {
 
 .update-modal-media .square-carousel {
   width: 100%;
-  max-height: 92vh;
+  max-height: 100%;
 }
 
 .update-modal-detail {
@@ -3330,7 +3332,7 @@ img {
 }
 
 .image-grid {
-  columns: 2;
+  columns: 4;
   column-gap: 6px;
 }
 
@@ -6634,6 +6636,10 @@ img {
 }
 
 @media (max-width: 767px) {
+  .image-grid {
+    columns: 2;
+  }
+
   .page-container,
   .page-container-narrow {
     width: min(100% - 32px, 1280px);

@@ -270,9 +270,6 @@ function EditableComment({
         )}
         {error ? <div className="form-error">{error}</div> : null}
         <div className="comment-interactions">
-          <button type="button" className="comment-action-link">
-            <IconHeart size={12} /> 0
-          </button>
           <button type="button" className="comment-action-link" onClick={() => setReplying((value) => !value)}>
             <IconMessageCircle size={12} /> Reply
           </button>

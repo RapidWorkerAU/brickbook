@@ -20,7 +20,7 @@ export function DashboardUpdateLauncher({ builds }: { builds: LauncherBuild[] })
   if (builds.length === 0) {
     return (
       <div className="card mb-5">
-        <div className="card-body dashboard-update-launcher">
+        <div className="card-body">
           <Link href="/dashboard/builds/new" className="btn btn-primary btn-sm gap-1">
             <IconPlus size={14} /> Add build
           </Link>
