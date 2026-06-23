@@ -23,6 +23,7 @@ import {
   IconExternalLink,
   IconFileText,
   IconHeart,
+  IconLink,
   IconMessageCircle,
   IconEdit,
   IconPhoto,
@@ -36,11 +37,12 @@ import {
   IconX,
 } from '@tabler/icons-react'
 import type { PublicBuildDetail, PublicFloorPlan, PublicComment, PublicSelection, InspirationTag } from '@/lib/public-data'
+import type { CommunityPost } from '@/lib/community-data'
 import type { ViewerPlanningBuild } from '@/app/[username]/[slug]/page'
 
-type Tab = 'Overview' | 'Updates' | 'Discussion' | 'Timeline' | 'Images' | 'Inspiration' | 'Selections' | 'Standard' | 'Wishlist' | 'Saved Builds' | 'Our Planning'
-const BASE_BUILD_TABS: Tab[] = ['Overview', 'Updates', 'Discussion', 'Timeline', 'Images', 'Inspiration', 'Selections', 'Standard']
-const PLANNING_TABS: Tab[] = ['Overview', 'Inspiration', 'Wishlist', 'Saved Builds', 'Selections', 'Discussion']
+type Tab = 'Overview' | 'Updates' | 'Discussion' | 'Q&A' | 'Timeline' | 'Images' | 'Inspiration' | 'Selections' | 'Standard' | 'Wishlist' | 'Saved Builds' | 'Our Planning'
+const BASE_BUILD_TABS: Tab[] = ['Overview', 'Updates', 'Discussion', 'Q&A', 'Timeline', 'Images', 'Inspiration', 'Selections', 'Standard']
+const PLANNING_TABS: Tab[] = ['Overview', 'Inspiration', 'Wishlist', 'Saved Builds', 'Selections', 'Discussion', 'Q&A']
 
 const STAGE_LABELS: Record<string, string> = {
   planning: 'Planning',
@@ -366,6 +368,7 @@ function UpdateOverlay({
   const [postMenuOpen, setPostMenuOpen] = useState(false)
   const [deleteState, setDeleteState] = useState<'idle' | 'confirm' | 'deleting'>('idle')
   const [deleteError, setDeleteError] = useState('')
+  const [commentsOpen, setCommentsOpen] = useState(false)
   const postMenuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -557,6 +560,10 @@ function UpdateOverlay({
         </button>
         <div className="update-modal-media">
           <SquareImageCarousel key={`${update.id}-${initialImageIndex}`} images={update.imageUrls.length ? update.imageUrls : update.imageUrl ? [update.imageUrl] : []} fallbackAlt={`${update.milestone} update`} initialIndex={initialImageIndex} />
+          <button className="modal-view-comments-btn" type="button" onClick={() => setCommentsOpen(true)}>
+            <IconMessageCircle size={14} />
+            {commentCount > 0 ? `${commentCount} comment${commentCount === 1 ? '' : 's'}` : 'Add a comment'}
+          </button>
         </div>
         <aside className="update-modal-detail">
           <div className="update-modal-header">
@@ -670,6 +677,59 @@ function UpdateOverlay({
           </div>
         </aside>
       </div>
+      {commentsOpen ? (
+        <div className="modal-comments-sheet" role="dialog" aria-label="Comments">
+          <div className="modal-comments-sheet-header">
+            <button className="modal-comments-sheet-back" type="button" onClick={() => setCommentsOpen(false)}>
+              <IconArrowLeft size={16} /> Back
+            </button>
+            <span className="modal-comments-sheet-title">Comments{commentCount > 0 ? ` (${commentCount})` : ''}</span>
+          </div>
+          <div
+            className="modal-comments-sheet-body"
+            onScroll={(event) => {
+              const target = event.currentTarget
+              if (target.scrollTop + target.clientHeight >= target.scrollHeight - 80) void loadMoreComments()
+            }}
+          >
+            {commentError ? <div className="alert alert-error" style={{ margin: '8px 16px' }}>{commentError}</div> : null}
+            {comments.map((item) => (
+              <EditableComment
+                key={item.id}
+                comment={item}
+                canEdit={Boolean(currentUserId && item.userId === currentUserId)}
+                endpoint="/api/update-comments"
+                onChange={(commentId, content) =>
+                  setComments((current) => current.map((commentItem) => (commentItem.id === commentId ? { ...commentItem, content } : commentItem)))
+                }
+                onDelete={(commentId) => {
+                  setComments((current) => {
+                    const next = current.filter((commentItem) => commentItem.id !== commentId && commentItem.parentCommentId !== commentId)
+                    setCommentCount((count) => Math.max(0, count - (current.length - next.length)))
+                    return next
+                  })
+                }}
+                onReply={postReplyComment}
+              />
+            ))}
+            {loadingComments ? <div className="comment-loading" style={{ padding: '12px 16px' }}>Loading comments...</div> : null}
+          </div>
+          <div className="modal-comments-sheet-input">
+            <div className="comment-input-row">
+              <input
+                className="form-input"
+                type="text"
+                placeholder="Add a comment..."
+                value={comment}
+                onChange={(event) => setComment(event.target.value)}
+              />
+              <LoadingButton className="btn-icon" aria-label="Post comment" loading={postingComment} disabled={!comment.trim()} onClick={postImageComment}>
+                <IconSend size={14} />
+              </LoadingButton>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   )
 }
@@ -696,6 +756,7 @@ function TimelinePhotoOverlay({
   const [loadingComments, setLoadingComments] = useState(false)
   const [commentError, setCommentError] = useState('')
   const [postingComment, setPostingComment] = useState(false)
+  const [commentsOpen, setCommentsOpen] = useState(false)
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -858,6 +919,10 @@ function TimelinePhotoOverlay({
               <button className="carousel-control carousel-control-next" type="button" aria-label="Next photo" onClick={() => setIndex((i) => (i + 1) % images.length)}>{'>'}</button>
             </>
           ) : null}
+          <button className="modal-view-comments-btn" type="button" onClick={() => setCommentsOpen(true)}>
+            <IconMessageCircle size={14} />
+            {commentCount > 0 ? `${commentCount} comment${commentCount === 1 ? '' : 's'}` : 'Add a comment'}
+          </button>
         </div>
         <aside className="update-modal-detail">
           <div className="update-modal-header">
@@ -916,6 +981,59 @@ function TimelinePhotoOverlay({
           </div>
         </aside>
       </div>
+      {commentsOpen ? (
+        <div className="modal-comments-sheet" role="dialog" aria-label="Comments">
+          <div className="modal-comments-sheet-header">
+            <button className="modal-comments-sheet-back" type="button" onClick={() => setCommentsOpen(false)}>
+              <IconArrowLeft size={16} /> Back
+            </button>
+            <span className="modal-comments-sheet-title">Comments{commentCount > 0 ? ` (${commentCount})` : ''}</span>
+          </div>
+          <div
+            className="modal-comments-sheet-body"
+            onScroll={(event) => {
+              const target = event.currentTarget
+              if (target.scrollTop + target.clientHeight >= target.scrollHeight - 80) void loadMoreComments()
+            }}
+          >
+            {commentError ? <div className="alert alert-error" style={{ margin: '8px 16px' }}>{commentError}</div> : null}
+            {comments.map((item) => (
+              <EditableComment
+                key={item.id}
+                comment={item}
+                canEdit={Boolean(currentUserId && item.userId === currentUserId)}
+                endpoint="/api/image-comments"
+                onChange={(commentId, content) =>
+                  setComments((current) => current.map((commentItem) => (commentItem.id === commentId ? { ...commentItem, content } : commentItem)))
+                }
+                onDelete={(commentId) => {
+                  setComments((current) => {
+                    const next = current.filter((commentItem) => commentItem.id !== commentId && commentItem.parentCommentId !== commentId)
+                    setCommentCount((count) => Math.max(0, count - (current.length - next.length)))
+                    return next
+                  })
+                }}
+                onReply={postImageReplyComment}
+              />
+            ))}
+            {loadingComments ? <div className="comment-loading" style={{ padding: '12px 16px' }}>Loading comments...</div> : null}
+          </div>
+          <div className="modal-comments-sheet-input">
+            <div className="comment-input-row">
+              <input
+                className="form-input"
+                type="text"
+                placeholder="Add a comment..."
+                value={comment}
+                onChange={(event) => setComment(event.target.value)}
+              />
+              <LoadingButton className="btn-icon" aria-label="Post comment" loading={postingComment} disabled={!comment.trim()} onClick={postImageComment}>
+                <IconSend size={14} />
+              </LoadingButton>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   )
 }
@@ -940,6 +1058,7 @@ function FloorPlanModal({
   const [loadingComments, setLoadingComments] = useState(false)
   const [commentError, setCommentError] = useState('')
   const [postingComment, setPostingComment] = useState(false)
+  const [commentsOpen, setCommentsOpen] = useState(false)
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -1047,6 +1166,10 @@ function FloorPlanModal({
               <button className="carousel-control carousel-control-next" type="button" aria-label="Next" onClick={() => setIndex((i) => (i + 1) % plans.length)}>{'>'}</button>
             </>
           ) : null}
+          <button className="modal-view-comments-btn" type="button" onClick={() => setCommentsOpen(true)}>
+            <IconMessageCircle size={14} />
+            {commentCount > 0 ? `${commentCount} comment${commentCount === 1 ? '' : 's'}` : 'Add a comment'}
+          </button>
         </div>
         <aside className="update-modal-detail">
           <div className="update-modal-header">
@@ -1098,6 +1221,58 @@ function FloorPlanModal({
           </div>
         </aside>
       </div>
+      {commentsOpen ? (
+        <div className="modal-comments-sheet" role="dialog" aria-label="Comments">
+          <div className="modal-comments-sheet-header">
+            <button className="modal-comments-sheet-back" type="button" onClick={() => setCommentsOpen(false)}>
+              <IconArrowLeft size={16} /> Back
+            </button>
+            <span className="modal-comments-sheet-title">Comments{commentCount > 0 ? ` (${commentCount})` : ''}</span>
+          </div>
+          <div
+            className="modal-comments-sheet-body"
+            onScroll={(event) => {
+              const target = event.currentTarget
+              if (target.scrollTop + target.clientHeight >= target.scrollHeight - 80) void loadMoreComments()
+            }}
+          >
+            {commentError ? <div className="alert alert-error" style={{ margin: '8px 16px' }}>{commentError}</div> : null}
+            {comments.map((item) => (
+              <EditableComment
+                key={item.id}
+                comment={item}
+                canEdit={Boolean(currentUserId && item.userId === currentUserId)}
+                endpoint="/api/image-comments"
+                onChange={(commentId, content) => setComments((current) => current.map((c) => c.id === commentId ? { ...c, content } : c))}
+                onDelete={(commentId) => {
+                  setComments((current) => {
+                    const next = current.filter((c) => c.id !== commentId && c.parentCommentId !== commentId)
+                    setCommentCount((count) => Math.max(0, count - (current.length - next.length)))
+                    return next
+                  })
+                }}
+                onReply={postReply}
+              />
+            ))}
+            {loadingComments ? <div className="comment-loading" style={{ padding: '12px 16px' }}>Loading comments...</div> : null}
+          </div>
+          <div className="modal-comments-sheet-input">
+            <div className="comment-input-row">
+              <input
+                className="form-input"
+                type="text"
+                placeholder="Add a comment..."
+                value={comment}
+                onChange={(event) => setComment(event.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') void postComment() }}
+              />
+              <LoadingButton className="btn-icon" aria-label="Post comment" loading={postingComment} disabled={!comment.trim()} onClick={postComment}>
+                <IconSend size={14} />
+              </LoadingButton>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   )
 }
@@ -2164,88 +2339,309 @@ function PlanningWishlistCard({ build }: { build: PublicBuildDetail }) {
   )
 }
 
-function DiscussionTab({
-  comments,
+type BuildQAItem = {
+  id: string
+  askerId: string
+  askerUsername: string
+  askerDisplayName: string | null
+  question: string
+  answer: string | null
+  answeredAt: string | null
+  createdAt: string
+}
+
+function BuildQASection({
+  buildId,
   currentUserId,
-  comment,
-  commentError,
-  postingComment,
-  onCommentChange,
-  onPost,
-  onUpdateComment,
-  onDeleteComment,
-  onReplyComment,
+  isOwner,
 }: {
-  comments: CommentItem[]
+  buildId: string
   currentUserId: string | null
-  comment: string
-  commentError: string
-  postingComment: boolean
-  onCommentChange: (value: string) => void
-  onPost: () => void
-  onUpdateComment: (commentId: string, content: string) => void
-  onDeleteComment: (commentId: string) => void
-  onReplyComment: (parentCommentId: string, content: string) => Promise<string | null>
+  isOwner: boolean
 }) {
-  const [showAll, setShowAll] = useState(false)
-  const visibleComments = showAll ? comments : comments.slice(-12)
-  const hiddenCount = Math.max(0, comments.length - visibleComments.length)
+  const [items, setItems] = useState<BuildQAItem[] | null>(null)
+  const [loadingQA, setLoadingQA] = useState(true)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [questionText, setQuestionText] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
+  const [answerDraft, setAnswerDraft] = useState<Record<string, string>>({})
+  const [answeringId, setAnsweringId] = useState<string | null>(null)
+  const [savingAnswer, setSavingAnswer] = useState(false)
+
+  useEffect(() => {
+    let cancelled = false
+    fetch(`/api/builds/${buildId}/qa`)
+      .then((r) => r.json())
+      .then((data) => { if (!cancelled) { setItems(data.items ?? []); setLoadingQA(false) } })
+      .catch(() => { if (!cancelled) { setItems([]); setLoadingQA(false) } })
+    return () => { cancelled = true }
+  }, [buildId])
+
+  const closeModal = () => { setModalOpen(false); setQuestionText(''); setSubmitError('') }
+
+  const handleAsk = async () => {
+    if (!questionText.trim() || submitting) return
+    setSubmitting(true)
+    setSubmitError('')
+    const res = await fetch(`/api/builds/${buildId}/qa`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question: questionText.trim() }),
+    })
+    const data = await res.json()
+    setSubmitting(false)
+    if (!res.ok) { setSubmitError(data.error ?? 'Failed to submit.'); return }
+    setItems((prev) => [data.item, ...(prev ?? [])])
+    closeModal()
+  }
+
+  const handleAnswer = async (qaId: string) => {
+    const text = (answerDraft[qaId] ?? '').trim()
+    if (!text || savingAnswer) return
+    setSavingAnswer(true)
+    const res = await fetch(`/api/builds/${buildId}/qa/${qaId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answer: text }),
+    })
+    const data = await res.json()
+    setSavingAnswer(false)
+    if (res.ok) {
+      setItems((prev) => (prev ?? []).map((i) => i.id === qaId ? { ...i, answer: text, answeredAt: data.answeredAt } : i))
+      setAnsweringId(null)
+    }
+  }
+
+  const handleDelete = async (qaId: string) => {
+    await fetch(`/api/builds/${buildId}/qa/${qaId}`, { method: 'DELETE' })
+    setItems((prev) => (prev ?? []).filter((i) => i.id !== qaId))
+  }
+
+  return (
+    <div className="build-qa-section">
+      <div className="build-qa-header">
+        <h3 className="build-qa-section-title">Questions & Answers</h3>
+        {!isOwner && (
+          <button className="btn btn-primary btn-sm" onClick={() => setModalOpen(true)}>
+            Ask a question
+          </button>
+        )}
+      </div>
+
+      {loadingQA ? (
+        <p className="build-qa-loading">Loading…</p>
+      ) : items && items.length > 0 ? (
+        <div className="build-qa-list">
+          {items.map((item) => (
+            <div key={item.id} className="build-qa-item">
+              <div className="build-qa-question-row">
+                <div className="build-qa-q-mark">Q</div>
+                <div className="build-qa-question-body">
+                  <div className="build-qa-question-meta">
+                    <span className="build-qa-asker">
+                      {item.askerDisplayName ?? item.askerUsername}
+                      <span className="build-qa-asker-handle"> @{item.askerUsername}</span>
+                    </span>
+                    <span className="build-qa-time">{formatRelativeTime(item.createdAt)}</span>
+                    {(currentUserId === item.askerId || isOwner) && (
+                      <button className="build-qa-delete-btn" onClick={() => handleDelete(item.id)} title="Delete">
+                        <IconTrash size={12} />
+                      </button>
+                    )}
+                  </div>
+                  <p className="build-qa-question-text">{item.question}</p>
+                </div>
+              </div>
+
+              {item.answer ? (
+                <div className="build-qa-answer-row">
+                  <div className="build-qa-a-mark">A</div>
+                  <p className="build-qa-answer-text">{item.answer}</p>
+                </div>
+              ) : isOwner ? (
+                answeringId === item.id ? (
+                  <div className="build-qa-answer-form">
+                    <textarea
+                      className="form-textarea"
+                      placeholder="Your answer…"
+                      value={answerDraft[item.id] ?? ''}
+                      onChange={(e) => setAnswerDraft((prev) => ({ ...prev, [item.id]: e.target.value }))}
+                      rows={2}
+                      autoFocus
+                    />
+                    <div className="build-qa-form-footer">
+                      <button className="btn btn-secondary btn-sm" onClick={() => setAnsweringId(null)}>Cancel</button>
+                      <LoadingButton
+                        className="btn btn-primary btn-sm"
+                        loading={savingAnswer}
+                        disabled={!(answerDraft[item.id] ?? '').trim()}
+                        onClick={() => handleAnswer(item.id)}
+                      >
+                        Post answer
+                      </LoadingButton>
+                    </div>
+                  </div>
+                ) : (
+                  <button
+                    className="btn btn-secondary btn-sm build-qa-answer-btn"
+                    onClick={() => setAnsweringId(item.id)}
+                  >
+                    Answer this question
+                  </button>
+                )
+              ) : (
+                <p className="build-qa-unanswered">Awaiting owner's response</p>
+              )}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="empty-state empty-state-compact">
+          <h3 className="empty-state-title">No questions yet</h3>
+          <p className="empty-state-sub">
+            {isOwner
+              ? 'Questions from visitors will appear here for you to answer.'
+              : 'Be the first to ask the build owner a question.'}
+          </p>
+          {!isOwner && (
+            <button className="btn btn-primary btn-sm" style={{ marginTop: 8 }} onClick={() => setModalOpen(true)}>
+              Ask a question
+            </button>
+          )}
+        </div>
+      )}
+
+      {/* Ask a question modal */}
+      {modalOpen && (
+        <div className="bb-modal" role="dialog" aria-modal="true" aria-labelledby="qa-modal-title">
+          <button className="bb-modal-backdrop" type="button" aria-label="Close" onClick={closeModal} />
+          <div className="bb-modal-panel">
+            <div className="bb-modal-header">
+              <div>
+                <h2 id="qa-modal-title" className="bb-modal-title">Ask a question</h2>
+                <p className="bb-modal-subtitle">The build owner will be notified and can reply here.</p>
+              </div>
+              <button className="btn-icon" type="button" aria-label="Close" onClick={closeModal}>
+                <IconX size={16} />
+              </button>
+            </div>
+            <div className="bb-modal-body">
+              {currentUserId ? (
+                <>
+                  <textarea
+                    className="form-textarea"
+                    placeholder="What would you like to know about this build?"
+                    value={questionText}
+                    onChange={(e) => setQuestionText(e.target.value)}
+                    rows={4}
+                    autoFocus
+                    maxLength={500}
+                  />
+                  <p className="form-hint" style={{ textAlign: 'right' }}>{questionText.length}/500</p>
+                  {submitError && <p className="build-qa-error">{submitError}</p>}
+                </>
+              ) : (
+                <div className="empty-state empty-state-compact">
+                  <p className="empty-state-sub">You need to be signed in to ask a question.</p>
+                  <Link href="/get-started" className="btn btn-primary btn-sm" style={{ marginTop: 8 }}>
+                    Sign in
+                  </Link>
+                </div>
+              )}
+            </div>
+            {currentUserId && (
+              <div className="bb-modal-footer">
+                <button className="btn btn-secondary" onClick={closeModal}>Cancel</button>
+                <LoadingButton
+                  className="btn btn-primary"
+                  loading={submitting}
+                  disabled={questionText.trim().length < 5}
+                  onClick={handleAsk}
+                >
+                  <IconSend size={14} /> Submit question
+                </LoadingButton>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function CommunityDiscussionTab({
+  buildId,
+}: {
+  buildId: string
+}) {
+  const router = useRouter()
+  const [posts, setPosts] = useState<CommunityPost[] | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    let cancelled = false
+    setLoading(true)
+    fetch(`/api/community/posts?buildId=${buildId}&limit=20`)
+      .then((r) => r.json())
+      .then((data) => { if (!cancelled) { setPosts(data.posts ?? []); setLoading(false) } })
+      .catch(() => { if (!cancelled) { setPosts([]); setLoading(false) } })
+    return () => { cancelled = true }
+  }, [buildId])
 
   return (
     <section className="discussion-panel">
-      <div className="card comment-prompt">
-        <div className="comment-prompt-body">
-          <div className="comment-form-row">
-            <textarea
-              className="form-textarea"
-              placeholder="Ask a question or leave a comment..."
-              value={comment}
-              onChange={(event) => onCommentChange(event.target.value)}
-            />
-            <div className="comment-actions">
-              <LoadingButton className="btn btn-primary btn-sm" loading={postingComment} disabled={!comment.trim()} onClick={onPost}>
-                Post
-              </LoadingButton>
+      <div className="build-community-discussion-header">
+        <h2 className="build-community-discussion-title">Community Discussions</h2>
+        <p className="build-community-discussion-sub">Posts linked to this build by the owner</p>
+      </div>
+
+      {loading ? (
+        <div className="empty-state empty-state-compact">
+          <p className="empty-state-sub">Loading…</p>
+        </div>
+      ) : posts && posts.length > 0 ? (
+        <div className="build-community-posts">
+          {posts.map((post) => (
+            <div
+              key={post.id}
+              className="build-community-post-card"
+              onClick={() => router.push(`/community/${post.id}`)}
+              role="article"
+            >
+              {post.tags.length > 0 && (
+                <div className="community-post-tags">
+                  {post.tags.map((tag) => <span key={tag} className="community-tag">{tag}</span>)}
+                </div>
+              )}
+              <h3 className="build-community-post-title">{post.title}</h3>
+              {post.body && (
+                <p className="build-community-post-preview">
+                  {post.body.length > 120 ? post.body.slice(0, 120) + '…' : post.body}
+                </p>
+              )}
+              <div className="build-community-post-meta">
+                <span className="community-post-stat">
+                  <IconMessageCircle size={13} />
+                  {post.commentCount} {post.commentCount === 1 ? 'comment' : 'comments'}
+                </span>
+                {post.acceptedCommentId && (
+                  <span className="community-answered-badge"><IconCheck size={11} /> Answered</span>
+                )}
+                <span className="build-community-post-link">
+                  View in community <IconExternalLink size={12} />
+                </span>
+              </div>
             </div>
-          </div>
-          {commentError ? <div className="alert alert-error">{commentError}</div> : null}
+          ))}
         </div>
-      </div>
-
-      <div className="card comments-panel discussion-comments">
-        <div className="discussion-header">
-          <div>
-            <h2>Discussion</h2>
-            <p>{comments.length} comment{comments.length === 1 ? '' : 's'}</p>
-          </div>
-          {hiddenCount > 0 ? (
-            <button className="btn btn-ghost btn-sm" onClick={() => setShowAll(true)}>
-              Show {hiddenCount} older
-            </button>
-          ) : null}
+      ) : (
+        <div className="empty-state empty-state-compact">
+          <h3 className="empty-state-title">No community posts yet</h3>
+          <p className="empty-state-sub">No community discussions have been linked to this build yet.</p>
         </div>
+      )}
 
-        {visibleComments.length > 0 ? (
-          <div className="comment-list">
-            {visibleComments.map((item) => (
-              <EditableComment
-                key={item.id}
-                comment={item}
-                canEdit={Boolean(currentUserId && item.userId === currentUserId)}
-                endpoint="/api/build-comments"
-                onChange={onUpdateComment}
-                onDelete={onDeleteComment}
-                onReply={onReplyComment}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="empty-state empty-state-compact">
-            <h3 className="empty-state-title">No discussion yet</h3>
-            <p className="empty-state-sub">Questions and build-level comments will appear here.</p>
-          </div>
-        )}
-      </div>
     </section>
   )
 }
@@ -2461,13 +2857,23 @@ type BuildProfileClientProps = {
   username: string
   viewerPlanningBuilds?: ViewerPlanningBuild[]
   initialTab?: string
+  returnTo?: string | null
 }
 
-export function BuildProfileClient({ build, username, viewerPlanningBuilds = [], initialTab }: BuildProfileClientProps) {
+export function BuildProfileClient({ build, username, viewerPlanningBuilds = [], initialTab, returnTo = null }: BuildProfileClientProps) {
   const router = useRouter()
   const isPlanning = build.stage === 'planning'
-  const resolvedInitialTab: Tab = ALL_TABS.includes(initialTab as Tab) ? (initialTab as Tab) : 'Overview'
+  const resolvedInitialTab: Tab = ALL_TABS.includes(initialTab as Tab)
+    ? (initialTab as Tab)
+    : isPlanning ? 'Overview' : 'Updates'
   const [activeTab, setActiveTab] = useState<Tab>(resolvedInitialTab)
+
+  // On mobile (≤767px) with no explicit ?tab= param, non-planning builds show Overview
+  useEffect(() => {
+    if (!initialTab && !isPlanning && typeof window !== 'undefined' && window.innerWidth <= 767) {
+      setActiveTab('Overview')
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
   const [following, setFollowing] = useState(build.isFollowing)
   const [followerCount, setFollowerCount] = useState(build.followers)
   const [comment, setComment] = useState('')
@@ -2678,9 +3084,15 @@ export function BuildProfileClient({ build, username, viewerPlanningBuilds = [],
 
       <div className="back-bar">
         <div className="page-container">
-          <button type="button" className="back-link" onClick={goBack}>
-            <IconArrowLeft size={13} /> Back
-          </button>
+          {returnTo ? (
+            <Link href={returnTo} className="back-link">
+              <IconArrowLeft size={13} /> Back to community post
+            </Link>
+          ) : (
+            <button type="button" className="back-link" onClick={goBack}>
+              <IconArrowLeft size={13} /> Back
+            </button>
+          )}
         </div>
       </div>
 
@@ -2798,26 +3210,17 @@ export function BuildProfileClient({ build, username, viewerPlanningBuilds = [],
             )}
 
             {activeTab === 'Discussion' && (
-              <DiscussionTab
-                comments={buildComments}
-                currentUserId={build.currentUserId}
-                comment={comment}
-                commentError={commentError}
-                postingComment={postingComment}
-                onCommentChange={setComment}
-                onPost={postBuildComment}
-                onUpdateComment={(commentId, content) =>
-                  setBuildComments((current) => current.map((item) => (item.id === commentId ? { ...item, content } : item)))
-                }
-                onDeleteComment={(commentId) => {
-                  setBuildComments((current) => {
-                    const next = current.filter((item) => item.id !== commentId && item.parentCommentId !== commentId)
-                    setCommentCount((count) => Math.max(0, count - (current.length - next.length)))
-                    return next
-                  })
-                }}
-                onReplyComment={postBuildReplyComment}
-              />
+              <CommunityDiscussionTab buildId={build.id} />
+            )}
+
+            {activeTab === 'Q&A' && (
+              <section className="discussion-panel">
+                <BuildQASection
+                  buildId={build.id}
+                  currentUserId={build.currentUserId}
+                  isOwner={isOwner}
+                />
+              </section>
             )}
 
             {activeTab === 'Timeline' && (

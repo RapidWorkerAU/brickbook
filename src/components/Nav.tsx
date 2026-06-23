@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { IconBell, IconBuilding, IconBuildingCommunity, IconCheck, IconHome, IconLogout, IconMapPin, IconMenu2, IconPhoto, IconPlus, IconSearch, IconSettings, IconUser, IconX } from '@tabler/icons-react'
+import { IconBell, IconBuilding, IconBuildingCommunity, IconCheck, IconHome, IconLogout, IconMapPin, IconMenu2, IconMessages, IconPhoto, IconPlus, IconSearch, IconSettings, IconUser, IconX } from '@tabler/icons-react'
 import { useEffect, useRef, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
@@ -12,6 +12,7 @@ interface NavProps {
 
 const NAV_LINKS = [
   { label: 'Discover', href: '/discover' },
+  { label: 'Community', href: '/community' },
   { label: 'Builders', href: '/builders' },
   { label: 'Suburbs', href: '/suburbs' },
   { label: 'Estates', href: '/estates' },
@@ -461,11 +462,11 @@ export default function Nav({ user }: NavProps) {
               <span className="bb-tab-bar-label">Home</span>
             </Link>
             <Link
-              href="/discover"
-              className={`bb-tab-bar-item${pathname.startsWith('/discover') ? ' bb-tab-bar-item-active' : ''}`}
+              href="/community"
+              className={`bb-tab-bar-item${pathname.startsWith('/community') ? ' bb-tab-bar-item-active' : ''}`}
             >
-              <IconSearch size={22} />
-              <span className="bb-tab-bar-label">Discover</span>
+              <IconMessages size={22} />
+              <span className="bb-tab-bar-label">Community</span>
             </Link>
             <button type="button" className="bb-tab-bar-item bb-tab-bar-add" onClick={openQuickAdd}>
               <span className="bb-tab-bar-add-circle"><IconPlus size={20} /></span>

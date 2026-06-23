@@ -14,9 +14,9 @@ export default async function PublicBuildProfilePage({
   searchParams,
 }: {
   params: Promise<{ username: string; slug: string }>;
-  searchParams: Promise<{ tab?: string }>;
+  searchParams: Promise<{ tab?: string; returnTo?: string }>;
 }) {
-  const [{ username, slug }, { tab: initialTab }] = await Promise.all([params, searchParams]);
+  const [{ username, slug }, { tab: initialTab, returnTo }] = await Promise.all([params, searchParams]);
   const supabase = await createClient();
   const [build, { data: { user } }] = await Promise.all([
     getPublicBuild(username, slug),
@@ -52,5 +52,5 @@ export default async function PublicBuildProfilePage({
     }
   }
 
-  return <BuildProfileClient build={build} username={username} viewerPlanningBuilds={viewerPlanningBuilds} initialTab={initialTab} />;
+  return <BuildProfileClient build={build} username={username} viewerPlanningBuilds={viewerPlanningBuilds} initialTab={initialTab} returnTo={returnTo ?? null} />;
 }

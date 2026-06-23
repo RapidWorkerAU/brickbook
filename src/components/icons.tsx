@@ -145,6 +145,14 @@ export function IconSearch(props: IconProps) {
   return <IconBase {...props}><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></IconBase>;
 }
 
+export function IconMessages(props: IconProps) {
+  return <IconBase {...props}><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /><path d="M8 10h8M8 14h5" /></IconBase>;
+}
+
+export function IconChevronUp(props: IconProps) {
+  return <IconBase {...props}><path d="m18 15-6-6-6 6" /></IconBase>;
+}
+
 export function IconFilter(props: IconProps) {
   return <IconBase {...props}><path d="M4 6h16M7 12h10M10 18h4" /></IconBase>;
 }
