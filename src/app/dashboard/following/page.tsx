@@ -39,7 +39,7 @@ export default async function FollowingPage() {
   const { data: follows } = await supabase
     .from("build_follows")
     .select("build_id")
-    .eq("user_id", user.id)
+    .eq("follower_id", user.id)
     .order("created_at", { ascending: false });
 
   const buildIds = ((follows ?? []) as { build_id: string }[]).map((f) => f.build_id);

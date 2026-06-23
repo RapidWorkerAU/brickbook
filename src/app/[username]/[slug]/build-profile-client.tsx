@@ -1059,6 +1059,9 @@ function FloorPlanModal({
   const [commentError, setCommentError] = useState('')
   const [postingComment, setPostingComment] = useState(false)
   const [commentsOpen, setCommentsOpen] = useState(false)
+  const [imgError, setImgError] = useState(false)
+
+  useEffect(() => { setImgError(false) }, [plan.imageUrl])
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -1157,8 +1160,12 @@ function FloorPlanModal({
             touchStartX.current = null
           }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="timeline-modal-image" src={plan.imageUrl} alt="Floor plan" />
+          {imgError ? (
+            <div className="floor-plan-img-error">Unable to load floor plan image.</div>
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img className="timeline-modal-image" src={plan.imageUrl} alt="Floor plan" onError={() => setImgError(true)} />
+          )}
           {plans.length > 1 && <span className="photo-lightbox-count">{index + 1} / {plans.length}</span>}
           {plans.length > 1 ? (
             <>
