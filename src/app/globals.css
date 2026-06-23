@@ -2550,7 +2550,8 @@ img {
   right: 10px;
   z-index: 2;
   background: var(--bb-white);
-  box-shadow: 0 2px 8px rgba(28, 25, 23, 0.12);
+  border: 0.5px solid var(--bb-stone-200);
+  box-shadow: 0 2px 6px rgba(28, 25, 23, 0.10);
 }
 
 .update-modal-media {
@@ -2559,6 +2560,7 @@ img {
   justify-content: center;
   min-width: 0;
   min-height: 0;
+  height: 100%;
   overflow: hidden;
   border-radius: var(--bb-radius-lg) 0 0 var(--bb-radius-lg);
   background: var(--bb-black);

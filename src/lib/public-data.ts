@@ -51,6 +51,7 @@ export type PublicFloorPlan = {
   id: string;
   imageUrl: string;
   planType: string | null;
+  isPdf: boolean;
   commentCount: number;
 };
 
@@ -777,7 +778,8 @@ export async function getPublicBuild(username: string, slug: string): Promise<Pu
       .map((image) => {
         const url = image.storage_path ? (signedImageUrls.get(image.storage_path) ?? null) : null;
         if (!url) return null;
-        return { id: image.id, imageUrl: url, planType: image.plan_type ?? null, commentCount: imageCommentCounts.get(image.id) ?? 0 } satisfies PublicFloorPlan;
+        const isPdf = (image.storage_path ?? '').toLowerCase().endsWith('.pdf')
+        return { id: image.id, imageUrl: url, planType: image.plan_type ?? null, isPdf, commentCount: imageCommentCounts.get(image.id) ?? 0 } satisfies PublicFloorPlan;
       })
       .filter((p): p is PublicFloorPlan => p !== null),
     ownerName: profile.displayName,

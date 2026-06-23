@@ -1035,6 +1035,84 @@ function TimelinePhotoOverlay({
   )
 }
 
+function PdfCanvas({ url }: { url: string }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const renderTaskRef = useRef<{ cancel: () => void } | null>(null)
+  const [error, setError] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function render() {
+      // Cancel any in-progress render from the previous run (React Strict Mode double-invokes)
+      if (renderTaskRef.current) {
+        renderTaskRef.current.cancel()
+        renderTaskRef.current = null
+      }
+
+      setError(false)
+      setLoading(true)
+
+      try {
+        const pdfjsLib = await import('pdfjs-dist')
+        pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`
+
+        if (cancelled) return
+
+        const pdf = await pdfjsLib.getDocument({ url, withCredentials: false }).promise
+        if (cancelled) return
+
+        const page = await pdf.getPage(1)
+        if (cancelled) return
+
+        const canvas = canvasRef.current
+        if (!canvas) return
+
+        const containerWidth = canvas.parentElement?.clientWidth ?? 680
+        const baseViewport = page.getViewport({ scale: 1 })
+        const scale = containerWidth / baseViewport.width
+        const viewport = page.getViewport({ scale })
+
+        canvas.width = viewport.width
+        canvas.height = viewport.height
+
+        const ctx = canvas.getContext('2d')
+        if (!ctx || cancelled) return
+
+        const task = page.render({ canvasContext: ctx, viewport })
+        renderTaskRef.current = task
+
+        await task.promise
+        if (!cancelled) setLoading(false)
+      } catch (err: unknown) {
+        // RenderingCancelledException is expected on cleanup — not an error
+        if (err && typeof err === 'object' && 'name' in err && (err as { name: string }).name === 'RenderingCancelledException') return
+        console.error('[PdfCanvas] render failed:', err)
+        if (!cancelled) { setError(true); setLoading(false) }
+      }
+    }
+
+    void render()
+
+    return () => {
+      cancelled = true
+      if (renderTaskRef.current) {
+        renderTaskRef.current.cancel()
+        renderTaskRef.current = null
+      }
+    }
+  }, [url])
+
+  if (error) return <div className="floor-plan-img-error">Unable to load floor plan PDF.</div>
+  return (
+    <>
+      {loading && <div className="floor-plan-img-error" style={{ color: 'rgba(255,255,255,0.5)' }}>Loading floor plan…</div>}
+      <canvas ref={canvasRef} style={{ display: loading ? 'none' : 'block', width: '100%', height: 'auto' }} />
+    </>
+  )
+}
+
 function FloorPlanModal({
   plans,
   currentUserId,
@@ -1157,7 +1235,9 @@ function FloorPlanModal({
             touchStartX.current = null
           }}
         >
-          {imgError ? (
+          {plan.isPdf ? (
+            <PdfCanvas url={plan.imageUrl} />
+          ) : imgError ? (
             <div className="floor-plan-img-error">Unable to load floor plan image.</div>
           ) : (
             // eslint-disable-next-line @next/next/no-img-element
