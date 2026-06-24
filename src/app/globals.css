@@ -2597,9 +2597,8 @@ img {
 .update-modal-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 12px;
-  padding-right: 44px;
+  padding-right: 48px;
   border-bottom: 0.5px solid var(--bb-stone-100);
 }
 

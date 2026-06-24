@@ -1069,13 +1069,17 @@ function PdfCanvas({ url }: { url: string }) {
         const canvas = canvasRef.current
         if (!canvas) return
 
+        const dpr = window.devicePixelRatio || 1
         const containerWidth = canvas.parentElement?.clientWidth ?? 680
         const baseViewport = page.getViewport({ scale: 1 })
-        const scale = containerWidth / baseViewport.width
+        const scale = (containerWidth / baseViewport.width) * dpr
         const viewport = page.getViewport({ scale })
 
+        // Physical pixels = logical size × DPR; CSS size keeps it at logical width
         canvas.width = viewport.width
         canvas.height = viewport.height
+        canvas.style.width = '100%'
+        canvas.style.height = 'auto'
 
         const ctx = canvas.getContext('2d')
         if (!ctx || cancelled) return
