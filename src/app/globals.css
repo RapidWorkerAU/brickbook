@@ -9749,15 +9749,20 @@ img {
   align-items: center;
   gap: 5px;
   margin-top: 10px;
+  margin-bottom: 14px;
   font-size: 12px;
   font-weight: 500;
   color: var(--bb-amber-600);
   background: var(--bb-amber-50, #fffbeb);
   border: 1px solid var(--bb-amber-200, #fde68a);
   border-radius: 999px;
-  padding: 3px 10px;
+  padding: 4px 12px 4px 10px;
   text-decoration: none;
   transition: opacity 0.15s;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .community-post-build-link:hover {
