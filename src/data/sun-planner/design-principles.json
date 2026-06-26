@@ -2,7 +2,7 @@
   "1": {
     "zoneName": "Hot Humid Tropical",
     "zoneStates": "Far North QLD, NT Top End, Kimberley WA",
-    "summary": "This climate has no real winter. The challenge is year-round heat and high humidity, with a distinct wet and dry season. Cooling, shade, and ventilation do all the work — thermal mass is your enemy here, not your friend.",
+    "summary": "This climate has no real winter. The challenge is year-round heat and high humidity, with a distinct wet and dry season. Cooling, shade, and ventilation do all the work. Thermal mass is your enemy here, not your friend.",
     "principles": [
       {
         "id": "cross-ventilation",
@@ -10,7 +10,7 @@
         "icon": "wind",
         "priority": 1,
         "orientationRelevant": ["N", "S", "E", "W", "NE", "NW", "SE", "SW"],
-        "body": "Open your house to the prevailing breeze. In most of Zone 1, the dominant breeze is from the SE in the dry season and NW in the wet. Place openable windows on opposite sides of each room — not just opposite walls of the house. The airflow through a room matters more than the total window area. Louvres and high-level clerestory windows that vent hot air from ceiling level are highly effective. Ceiling fans in every room reduce the felt temperature by 3–4°C at minimal energy cost."
+        "body": "Open your house to the prevailing breeze. In most of Zone 1, the dominant breeze is from the SE in the dry season and NW in the wet. Place openable windows on opposite sides of each room, not just opposite walls of the house. The airflow through a room matters more than the total window area. Louvres and high-level clerestory windows that vent hot air from ceiling level are highly effective. Ceiling fans in every room reduce the felt temperature by 3-4°C at minimal energy cost."
       },
       {
         "id": "elevated-floor",
@@ -18,7 +18,7 @@
         "icon": "layers",
         "priority": 2,
         "orientationRelevant": ["N", "S", "E", "W", "NE", "NW", "SE", "SW"],
-        "body": "Traditional Queensland-style homes on stumps or posts catch breezes at floor level and prevent ground heat and moisture from entering the building. Even a 600mm raise makes a measurable difference to ventilation and comfort. Avoid slab-on-ground in this zone — concrete slabs absorb and radiate heat around the clock."
+        "body": "Traditional Queensland-style homes on stumps or posts catch breezes at floor level and prevent ground heat and moisture from entering the building. Even a 600mm raise makes a measurable difference to ventilation and comfort. Avoid slab-on-ground in this zone. Concrete slabs absorb and radiate heat around the clock."
       },
       {
         "id": "shade-everything",
@@ -26,7 +26,7 @@
         "icon": "sun",
         "priority": 3,
         "orientationRelevant": ["N", "S", "E", "W", "NE", "NW", "SE", "SW"],
-        "body": "The single most effective intervention in Zone 1 is preventing solar radiation from hitting your walls and roof in the first place. Deep verandahs on all sides (minimum 2m wide), overhanging eaves, and shade trees planted on the east and west flanks do more than any amount of insulation. The roof is your biggest heat gain surface — a well-ventilated roof cavity with reflective foil under the roof cladding dramatically reduces ceiling heat load."
+        "body": "The single most effective intervention in Zone 1 is preventing solar radiation from hitting your walls and roof in the first place. Deep verandahs on all sides (minimum 2m wide), overhanging eaves, and shade trees planted on the east and west flanks do more than any amount of insulation. The roof is your biggest heat gain surface. A well-ventilated roof cavity with reflective foil under the roof cladding dramatically reduces ceiling heat load."
       },
       {
         "id": "avoid-thermal-mass",
@@ -34,7 +34,7 @@
         "icon": "box",
         "priority": 4,
         "orientationRelevant": ["N", "S", "E", "W", "NE", "NW", "SE", "SW"],
-        "body": "Brick, concrete, and stone store heat during the day and release it at night. In Zone 1, nights are rarely cool enough to flush this stored heat away — so thermal mass just makes your house hotter around the clock. Lightweight construction (timber frame, fibre cement, or steel) that does not store heat is preferred. If you are building in masonry for other reasons, ensure the walls are well-insulated on the outside face."
+        "body": "Brick, concrete, and stone store heat during the day and release it at night. In Zone 1, nights are rarely cool enough to flush this stored heat away, so thermal mass just makes your house hotter around the clock. Lightweight construction (timber frame, fibre cement, or steel) that does not store heat is preferred. If you are building in masonry for other reasons, ensure the walls are well-insulated on the outside face."
       },
       {
         "id": "east-west-glazing",
@@ -42,7 +42,7 @@
         "icon": "window",
         "priority": 5,
         "orientationRelevant": ["E", "W", "NE", "NW", "SE", "SW"],
-        "body": "East and west walls receive low-angle morning and afternoon sun that is almost impossible to shade with fixed eaves — the sun hits too close to horizontal. Keep windows on east and west walls small and use external shading devices such as vertical fins or deciduous pergolas. If you have a choice, put living areas and bedrooms on the south or north sides of the house and treat east/west facades as utility zones."
+        "body": "East and west walls receive low-angle morning and afternoon sun that is almost impossible to shade with fixed eaves, as the sun hits too close to horizontal. Keep windows on east and west walls small and use external shading devices such as vertical fins or deciduous pergolas. If you have a choice, put living areas and bedrooms on the south or north sides of the house and treat east/west facades as utility zones."
       },
       {
         "id": "roof-colour",
@@ -57,7 +57,7 @@
   "2": {
     "zoneName": "Warm Humid",
     "zoneStates": "Coastal QLD (Cairns to Brisbane), coastal NT, coastal Pilbara WA",
-    "summary": "Similar to Zone 1 but with slightly more seasonal variation — winters are mild rather than hot. Cooling still dominates the challenge, but there are occasional cool nights where thermal mass can provide some benefit. Ventilation and shading remain the primary strategies.",
+    "summary": "Similar to Zone 1 but with slightly more seasonal variation. Winters are mild rather than hot. Cooling still dominates the challenge, but there are occasional cool nights where thermal mass can provide some benefit. Ventilation and shading remain the primary strategies.",
     "principles": [
       {
         "id": "ventilation-first",
@@ -69,11 +69,11 @@
       },
       {
         "id": "north-orientation",
-        "title": "Face living areas north — but shade aggressively",
+        "title": "Face living areas north, but shade aggressively",
         "icon": "compass",
         "priority": 2,
         "orientationRelevant": ["N", "NE", "NW"],
-        "body": "Unlike Zone 1, Zone 2 has a mild winter where some passive solar gain in the morning is welcome. North-facing living areas with generous eaves (900mm–1200mm) allow low winter sun in while blocking high summer sun. The eave sizing matters: too short and you get summer overheating, too long and you lose winter light. Use the latitude-based rule: eave projection = distance from eave to window sill × tan(90° − latitude − 23.5°) for summer cut-off."
+        "body": "Unlike Zone 1, Zone 2 has a mild winter where some passive solar gain in the morning is welcome. North-facing living areas with generous eaves (900mm-1200mm) allow low winter sun in while blocking high summer sun. The eave sizing matters: too short and you get summer overheating, too long and you lose winter light. Use the latitude-based rule: eave projection = distance from eave to window sill x tan(90° - latitude - 23.5°) for summer cut-off."
       },
       {
         "id": "shade-east-west",
@@ -81,7 +81,7 @@
         "icon": "sun",
         "priority": 3,
         "orientationRelevant": ["E", "W", "NE", "NW", "SE", "SW"],
-        "body": "Western sun in the afternoon causes the most uncomfortable heat gain in Zone 2. Minimise window openings on the west wall, or protect them with deep vertical fins, pergolas, or deciduous climbing plants. East windows are less problematic in the morning but still warrant shading in summer. Plant shade trees on the west side — a single large tree can shade an entire western wall by afternoon."
+        "body": "Western sun in the afternoon causes the most uncomfortable heat gain in Zone 2. Minimise window openings on the west wall, or protect them with deep vertical fins, pergolas, or deciduous climbing plants. East windows are less problematic in the morning but still warrant shading in summer. Plant shade trees on the west side. A single large tree can shade an entire western wall by afternoon."
       },
       {
         "id": "moderate-thermal-mass",
@@ -105,14 +105,14 @@
         "icon": "window",
         "priority": 6,
         "orientationRelevant": ["E", "W", "NE", "NW", "SE", "SW"],
-        "body": "If you cannot avoid east or west glazing, specify glass with a Solar Heat Gain Coefficient (SHGC) below 0.4. This limits the amount of solar energy that passes through while still allowing daylight. Low-e coatings on glass also reduce radiant heat transfer. For north-facing windows where you want some winter sun gain, a higher SHGC (0.5–0.6) combined with good eave shading is appropriate."
+        "body": "If you cannot avoid east or west glazing, specify glass with a Solar Heat Gain Coefficient (SHGC) below 0.4. This limits the amount of solar energy that passes through while still allowing daylight. Low-e coatings on glass also reduce radiant heat transfer. For north-facing windows where you want some winter sun gain, a higher SHGC (0.5-0.6) combined with good eave shading is appropriate."
       }
     ]
   },
   "3": {
     "zoneName": "Hot Dry Summer, Warm Winter",
     "zoneStates": "Inland QLD, inland NSW, northern SA, inland WA (Gascoyne, Murchison)",
-    "summary": "Extreme summer heat with low humidity, and mild to warm winters. The significant daily temperature swing (often 15–20°C between day and night) is a major asset — thermal mass charged with cool night air stays comfortable well into the next day. Both heating and cooling matter here.",
+    "summary": "Extreme summer heat with low humidity, and mild to warm winters. The significant daily temperature swing (often 15-20°C between day and night) is a major asset. Thermal mass charged with cool night air stays comfortable well into the next day. Both heating and cooling matter here.",
     "principles": [
       {
         "id": "thermal-mass-night-purge",
@@ -120,7 +120,7 @@
         "icon": "moon",
         "priority": 1,
         "orientationRelevant": ["N", "S", "E", "W", "NE", "NW", "SE", "SW"],
-        "body": "Zone 3's biggest advantage is the large diurnal temperature range — nights are often 15–20°C cooler than afternoons. A concrete slab or masonry walls absorb heat during the day but can be flushed with cool night air by opening windows in the evening and closing them in the morning. This passive cooling cycle can keep indoor temperatures 8–12°C below outdoor peak temperatures. Concrete floors, brick walls, and rammed earth all perform well here."
+        "body": "Zone 3's biggest advantage is the large diurnal temperature range. Nights are often 15-20°C cooler than afternoons. A concrete slab or masonry walls absorb heat during the day but can be flushed with cool night air by opening windows in the evening and closing them in the morning. This passive cooling cycle can keep indoor temperatures 8-12°C below outdoor peak temperatures. Concrete floors, brick walls, and rammed earth all perform well here."
       },
       {
         "id": "north-glazing",
@@ -128,11 +128,11 @@
         "icon": "sun",
         "priority": 2,
         "orientationRelevant": ["N", "NE", "NW"],
-        "body": "Living areas should face north. In winter, north-facing glass allows the low sun to enter and warm the thermal mass inside. In summer, correctly proportioned eaves exclude the high sun entirely. The eave calculation is critical here because summer temperatures are extreme — undersized eaves cause severe overheating. A general rule for inland Australia: eave overhang should equal approximately 45% of the window height for full summer exclusion at noon."
+        "body": "Living areas should face north. In winter, north-facing glass allows the low sun to enter and warm the thermal mass inside. In summer, correctly proportioned eaves exclude the high sun entirely. The eave calculation is critical here because summer temperatures are extreme. Undersized eaves cause severe overheating. A general rule for inland Australia: eave overhang should equal approximately 45% of the window height for full summer exclusion at noon."
       },
       {
         "id": "exclude-summer-sun",
-        "title": "Exclude summer sun completely — then open at night",
+        "title": "Exclude summer sun completely, then open at night",
         "icon": "eye-off",
         "priority": 3,
         "orientationRelevant": ["N", "S", "E", "W", "NE", "NW", "SE", "SW"],
@@ -144,7 +144,7 @@
         "icon": "sliders",
         "priority": 4,
         "orientationRelevant": ["E", "W", "NE", "NW", "SE", "SW"],
-        "body": "East and west glazing is the hardest to shade with fixed eaves because the morning and afternoon sun is at a low angle. Use external roller blinds, fixed vertical fins, or deciduous pergolas for these orientations. Internal blinds are largely ineffective — by the time the heat reaches an internal blind, it is already inside the glass and entering the room. External shading that stops the sun before it hits the glass is the only effective approach."
+        "body": "East and west glazing is the hardest to shade with fixed eaves because the morning and afternoon sun is at a low angle. Use external roller blinds, fixed vertical fins, or deciduous pergolas for these orientations. Internal blinds are largely ineffective. By the time the heat reaches an internal blind, it is already inside the glass and entering the room. External shading that stops the sun before it hits the glass is the only effective approach."
       },
       {
         "id": "evaporative-cooling",
@@ -152,7 +152,7 @@
         "icon": "droplets",
         "priority": 5,
         "orientationRelevant": ["N", "S", "E", "W", "NE", "NW", "SE", "SW"],
-        "body": "Zone 3's low humidity makes evaporative coolers far more effective than in humid zones. An evaporative cooler uses roughly one-eighth the electricity of a refrigerative air conditioner for similar cooling output. It also requires open windows or vents to push air through the house — which complements passive design principles. Evaporative cooling is not effective on the rare humid days but handles the vast majority of hot days in this zone very well."
+        "body": "Zone 3's low humidity makes evaporative coolers far more effective than in humid zones. An evaporative cooler uses roughly one-eighth the electricity of a refrigerative air conditioner for similar cooling output. It also requires open windows or vents to push air through the house, which complements passive design principles. Evaporative cooling is not effective on the rare humid days but handles the vast majority of hot days in this zone very well."
       },
       {
         "id": "winter-heating",
@@ -160,7 +160,7 @@
         "icon": "flame",
         "priority": 6,
         "orientationRelevant": ["N", "NE", "NW"],
-        "body": "Winters in Zone 3 are mild but can include cold nights and mornings. North-facing glass that admits winter sun onto thermal mass is effective free heating. Ensure there are no obstructions (fences, trees, neighbouring buildings) blocking winter sun from the north face. Deciduous trees on the north side can provide summer shade while losing their leaves to allow winter sun through — an elegant dual-season solution."
+        "body": "Winters in Zone 3 are mild but can include cold nights and mornings. North-facing glass that admits winter sun onto thermal mass is effective free heating. Ensure there are no obstructions (fences, trees, neighbouring buildings) blocking winter sun from the north face. Deciduous trees on the north side can provide summer shade while losing their leaves to allow winter sun through. This is an elegant dual-season solution."
       }
     ]
   },
@@ -175,7 +175,7 @@
         "icon": "compass",
         "priority": 1,
         "orientationRelevant": ["N", "NE", "NW"],
-        "body": "Zone 4 is where passive solar design was essentially invented as a concept. A north-facing home with correctly designed eaves provides free heating in winter and automatic shade in summer without any mechanical systems. The sun arc in this zone is dramatically different between summer (high, stays north) and winter (low, only spans the northern sky) — making fixed eave overhangs a precise engineering solution. Living areas, kitchen, and bedrooms should all be on the north side. Garages, laundries, and bathrooms belong on the south."
+        "body": "Zone 4 is where passive solar design was essentially invented as a concept. A north-facing home with correctly designed eaves provides free heating in winter and automatic shade in summer without any mechanical systems. The sun arc in this zone is dramatically different between summer (high, stays north) and winter (low, only spans the northern sky), making fixed eave overhangs a precise engineering solution. Living areas, kitchen, and bedrooms should all be on the north side. Garages, laundries, and bathrooms belong on the south."
       },
       {
         "id": "eave-sizing-precise",
@@ -183,7 +183,7 @@
         "icon": "ruler",
         "priority": 2,
         "orientationRelevant": ["N", "NE", "NW"],
-        "body": "The eave overhang for north-facing windows should allow winter sun to strike the floor at least 3m inside the room for effective thermal mass charging, while blocking the summer sun completely at solar noon. For Adelaide (lat 35°S): an eave of 600–700mm over a 2.1m high window is the target. For Canberra (lat 35°S): similar. For the Perth Hills (lat 32°S): slightly shorter eaves work. If you provide your suburb, the sun path arc on this tool shows you exactly where the sun hits at summer and winter solstice to verify your eave design."
+        "body": "The eave overhang for north-facing windows should allow winter sun to strike the floor at least 3m inside the room for effective thermal mass charging, while blocking the summer sun completely at solar noon. For Adelaide (lat 35°S): an eave of 600-700mm over a 2.1m high window is the target. For Canberra (lat 35°S): similar. For the Perth Hills (lat 32°S): slightly shorter eaves work. If you provide your suburb, the sun path arc on this tool shows you exactly where the sun hits at summer and winter solstice to verify your eave design."
       },
       {
         "id": "thermal-mass-large",
@@ -191,7 +191,7 @@
         "icon": "layers",
         "priority": 3,
         "orientationRelevant": ["N", "NE", "NW"],
-        "body": "Thermal mass in north-facing rooms is essential in Zone 4. The mass absorbs solar energy through winter days and releases it through winter nights — dramatically reducing heating costs. Concrete slabs exposed to winter sun, polished concrete floors, brick feature walls on the north face, and rammed earth walls all perform well. The rule of thumb: thermal mass should have a surface area of at least 6 times the area of the north-facing glazing it is receiving sun from. Mass located more than 4m from the glazing is much less effective."
+        "body": "Thermal mass in north-facing rooms is essential in Zone 4. The mass absorbs solar energy through winter days and releases it through winter nights, dramatically reducing heating costs. Concrete slabs exposed to winter sun, polished concrete floors, brick feature walls on the north face, and rammed earth walls all perform well. The rule of thumb: thermal mass should have a surface area of at least 6 times the area of the north-facing glazing it is receiving sun from. Mass located more than 4m from the glazing is much less effective."
       },
       {
         "id": "insulation-both-seasons",
@@ -199,7 +199,7 @@
         "icon": "home",
         "priority": 4,
         "orientationRelevant": ["N", "S", "E", "W", "NE", "NW", "SE", "SW"],
-        "body": "Zone 4 requires high insulation levels in the roof, walls, and floor because both summer heat and winter cold need to be kept out. Minimum ceiling insulation: R5.0–R6.0. Wall insulation: R2.5–R3.0. Concrete slab edge insulation prevents the thermal mass from leaking stored heat to the outdoors. Double glazing is worth serious consideration in Zone 4 — single glazing loses enormous amounts of heat in winter and allows significant solar gain in summer even with external shading."
+        "body": "Zone 4 requires high insulation levels in the roof, walls, and floor because both summer heat and winter cold need to be kept out. Minimum ceiling insulation: R5.0-R6.0. Wall insulation: R2.5-R3.0. Concrete slab edge insulation prevents the thermal mass from leaking stored heat to the outdoors. Double glazing is worth serious consideration in Zone 4. Single glazing loses enormous amounts of heat in winter and allows significant solar gain in summer even with external shading."
       },
       {
         "id": "south-wall-no-windows",
@@ -207,7 +207,7 @@
         "icon": "window",
         "priority": 5,
         "orientationRelevant": ["S", "SE", "SW"],
-        "body": "South-facing windows receive almost no direct sun in Zone 4 yet allow enormous heat loss in winter. Every square metre of single-glazed south window loses roughly 4–5 times more heat than an insulated wall in the same position. Limit south-facing windows to small openings for ventilation and emergency egress only. If you have views or prevailing breezes from the south, consider double or triple glazing and make the openings no larger than necessary."
+        "body": "South-facing windows receive almost no direct sun in Zone 4 yet allow enormous heat loss in winter. Every square metre of single-glazed south window loses roughly 4-5 times more heat than an insulated wall in the same position. Limit south-facing windows to small openings for ventilation and emergency egress only. If you have views or prevailing breezes from the south, consider double or triple glazing and make the openings no larger than necessary."
       },
       {
         "id": "night-purge-summer",
@@ -215,14 +215,14 @@
         "icon": "moon",
         "priority": 6,
         "orientationRelevant": ["N", "S", "E", "W", "NE", "NW", "SE", "SW"],
-        "body": "Zone 4 summers are hot but nights are reliably cool. Open all windows in the evening to flush the day's accumulated heat, then close the house in the morning before the temperature climbs. This cycle works best when the thermal mass is significant enough to absorb the incoming heat across a full day. A well-designed Zone 4 home can maintain indoor temperatures of 24–26°C on 40°C days with no mechanical cooling, using this strategy alone."
+        "body": "Zone 4 summers are hot but nights are reliably cool. Open all windows in the evening to flush the day's accumulated heat, then close the house in the morning before the temperature climbs. This cycle works best when the thermal mass is significant enough to absorb the incoming heat across a full day. A well-designed Zone 4 home can maintain indoor temperatures of 24-26°C on 40°C days with no mechanical cooling, using this strategy alone."
       }
     ]
   },
   "5": {
     "zoneName": "Warm Temperate",
     "zoneStates": "Perth metro, coastal NSW (Sydney to Newcastle), SE QLD coast (Brisbane)",
-    "summary": "Mild and agreeable with warm to hot summers and cool winters. This is the most forgiving climate for passive design — mistakes are less costly. However, good passive design in this zone is still highly effective at eliminating the need for heating and cooling for the majority of the year.",
+    "summary": "Mild and agreeable with warm to hot summers and cool winters. This is the most forgiving climate for passive design. Mistakes are less costly. However, good passive design in this zone is still highly effective at eliminating the need for heating and cooling for the majority of the year.",
     "principles": [
       {
         "id": "north-facing-living",
@@ -230,11 +230,11 @@
         "icon": "compass",
         "priority": 1,
         "orientationRelevant": ["N", "NE", "NW"],
-        "body": "Zone 5 has a clear seasonal sun angle difference — summer sun is high and northerly, winter sun is lower. North-facing living areas receive useful winter warmth and can be shaded in summer with modest eaves. This orientation is so effective in Zone 5 that a well-designed north-facing home with good glazing areas may need no supplementary heating at all, even in the coolest months. In Perth, aim for living areas within 30° of true north."
+        "body": "Zone 5 sees a clear seasonal difference in sun angle. Summer sun is high and northerly; winter sun is lower. North-facing living areas receive useful winter warmth and can be shaded in summer with modest eaves. This orientation is so effective in Zone 5 that a well-designed north-facing home with good glazing areas may need no supplementary heating at all, even in the coolest months. In Perth, aim for living areas within 30° of true north."
       },
       {
         "id": "eaves-900-1000",
-        "title": "900–1000mm eaves on the north face",
+        "title": "900-1000mm eaves on the north face",
         "icon": "ruler",
         "priority": 2,
         "orientationRelevant": ["N", "NE", "NW"],
@@ -246,7 +246,7 @@
         "icon": "layers",
         "priority": 3,
         "orientationRelevant": ["N", "NE", "NW"],
-        "body": "A concrete slab, tiled floor, or masonry wall in north-facing living areas stores winter solar heat and releases it through the evening. In Zone 5's mild climate, even a modest amount of mass (exposed slab floor under tiles) makes a noticeable difference. Avoid heavy mass in rooms that do not receive winter sun — in those rooms it just stays cold. Polished concrete in a north-facing open-plan living area is an excellent choice."
+        "body": "A concrete slab, tiled floor, or masonry wall in north-facing living areas stores winter solar heat and releases it through the evening. In Zone 5's mild climate, even a modest amount of mass (exposed slab floor under tiles) makes a noticeable difference. Avoid heavy mass in rooms that do not receive winter sun. In those rooms it just stays cold. Polished concrete in a north-facing open-plan living area is an excellent choice."
       },
       {
         "id": "west-protection",
@@ -254,7 +254,7 @@
         "icon": "sun",
         "priority": 4,
         "orientationRelevant": ["W", "NW", "SW"],
-        "body": "Perth's hot afternoon sun from the west is the most significant source of summer discomfort. The afternoon sea breeze (the Fremantle Doctor) typically arrives between 2–4pm and provides relief, but until then the western sun is intense. Minimise glazing on the west face, or protect it with a pergola, deep eaves, external roller blinds, or planting. A deciduous grape vine on a western pergola is one of the most effective and aesthetically pleasing solutions in Perth."
+        "body": "Perth's hot afternoon sun from the west is the most significant source of summer discomfort. The afternoon sea breeze (the Fremantle Doctor) typically arrives between 2-4pm and provides relief, but until then the western sun is intense. Minimise glazing on the west face, or protect it with a pergola, deep eaves, external roller blinds, or planting. A deciduous grape vine on a western pergola is one of the most effective and aesthetically pleasing solutions in Perth."
       },
       {
         "id": "cross-ventilation",
@@ -266,11 +266,11 @@
       },
       {
         "id": "glazing-balance",
-        "title": "Balance glazing area — not too much, not too little",
+        "title": "Balance glazing area: not too much, not too little",
         "icon": "window",
         "priority": 6,
         "orientationRelevant": ["N", "S", "E", "W", "NE", "NW", "SE", "SW"],
-        "body": "A common mistake in Zone 5 is over-glazing — large amounts of glass on the north, east, or west that create greenhouse conditions in summer. As a starting guide, north-facing glazing should be approximately 10–25% of the floor area of the rooms it serves, with appropriate eaves. South-facing glazing should be kept to a minimum (5% or less of floor area) as it provides no winter heat benefit but causes significant heat loss. Double-glazed windows pay off in this zone if your budget allows."
+        "body": "A common mistake in Zone 5 is over-glazing. Large amounts of glass on the north, east, or west can create greenhouse conditions in summer. As a starting guide, north-facing glazing should be approximately 10-25% of the floor area of the rooms it serves, with appropriate eaves. South-facing glazing should be kept to a minimum (5% or less of floor area) as it provides no winter heat benefit but causes significant heat loss. Double-glazed windows pay off in this zone if your budget allows."
       }
     ]
   },
@@ -285,15 +285,15 @@
         "icon": "sun",
         "priority": 1,
         "orientationRelevant": ["N", "NE", "NW"],
-        "body": "In Zone 6, conventional house heating is a significant energy cost and environmental impact. A well-oriented passive solar home can reduce heating energy by 50–80% compared to a poorly oriented house. The investment in north orientation, correct eave sizing, and thermal mass pays back within a few years in energy savings. This is the single most important design decision in a Zone 6 home."
+        "body": "In Zone 6, conventional house heating is a significant energy cost and environmental impact. A well-oriented passive solar home can reduce heating energy by 50-80% compared to a poorly oriented house. The investment in north orientation, correct eave sizing, and thermal mass pays back within a few years in energy savings. This is the single most important design decision in a Zone 6 home."
       },
       {
         "id": "generous-north-glazing",
-        "title": "Generous north-facing glazing — properly designed",
+        "title": "Generous north-facing glazing, properly designed",
         "icon": "window",
         "priority": 2,
         "orientationRelevant": ["N", "NE", "NW"],
-        "body": "Zone 6 benefits from more north-facing glass than warmer zones — up to 25–35% of floor area for north-facing rooms. The additional glass area admits more winter sun to warm thermal mass. Critically, this glazing must be double-glazed (or better) — single glazing in Zone 6 loses more heat on cold nights than it gains on winter days, negating the benefit. Eaves must still be correctly sized to prevent summer overheating."
+        "body": "Zone 6 benefits from more north-facing glass than warmer zones. Aim for up to 25-35% of floor area for north-facing rooms. The additional glass area admits more winter sun to warm thermal mass. Critically, this glazing must be double-glazed. Single glazing in Zone 6 loses more heat on cold nights than it gains on winter days, negating the benefit. Eaves must still be correctly sized to prevent summer overheating."
       },
       {
         "id": "thermal-mass-substantial",
@@ -301,7 +301,7 @@
         "icon": "layers",
         "priority": 3,
         "orientationRelevant": ["N", "NE", "NW"],
-        "body": "Zone 6 requires generous thermal mass in north-facing rooms to store winter solar energy. A minimum of 80–100mm thick concrete slab exposed to direct winter sun is the starting point. Brick or stone feature walls behind north-facing glass add additional storage. The mass should be dark in colour to absorb more radiation. This stored heat releases through the evening, reducing the temperature drop overnight. A well-charged thermal mass can keep a Zone 6 home comfortable until 10–11pm without any supplementary heating."
+        "body": "Zone 6 requires generous thermal mass in north-facing rooms to store winter solar energy. A minimum of 80-100mm thick concrete slab exposed to direct winter sun is the starting point. Brick or stone feature walls behind north-facing glass add additional storage. The mass should be dark in colour to absorb more radiation. This stored heat releases through the evening, reducing the temperature drop overnight. A well-charged thermal mass can keep a Zone 6 home comfortable until 10-11pm without any supplementary heating."
       },
       {
         "id": "double-glazing-essential",
@@ -313,11 +313,11 @@
       },
       {
         "id": "draught-sealing",
-        "title": "Seal draughts — they account for up to 25% of heat loss",
+        "title": "Seal draughts, which account for up to 25% of heat loss",
         "icon": "shield",
         "priority": 5,
         "orientationRelevant": ["N", "S", "E", "W", "NE", "NW", "SE", "SW"],
-        "body": "In Zone 6 homes, uncontrolled air infiltration (draughts through gaps around doors, windows, exhaust fans, cornices, and skirting boards) can account for a quarter of all winter heat loss. Draught sealing is one of the cheapest and most effective improvements for existing homes. For new builds, specify continuous air barriers in the wall construction and draught-sealed windows and doors as a baseline. Supply adequate controlled ventilation separately — you need fresh air but you want to control when and where it enters."
+        "body": "In Zone 6 homes, uncontrolled air infiltration (draughts through gaps around doors, windows, exhaust fans, cornices, and skirting boards) can account for a quarter of all winter heat loss. Draught sealing is one of the cheapest and most effective improvements for existing homes. For new builds, specify continuous air barriers in the wall construction and draught-sealed windows and doors as a baseline. Supply adequate controlled ventilation separately. You need fresh air but you want to control when and where it enters."
       },
       {
         "id": "summer-ventilation",
@@ -332,23 +332,23 @@
   "7": {
     "zoneName": "Cool Temperate",
     "zoneStates": "Tasmania (Hobart, Launceston), ACT highlands, alpine Victoria and NSW, Blue Mountains",
-    "summary": "Cold winters with frequent frosts, and mild to cool summers. Heating is the overwhelming energy challenge — a Zone 7 home without good passive solar and insulation will be cold and expensive to heat year-round. Summer is not a significant cooling problem. Every design decision should prioritise winter warmth.",
+    "summary": "Cold winters with frequent frosts, and mild to cool summers. Heating is the overwhelming energy challenge. A Zone 7 home without good passive solar and insulation will be cold and expensive to heat year-round. Summer is not a significant cooling problem. Every design decision should prioritise winter warmth.",
     "principles": [
       {
         "id": "orientation-critical",
-        "title": "North orientation is critical — no compromise",
+        "title": "North orientation is critical, with no compromise",
         "icon": "compass",
         "priority": 1,
         "orientationRelevant": ["N", "NE", "NW"],
-        "body": "In Zone 7, a south-facing or poorly oriented home can be almost impossible to heat passively and will cost significantly more to heat mechanically. North orientation for all habitable rooms is the single most important decision. In Hobart and Canberra at latitude 42°S and 35°S respectively, the winter sun is very low in the sky and stays firmly in the northern arc — a south-facing house may receive almost no direct sun for four months of the year."
+        "body": "In Zone 7, a south-facing or poorly oriented home can be almost impossible to heat passively and will cost significantly more to heat mechanically. North orientation for all habitable rooms is the single most important decision. In Hobart and Canberra at latitude 42°S and 35°S respectively, the winter sun is very low in the sky and stays firmly in the northern arc. A south-facing house may receive almost no direct sun for four months of the year."
       },
       {
         "id": "superinsulate",
-        "title": "Superinsulate — go beyond minimum requirements",
+        "title": "Superinsulate: go beyond minimum requirements",
         "icon": "home",
         "priority": 2,
         "orientationRelevant": ["N", "S", "E", "W", "NE", "NW", "SE", "SW"],
-        "body": "Zone 7 demands the highest insulation levels. Ceiling insulation of R6.0–R7.0 is strongly recommended (minimum code may be lower but the energy savings from going higher are significant). Wall insulation of R3.0–R4.0. Slab edge insulation to prevent thermal bridging. Under-slab insulation if the slab is on ground. Triple-glazed windows perform well in the most exposed locations. The principle is simple: every bit of heat generated inside the house should stay there as long as possible."
+        "body": "Zone 7 demands the highest insulation levels. Ceiling insulation of R6.0-R7.0 is strongly recommended (minimum code may be lower but the energy savings from going higher are significant). Wall insulation of R3.0-R4.0. Slab edge insulation to prevent thermal bridging. Under-slab insulation if the slab is on ground. Triple-glazed windows perform well in the most exposed locations. The principle is simple: every bit of heat generated inside the house should stay there as long as possible."
       },
       {
         "id": "triple-or-double-glazing",
@@ -356,7 +356,7 @@
         "icon": "window",
         "priority": 3,
         "orientationRelevant": ["N", "S", "E", "W", "NE", "NW", "SE", "SW"],
-        "body": "Single glazing in Zone 7 is a serious thermal liability. Double glazing is the minimum appropriate specification. For south-facing windows and for the coldest highland locations, triple glazing is worth considering. Thermally broken aluminium frames or uPVC frames prevent the frame itself from conducting cold into the room — in cold climates, frame thermal performance matters nearly as much as the glass specification."
+        "body": "Single glazing in Zone 7 is a serious thermal liability. Double glazing is the minimum appropriate specification. For south-facing windows and for the coldest highland locations, triple glazing is worth considering. Thermally broken aluminium frames or uPVC frames prevent the frame itself from conducting cold into the room. In cold climates, frame thermal performance matters nearly as much as the glass specification."
       },
       {
         "id": "thermal-mass-with-sun",
@@ -364,7 +364,7 @@
         "icon": "layers",
         "priority": 4,
         "orientationRelevant": ["N", "NE", "NW"],
-        "body": "Thermal mass stores heat when it is in direct sunlight, but in the absence of sun it simply becomes a large cold object that takes energy to warm up. In Zone 7, place thermal mass only in rooms that receive direct winter sun for at least 4–5 hours per day. The living area with a north-facing glazed wall is the right place. Bedrooms and south-facing rooms should use lightweight construction so they warm up quickly from the heating system rather than slowly from a mass that is perpetually cold."
+        "body": "Thermal mass stores heat when it is in direct sunlight, but in the absence of sun it simply becomes a large cold object that takes energy to warm up. In Zone 7, place thermal mass only in rooms that receive direct winter sun for at least 4-5 hours per day. The living area with a north-facing glazed wall is the right place. Bedrooms and south-facing rooms should use lightweight construction so they warm up quickly from the heating system rather than slowly from a mass that is perpetually cold."
       },
       {
         "id": "minimise-south-windows",
@@ -376,18 +376,18 @@
       },
       {
         "id": "no-summer-shading-needed",
-        "title": "Summer shading is largely unnecessary — focus entirely on winter",
+        "title": "Summer shading is a low priority in Zone 7",
         "icon": "sun",
         "priority": 6,
         "orientationRelevant": ["N", "NE", "NW"],
-        "body": "Unlike warmer zones, Zone 7 summers are mild. Eaves on north-facing windows still provide some summer benefit but need not be as deep as in Zone 4 or 5 — the summer sun is high enough to be naturally excluded by shorter eaves. Spending your design budget on summer shading devices in Zone 7 is largely wasted effort. Prioritise insulation, glazing quality, draught sealing, and thermal mass exposed to winter sun."
+        "body": "Unlike warmer zones, Zone 7 summers are mild. Eaves on north-facing windows still provide some summer benefit but need not be as deep as in Zone 4 or 5, as the summer sun is high enough to be naturally excluded by shorter eaves. Spending your design budget on summer shading devices in Zone 7 is largely wasted effort. Prioritise insulation, glazing quality, draught sealing, and thermal mass exposed to winter sun."
       }
     ]
   },
   "8": {
     "zoneName": "Alpine",
     "zoneStates": "Alpine areas of Victoria and NSW (Thredbo, Falls Creek, Mount Hotham), highest elevations of Tasmania",
-    "summary": "Extreme cold winters with heavy snowfall at the highest altitudes, and short mild summers. Heating is the total priority — this is the most demanding climate for building performance in Australia. Passive solar alone is insufficient; it must be combined with exceptional insulation, airtightness, and thermal mass to maintain habitable temperatures.",
+    "summary": "Extreme cold winters with heavy snowfall at the highest altitudes, and short mild summers. Heating is the total priority. This is the most demanding climate for building performance in Australia. Passive solar alone is insufficient. It must be combined with exceptional insulation, airtightness, and thermal mass to maintain habitable temperatures.",
     "principles": [
       {
         "id": "airtightness-first",
@@ -395,7 +395,7 @@
         "icon": "shield",
         "priority": 1,
         "orientationRelevant": ["N", "S", "E", "W", "NE", "NW", "SE", "SW"],
-        "body": "In Zone 8 alpine conditions, wind-driven infiltration of cold air is a major heat loss pathway. A leaky house at 1500m altitude with winter temperatures of -10°C can be almost impossible to heat economically. Aim for airtight construction: continuous air barriers on external walls, taped window-to-frame joints, sealed service penetrations, and pressure-tested draught-proofing throughout. Install a heat recovery ventilation (HRV) system to provide fresh air without energy loss — in this zone, HRV is not a luxury."
+        "body": "In Zone 8 alpine conditions, wind-driven infiltration of cold air is a major heat loss pathway. A leaky house at 1500m altitude with winter temperatures of -10°C can be almost impossible to heat economically. Aim for airtight construction: continuous air barriers on external walls, taped window-to-frame joints, sealed service penetrations, and pressure-tested draught-proofing throughout. Install a heat recovery ventilation (HRV) system to provide fresh air without energy loss. In this zone, HRV is not a luxury."
       },
       {
         "id": "maximum-insulation",
@@ -403,7 +403,7 @@
         "icon": "home",
         "priority": 2,
         "orientationRelevant": ["N", "S", "E", "W", "NE", "NW", "SE", "SW"],
-        "body": "Zone 8 demands the highest insulation levels available. Roof/ceiling: R7.0 or higher. Walls: R4.0–R5.0. Under-slab: R2.5 minimum. Slab edge: fully insulated. Thermal bridging through structural elements (steel studs, slab edges, window frames) is a major issue — every bridge must be broken with appropriate thermal break materials. Structural insulated panels (SIPs) or double-stud timber framing can achieve the wall insulation levels required."
+        "body": "Zone 8 demands the highest insulation levels available. Roof/ceiling: R7.0 or higher. Walls: R4.0-R5.0. Under-slab: R2.5 minimum. Slab edge: fully insulated. Thermal bridging through structural elements (steel studs, slab edges, window frames) is a major issue. Every bridge must be broken with appropriate thermal break materials. Structural insulated panels (SIPs) or double-stud timber framing can achieve the wall insulation levels required."
       },
       {
         "id": "triple-glazing-standard",
@@ -411,7 +411,7 @@
         "icon": "window",
         "priority": 3,
         "orientationRelevant": ["N", "S", "E", "W", "NE", "NW", "SE", "SW"],
-        "body": "Double glazing is the minimum in Zone 8; triple glazing is the appropriate standard for exposed locations. Thermally broken frames are not optional — standard aluminium frames conduct cold into the building and create condensation and icing on interior surfaces. uPVC or timber frames with triple glazed units perform significantly better. High-performance curtains or internal insulated shutters over all windows on cold nights provide significant additional benefit."
+        "body": "Double glazing is the minimum in Zone 8; triple glazing is the appropriate standard for exposed locations. Thermally broken frames are not optional. Standard aluminium frames conduct cold into the building and create condensation and icing on interior surfaces. uPVC or timber frames with triple glazed units perform significantly better. High-performance curtains or internal insulated shutters over all windows on cold nights provide significant additional benefit."
       },
       {
         "id": "compact-form",
@@ -427,7 +427,7 @@
         "icon": "sun",
         "priority": 5,
         "orientationRelevant": ["N", "NE", "NW"],
-        "body": "Passive solar design still works in Zone 8 — a north-facing house with good glazing and thermal mass will be warmer and cheaper to heat than a poorly oriented one. However, in alpine climates with heavily overcast winters and frequent snow (which can cover north-facing glazing), passive solar alone cannot maintain comfort. It should be combined with a highly efficient active heating system (hydronic radiant floor heating, efficient wood or pellet heater) as backup and supplement."
+        "body": "Passive solar design still works in Zone 8. A north-facing house with good glazing and thermal mass will be warmer and cheaper to heat than a poorly oriented one. However, in alpine climates with heavily overcast winters and frequent snow (which can cover north-facing glazing), passive solar alone cannot maintain comfort. It should be combined with a highly efficient active heating system (hydronic radiant floor heating, efficient wood or pellet heater) as backup and supplement."
       },
       {
         "id": "snow-loads-design",

@@ -129,18 +129,18 @@ function _innerCommentary({
       if (isCool) {
         return note("✅", "good",
           `${faceT}-facing rooms: winter afternoon warmth`,
-          `The sun is in the western sky at ${altitude.toFixed(0)}°, reaching ${faceT.toLowerCase()}-facing rooms in the afternoon. In Zone ${climateZone} (${zoneName}), this is genuinely valuable — west afternoon sun warms living areas as outdoor temperatures drop toward evening, extending comfortable hours without mechanical heating.`,
+          `The sun is in the western sky at ${altitude.toFixed(0)}°, reaching ${faceT.toLowerCase()}-facing rooms in the afternoon. In Zone ${climateZone} (${zoneName}), this is genuinely valuable. West afternoon sun warms living areas as outdoor temperatures drop toward evening, extending comfortable hours without mechanical heating.`,
           `In cool climates, west-facing glazing is a net annual benefit when paired with adjustable external shading. Open in winter to capture this warmth, close it in summer when the same face becomes a heat load.`);
       }
       return note("☀️", "info",
         `${faceT}-facing rooms: useful winter afternoon sun`,
-        `The sun is in the western sky at ${altitude.toFixed(0)}°, hitting ${faceT.toLowerCase()}-facing rooms. In Zone ${climateZone} (${zoneName}), winter afternoons are mild and this western sun provides useful passive heating as the home cools toward evening — the opposite of the summer problem.`,
+        `The sun is in the western sky at ${altitude.toFixed(0)}°, hitting ${faceT.toLowerCase()}-facing rooms. In Zone ${climateZone} (${zoneName}), winter afternoons are mild and this western sun provides useful passive heating as the home cools toward evening. This is the opposite of the summer problem.`,
         `Adjustable external shading on this face earns its cost in Zone ${climateZone}: open in winter to capture afternoon warmth, closed from October to April when the same sun becomes the leading cause of overheating.`);
     }
     if (isWarmTemp) {
       return note("⚠️", "warning",
         `${faceT}-facing rooms: hot afternoon sun`,
-        `The sun is in the western sky at ${altitude.toFixed(0)}°, directly striking ${faceT.toLowerCase()}-facing rooms. In Zone ${climateZone} (${zoneName}), afternoon air temperatures peak while this face absorbs direct radiation — a compounding heat load that is the leading cause of overheating in Australian homes. ${faceT}-facing rooms become the hottest in the house without active management.`,
+        `The sun is in the western sky at ${altitude.toFixed(0)}°, directly striking ${faceT.toLowerCase()}-facing rooms. In Zone ${climateZone} (${zoneName}), afternoon air temperatures peak while this face absorbs direct radiation, creating a compounding heat load that is the leading cause of overheating in Australian homes. ${faceT}-facing rooms become the hottest in the house without active management.`,
         `External shading is essential on this face: roller blinds, brise-soleil, or pergola with battens. Keep ${faceT.toLowerCase()}-facing glazing below 15% of wall area and consider high thermal mass on this wall to dampen peak heat.`);
     }
     if (isTemperate) {
@@ -165,13 +165,13 @@ function _innerCommentary({
       return note("🌡️", "caution",
         `${faceT}-facing rooms: overhead midday sun`,
         `The sun is near its highest point (${altitude.toFixed(0)}°), hitting ${faceT.toLowerCase()}-facing rooms. In Zone ${climateZone} (${zoneName}), overhead midday sun generates significant heat load year-round. Unlike southern Australia, shading is required in all seasons.`,
-        `In tropical and hot dry climates, wrap-around verandahs, roof overhangs of 900–1200 mm, and high-level louvres for stack ventilation are more important than orientation alone.`);
+        `In tropical and hot dry climates, wrap-around verandahs, roof overhangs of 900-1200 mm, and high-level louvres for stack ventilation are more important than orientation alone.`);
     }
     if (season === "winter") {
       return note("✅", "good",
         `${faceT}-facing rooms: winter solar noon`,
         `The sun is near its lowest winter point (${altitude.toFixed(0)}°), striking ${faceT.toLowerCase()}-facing rooms. This is the condition passive solar design is built around. Low winter sun penetrates deeply into glazing, warming thermal mass that slowly radiates heat through the day and night.`,
-        `Optimal passive solar: exposed thermal mass floors (polished concrete, slate, terracotta tile), 10–15% glazing-to-floor-area on this face, and eaves sized to block summer sun while admitting winter sun at this lower angle.`);
+        `Optimal passive solar: exposed thermal mass floors (polished concrete, slate, terracotta tile), 10-15% glazing-to-floor-area on this face, and eaves sized to block summer sun while admitting winter sun at this lower angle.`);
     }
     if (season === "summer") {
       if (altitude > 55) {
@@ -183,7 +183,7 @@ function _innerCommentary({
       return note("⚠️", "caution",
         `${faceT}-facing rooms: summer midday sun`,
         `Direct sun is hitting ${faceT.toLowerCase()}-facing rooms at ${altitude.toFixed(0)}° in summer. If this light is entering glazing, eaves may be too shallow or this face needs external shading.`,
-        `For zones 4–6, peak summer sun altitude at noon ranges 60–78°. Eave depth should approximately equal window height to block direct summer sun while admitting lower winter sun.`);
+        `For zones 4-6, peak summer sun altitude at noon ranges 60-78°. Eave depth should approximately equal window height to block direct summer sun while admitting lower winter sun.`);
     }
     return note("☀️", "info",
       `${faceT}-facing rooms: equinox midday sun at ${altitude.toFixed(0)}°`,
@@ -271,7 +271,7 @@ function faceIllumination(faceAz, sunAz, sunAlt) {
  * Per-face design data by climate zone and illumination state.
  * Returns { icon, statusLabel, rooms, glazingGuide, nccNote }
  */
-function getFaceDesignData(faceDir, illum, climateZone, season) {
+export function getFaceDesignData(faceDir, illum, climateZone, season) {
   const isHot       = climateZone <= 3;
   const isMild      = climateZone === 4 || climateZone === 5;
   const isTemperate = climateZone === 6;
@@ -292,27 +292,41 @@ function getFaceDesignData(faceDir, illum, climateZone, season) {
       if (isHot) return {
         icon: "☀️", statusLabel: "Overhead midday sun",
         rooms: "Best suited to living and dining. Full-depth eaves or operable louvres are needed on this face year-round.",
-        glazingGuide: "Zone 1–3: keep north glazing modest at 10–20% of wall area with fixed or operable shading.",
+        glazingGuide: "Zone 1-3: keep north glazing modest at 10-20% of wall area with fixed or operable shading.",
         nccNote: "NCC J1: In tropical and hot zones, all glazing requires shading or high-performance glass with SHGC of 0.4 or less to limit cooling loads.",
       };
       if (season === "winter") return {
         icon: "✅", statusLabel: "Winter solar noon",
         rooms: "Ideal for living, dining and kitchen. Passive solar capture on this face is at its best right now.",
-        glazingGuide: "Zone 4–8: aim for 10–15% of floor area in north glazing. A thermal mass floor such as polished concrete or tile absorbs heat during the day and re-radiates it overnight.",
+        glazingGuide: "Zone 4-8: aim for 10-15% of floor area in north glazing. A thermal mass floor such as polished concrete or tile absorbs heat during the day and re-radiates it overnight.",
         nccNote: "Your Home guide: north-facing glazing delivers 3 to 5 times the energy of east or west glazing in winter. Size your eave depth so that it shades summer sun while admitting this lower winter angle.",
       };
       return {
         icon: "☀️", statusLabel: "Midday sun",
         rooms: "Best suited to living, dining and kitchen. Check your eave depth to confirm summer sun is being blocked at this angle.",
-        glazingGuide: "Zone 4–6: north glazing at 10–15% of floor area. Eaves should shade summer noon sun (around 60–75° altitude) while admitting lower winter sun (around 25–45°).",
+        glazingGuide: "Zone 4-6: north glazing at 10-15% of floor area. Eaves should shade summer noon sun (around 60-75° altitude) while admitting lower winter sun (around 25-45°).",
         nccNote: "Your Home guide: correct eave depth is the single most cost-effective passive design decision on the north face. Overhang divided by window height approximates the tangent of the summer noon altitude.",
       };
     }
-    if (illum === "partial") return {
-      icon: "🌤️", statusLabel: "Low raking light",
-      rooms: "Best suited to living and dining. Low-angle light here marks the morning or afternoon edge of the passive solar window.",
-      glazingGuide: "Low-angle north light enters deep into rooms. Maximise sill height to floor for thermal mass contact.",
-      nccNote: "Your Home: low winter north sun angles between 25 and 45 degrees can penetrate 3 to 5 metres into a room. Size your thermal mass floor to intercept this zone.",
+    if (illum === "partial") {
+      if (season === "summer") return {
+        icon: "🌤️", statusLabel: "Low raking north light",
+        rooms: "The summer sun is low and at the outer edge of your north eave's shading range. As it climbs higher it should be blocked by correctly sized eaves.",
+        glazingGuide: "In summer, this low-angle north light is less critical than the high noon sun. If your eaves are correctly sized, direct radiation will be cut off before it enters glazing.",
+        nccNote: "Your Home: a correct eave depth blocks all direct north sun from December solstice altitude down to around 50°. Check whether your eave fully shades the glazing sill at peak summer altitude.",
+      };
+      return {
+        icon: "🌤️", statusLabel: "Low raking light",
+        rooms: "Best suited to living and dining. Low-angle light here marks the morning or afternoon edge of the passive solar window.",
+        glazingGuide: "Low-angle north light enters deep into rooms. Maximise sill height to floor for thermal mass contact.",
+        nccNote: "Your Home: low winter north sun angles between 25 and 45 degrees can penetrate 3 to 5 metres into a room. Size your thermal mass floor to intercept this zone.",
+      };
+    }
+    if (season === "summer") return {
+      icon: "✅", statusLabel: "North face shaded",
+      rooms: "The north face is out of the solar window right now. Your eaves and building geometry are doing their job. No action needed.",
+      glazingGuide: "A shaded north face in the morning or evening is expected and correct. The sun will arc overhead during the day, and eave depth determines how much direct sun enters at peak altitude.",
+      nccNote: "Your Home: the north face is shaded before mid-morning and after mid-afternoon at all latitudes. Eave sizing only controls the noon solar window, not the early or late sun.",
     };
     return {
       icon: "⭕", statusLabel: "In shade",
@@ -323,8 +337,8 @@ function getFaceDesignData(faceDir, illum, climateZone, season) {
         ? "Thermal mass is re-radiating stored solar heat. Avoid draughts across the north face after sunset."
         : "The north face is your passive solar engine. It is in shade now but set up for tomorrow.",
       nccNote: isCool
-        ? "Zone 7–8: heavy thermal mass such as a 200–300mm concrete slab or masonry stores north solar gain and releases heat for 8–12 hours after sunset."
-        : "Zone 4–6: a 100–150mm exposed concrete slab or dark tile on the north face captures solar gain effectively.",
+        ? "Zone 7-8: heavy thermal mass such as a 200-300mm concrete slab or masonry stores north solar gain and releases heat for 8-12 hours after sunset."
+        : "Zone 4-6: a 100-150mm exposed concrete slab or dark tile on the north face captures solar gain effectively.",
     };
   }
 
@@ -334,27 +348,47 @@ function getFaceDesignData(faceDir, illum, climateZone, season) {
       if (isHot) return {
         icon: "🌡️", statusLabel: "Morning sun, heat load",
         rooms: "Bedrooms and home offices suit this face but get hot by 8am. Operable louvres or block-out curtains are needed to manage morning sun.",
-        glazingGuide: "Zone 1–3: east glazing at 10% of wall area or less. Use horizontal louvres or deep awnings to manage morning sun penetration.",
+        glazingGuide: "Zone 1-3: east glazing at 10% of wall area or less. Use horizontal louvres or deep awnings to manage morning sun penetration.",
         nccNote: "AIRAH: in tropical climates morning sun heats east rooms faster than west rooms due to overnight air cooling. Rooms can be uncomfortable by 9am without shading.",
+      };
+      if (season === "winter") return {
+        icon: "🌅", statusLabel: "Gentle morning sun",
+        rooms: "Ideal for master bedroom, kids rooms and kitchen. Morning sun warms these rooms early in the day. Connect east rooms to north-facing living areas so passive solar heat can circulate through the afternoon.",
+        glazingGuide: "Zone 4-8: east glazing at 25-30% of your north glazing area. Winter morning sun on east glazing provides useful early warmth while the north face gathers heat through the day.",
+        nccNote: "Your Home guide: east-facing bedrooms receive pleasant morning warmth in winter. Connecting east rooms to north-facing living areas via internal doors or air circulation maximises passive solar distribution.",
       };
       return {
         icon: "🌅", statusLabel: "Gentle morning sun",
         rooms: "Ideal for master bedroom, kids rooms, kitchen and home office. Morning sun tracks away by mid-morning so rooms stay comfortable all afternoon.",
-        glazingGuide: "Zone 4–6: east glazing at around 25–30% of your north glazing area (Your Home). Morning sun tracks away by mid-morning so rooms stay comfortable in the afternoon.",
+        glazingGuide: "Zone 4-6: east glazing at around 25-30% of your north glazing area. Morning sun tracks away by mid-morning so rooms stay comfortable in the afternoon.",
         nccNote: "Your Home guide: east-facing bedrooms receive pleasant wake-up light without the heat load of west afternoon sun. East glazing is the second best orientation after north for energy performance.",
       };
     }
-    if (illum === "partial") return {
-      icon: "🌤️", statusLabel: "Early morning or transition",
-      rooms: "Bedrooms and kitchen suit this face. The morning sun window is just opening or closing right now.",
-      glazingGuide: "The east face transitions to shade by late morning. No shading action is needed at this angle.",
-      nccNote: "Your Home: east morning sun sits below 30° altitude until around 9am in winter, requiring horizontal shading with at least a 1:3 projection ratio to prevent deep penetration.",
+    if (illum === "partial") {
+      if (season === "winter" && !isHot) return {
+        icon: "🌤️", statusLabel: "Early morning light arriving",
+        rooms: "East rooms are catching the first sun of the day. In winter this low-angle morning light penetrates deeply into rooms, warming floors and any exposed thermal mass early.",
+        glazingGuide: "In winter, low-angle east morning sun can reach 3-4 metres into a room and warm thermal mass floors before the north face comes fully online. No shading is needed or wanted.",
+        nccNote: "Your Home: in winter, east morning sun at low angles can actively warm exposed thermal mass. This early gain complements north solar capture and extends warmth through the day.",
+      };
+      return {
+        icon: "🌤️", statusLabel: "Early morning or transition",
+        rooms: "Bedrooms and kitchen suit this face. The morning sun window is just opening or closing right now.",
+        glazingGuide: "The east face transitions to shade by late morning. No shading action is needed at this angle.",
+        nccNote: "Your Home: east morning sun in summer and equinox sits below 30° altitude until around 9am. Horizontal shading with a 1:3 projection ratio prevents deep penetration during warmer months.",
+      };
+    }
+    if (season === "winter" && !isHot) return {
+      icon: "✅", statusLabel: "In afternoon shade",
+      rooms: "East rooms have finished their morning solar window and are now in afternoon shade. In winter this means they will cool through the afternoon. Use ceiling fans on low speed or open internal doors to draw warm air from north-facing rooms.",
+      glazingGuide: "East rooms lose direct sun by late morning in winter. Connecting to north-facing living spaces via internal doors or vents allows passive solar warmth to distribute through the home.",
+      nccNote: "Your Home: in winter, ceiling fans on low speed circulate warm air from north-facing rooms to east-facing ones without creating a wind-chill effect. This extends the benefit of north solar gain through the afternoon.",
     };
     return {
       icon: "✅", statusLabel: "In afternoon shade",
       rooms: "Bedrooms and kitchen suit this face. Rooms here cool naturally in the afternoon for comfortable evenings.",
       glazingGuide: "East rooms carry no afternoon solar load. This is a significant advantage over west-facing equivalents and no shading action is needed right now.",
-      nccNote: "Your Home guide: east rooms in afternoon shade use 20–30% less cooling energy than west-facing equivalents across climate zones 2 to 6.",
+      nccNote: "Your Home guide: east rooms in afternoon shade use 20-30% less cooling energy than west-facing equivalents across climate zones 2 to 6.",
     };
   }
 
@@ -364,14 +398,14 @@ function getFaceDesignData(faceDir, illum, climateZone, season) {
       return {
         icon: "⚠️", statusLabel: "Direct south sun (tropical)",
         rooms: "South-facing rooms are receiving direct sun right now. This occurs in Zone 1 and 2 near the wet season. Check your shading on south-facing glazing.",
-        glazingGuide: "Zone 1–2: south glazing can receive direct sun near the wet season. Add horizontal overhangs or louvres to this face as well.",
+        glazingGuide: "Zone 1-2: south glazing can receive direct sun near the wet season. Add horizontal overhangs or louvres to this face as well.",
         nccNote: "In Darwin (Zone 1), the sun crosses south of the zenith near the summer solstice. South-facing glazing can receive direct radiation, which is a common oversight in tropical buildings.",
       };
     }
     if (illum === "partial") return {
       icon: "🌥️", statusLabel: "Diffuse light",
       rooms: "Best suited to bathrooms, laundry, art studio and storage. Consistent cool diffuse light makes these spaces comfortable here.",
-      glazingGuide: "South glazing at 5–10% of your north glazing area (Your Home). South windows provide glare-free, stable light ideal for studios and workrooms.",
+      glazingGuide: "South glazing at 5-10% of your north glazing area (Your Home). South windows provide glare-free, stable light ideal for studios and workrooms.",
       nccNote: "Your Home guide: south-facing glazing adds minimal heating load in winter and minimal cooling load in summer. It is the low-penalty face for getting light without thermal cost.",
     };
     return {
@@ -380,8 +414,8 @@ function getFaceDesignData(faceDir, illum, climateZone, season) {
         ? "Best suited to bathrooms, laundry, WC and storage. In hot climates the south face is also valuable for drawing cool night breezes through the home."
         : "Best suited to bathrooms, laundry, WC, storage, studio and guest room. The south face is the natural service zone in Australian home design.",
       glazingGuide: isHot
-        ? "Zone 1–3: the south face is valuable for cross-ventilation. Place operable louvres or windows here to draw cool night air through the home."
-        : "Zone 4–8: limit south glazing to 5–10% of your north glazing area. South rooms stay the coolest and most temperature-stable year-round.",
+        ? "Zone 1-3: the south face is valuable for cross-ventilation. Place operable louvres or windows here to draw cool night air through the home."
+        : "Zone 4-8: limit south glazing to 5-10% of your north glazing area. South rooms stay the coolest and most temperature-stable year-round.",
       nccNote: isHot
         ? "AIRAH: in hot climates the south face is the primary inlet for prevailing cool night breezes. Position south openings at low level to induce floor-level cooling airflow."
         : "Your Home: place utility rooms, garages, bathrooms and laundry on the south face as a thermal buffer. These rooms stay comfortable without any solar gain.",
@@ -394,41 +428,66 @@ function getFaceDesignData(faceDir, illum, climateZone, season) {
       if (isHot) return {
         icon: "🌡️", statusLabel: "Peak afternoon heat load",
         rooms: "Avoid living areas and main bedrooms on this face. Garage, laundry and bathrooms are suitable here with adequate ventilation.",
-        glazingGuide: "Zone 1–3: west glazing should be zero or minimal at under 5% of wall area. Any glazing needs external roller blinds or fixed vertical fins.",
-        nccNote: "NCC J2 and NatHERS: west-facing glazing in Zone 1–3 carries the highest energy penalty of any orientation. Air temperature peaks between 2 and 4pm while the west wall is already absorbing radiation, creating a compounding heat load.",
+        glazingGuide: "Zone 1-3: west glazing should be zero or minimal at under 5% of wall area. Any glazing needs external roller blinds or fixed vertical fins.",
+        nccNote: "NCC J2 and NatHERS: west-facing glazing in Zone 1-3 carries the highest energy penalty of any orientation. Air temperature peaks between 2 and 4pm while the west wall is already absorbing radiation, creating a compounding heat load.",
       };
       if (season === "winter") {
         if (isTemperate || isCool) return {
           icon: "✅", statusLabel: "Winter afternoon warmth",
           rooms: "Living areas and dining suit this face right now. West sun in the afternoon actively warms the home as outdoor temperatures drop toward evening.",
-          glazingGuide: "Zone 6–8: west glazing with adjustable external blinds earns its cost — captures valuable winter afternoon sun while allowing summer shading. 15–20% of wall area is achievable.",
-          nccNote: "Your Home guide: in cool climates, west-facing glazing with adjustable external blinds is a net annual benefit — winter afternoon sun contributes meaningful passive heating gain.",
+          glazingGuide: "Zone 6-8: west glazing with adjustable external blinds earns its cost. It captures valuable winter afternoon sun while allowing summer shading. 15-20% of wall area is achievable.",
+          nccNote: "Your Home guide: in cool climates, west-facing glazing with adjustable external blinds is a net annual benefit. Winter afternoon sun contributes meaningful passive heating gain.",
         };
         return {
           icon: "☀️", statusLabel: "Useful winter afternoon sun",
-          rooms: "Living areas suit this face in winter. West afternoon sun provides useful passive heating in Zone 4–5 as the home cools toward evening.",
-          glazingGuide: "Zone 4–5: adjustable external shading on the west face is the right solution — open in winter to capture afternoon warmth, closed from October to April when the same sun causes overheating.",
+          rooms: "Living areas suit this face in winter. West afternoon sun provides useful passive heating in Zone 4-5 as the home cools toward evening.",
+          glazingGuide: "Zone 4-5: adjustable external shading on the west face is the right solution. Open in winter to capture afternoon warmth, and close from October to April when the same sun causes overheating.",
           nccNote: "Your Home guide: in warm temperate climates, west glazing with adjustable external shading balances winter heating gain against summer overheating risk.",
         };
       }
       if (isMild || isTemperate) return {
         icon: "⚠️", statusLabel: "Afternoon sun, high heat load",
         rooms: "Avoid living areas, main bedroom and home office on this face. Garage, laundry, bathroom and hallway are all suitable here.",
-        glazingGuide: "Zone 4–6: west glazing at 10–15% of wall area or less (Your Home). External shading is essential. Internal blinds block light but not the heat already transferred through the glass.",
+        glazingGuide: "Zone 4-6: west glazing at 10-15% of wall area or less (Your Home). External shading is essential. Internal blinds block light but not the heat already transferred through the glass.",
         nccNote: "Your Home guide: west-facing glazing without external shading is the leading cause of summer overheating in Australian homes. External roller shutters reduce heat gain by 90% compared to 30% for internal blinds.",
       };
       return {
-        icon: "⚠️", statusLabel: "Afternoon sun",
-        rooms: "West afternoon sun provides useful winter warmth in Zone 7–8. Use adjustable external shading to control seasonal heat gain.",
-        glazingGuide: "Zone 7–8: west glazing can reach 15–20% of wall area if adjustable external blinds are fitted. This allows winter afternoon warmth while blocking summer overheating.",
-        nccNote: "Your Home guide: in cool climates, west-facing glazing with adjustable external blinds is a net benefit because winter afternoon sun contributes meaningful passive heating gain.",
+        icon: season === "summer" ? "⚠️" : "☀️",
+        statusLabel: "West afternoon sun",
+        rooms: season === "summer"
+          ? "West rooms can warm noticeably on summer afternoons even in cool climates. Adjustable external shading lets you block summer heat while still capturing winter afternoon warmth."
+          : "West afternoon sun in Zone 7-8 provides useful passive warmth, especially valuable in the shoulder seasons. Adjustable external shading gives you control across seasons.",
+        glazingGuide: "Zone 7-8: west glazing can reach 15-20% of wall area if adjustable external blinds are fitted. Close in summer afternoons, open in winter and shoulder seasons to capture passive warmth.",
+        nccNote: "Your Home guide: in cool climates, west-facing glazing with adjustable external blinds is a net annual benefit. Winter and shoulder season afternoon sun contributes meaningful passive heating gain.",
       };
     }
-    if (illum === "partial") return {
-      icon: "🌤️", statusLabel: "Low raking afternoon light",
-      rooms: "West rooms are approaching the afternoon heat peak. Close windows now to hold any remaining coolness before the sun arrives.",
-      glazingGuide: "Low-angle west sun at this angle cannot be blocked by horizontal eaves. Vertical fins or adjustable external blinds are required.",
-      nccNote: "Your Home: at altitudes below 30°, horizontal eaves cannot block west sun. West face shading requires vertical or adjustable elements rather than fixed horizontal overhangs.",
+    if (illum === "partial") {
+      if (season === "winter" && !isHot) {
+        if (isTemperate || isCool) return {
+          icon: "✅", statusLabel: "Winter afternoon warmth arriving",
+          rooms: "West rooms are about to receive afternoon sun. Open up to capture passive warmth as outdoor temperatures drop toward evening.",
+          glazingGuide: "Zone 6-8: adjustable external blinds on west glazing earn their cost here. Open in winter afternoons, close in summer when the same low-angle sun becomes a heat load.",
+          nccNote: "Your Home guide: in cool climates, west-facing glazing with adjustable external blinds is a net annual benefit. Winter afternoon sun contributes meaningful passive heating gain.",
+        };
+        return {
+          icon: "☀️", statusLabel: "Useful winter afternoon sun arriving",
+          rooms: "West rooms will receive afternoon sun shortly. This is beneficial passive warmth in winter. Open up to capture it as the home cools toward evening.",
+          glazingGuide: "Zone 4-5: adjustable external shading on the west face is the right solution. Open in winter to capture afternoon warmth, and close from October to April when the same sun causes overheating.",
+          nccNote: "Your Home guide: in warm temperate climates, west glazing with adjustable external shading balances winter heating gain against summer overheating risk.",
+        };
+      }
+      return {
+        icon: "🌤️", statusLabel: "Low raking afternoon light",
+        rooms: "West rooms are approaching the afternoon heat peak. Close windows now to hold any remaining coolness before the sun arrives.",
+        glazingGuide: "Low-angle west sun at this angle cannot be blocked by horizontal eaves. Vertical fins or adjustable external blinds are required.",
+        nccNote: "Your Home: at altitudes below 30°, horizontal eaves cannot block west sun. West face shading requires vertical or adjustable elements rather than fixed horizontal overhangs.",
+      };
+    }
+    if (season === "winter" && !isHot) return {
+      icon: "✅", statusLabel: "In morning shade",
+      rooms: "West rooms are shaded now but will receive useful afternoon warmth later in the day. No action needed in winter.",
+      glazingGuide: "In winter, west-facing rooms benefit from afternoon sun arriving later. Keep west glazing unobstructed so the passive warmth can enter when the sun swings west.",
+      nccNote: "Your Home guide: in cool and temperate climates, west-facing glazing with adjustable external shading captures winter afternoon warmth that actively heats the home as outdoor temperatures drop toward evening.",
     };
     return {
       icon: "✅", statusLabel: "In morning shade",

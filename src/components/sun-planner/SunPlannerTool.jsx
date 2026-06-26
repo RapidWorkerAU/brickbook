@@ -986,12 +986,13 @@ export default function SunPlannerTool() {
           const GAP  = 10;
           const style = {
             position: "absolute", zIndex: 9, pointerEvents: "none",
-            background: "#F59E0B", color: "#000",
-            fontSize: 10, fontWeight: 700,
-            letterSpacing: "0.07em", textTransform: "uppercase",
-            padding: "3px 9px", borderRadius: 4,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.55)",
-            whiteSpace: "nowrap",
+            background: "rgba(0,0,0,0.55)",
+            border: "1px solid rgba(245,158,11,0.55)",
+            color: "#F59E0B",
+            fontSize: 9, fontWeight: 600,
+            letterSpacing: "0.06em", textTransform: "uppercase",
+            padding: "2px 7px", borderRadius: 3,
+            whiteSpace: "nowrap", textAlign: "center",
           };
           if (side === "top")    return <div style={{ ...style, left: x + width / 2, top: y - GAP, transform: "translate(-50%,-100%)" }}>Street front</div>;
           if (side === "bottom") return <div style={{ ...style, left: x + width / 2, top: y + height + GAP, transform: "translate(-50%,0)" }}>Street front</div>;
