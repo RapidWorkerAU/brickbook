@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Drawing_Layer" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 552.76 850.39">
+  <!-- Generator: Adobe Illustrator 30.3.0, SVG Export Plug-In . SVG Version: 2.1.3 Build 182)  -->
+  <defs>
+    <style>
+      .st0 {
+        stroke-dasharray: 11.9 5.95;
+      }
+
+      .st0, .st1, .st2, .st3, .st4, .st5, .st6, .st7, .st8, .st9, .st10, .st11, .st12, .st13, .st14, .st15, .st16, .st17, .st18, .st19, .st20, .st21, .st22, .st23, .st24, .st25, .st26, .st27, .st28, .st29, .st30, .st31, .st32, .st33, .st34, .st35, .st36, .st37, .st38, .st39 {
+        fill: none;
+        stroke: #231f20;
+      }
+
+      .st0, .st2, .st4, .st5, .st7, .st8, .st9, .st10, .st11, .st12, .st13, .st14, .st16, .st18, .st19, .st21, .st22, .st24, .st25, .st26, .st28, .st29, .st31, .st34, .st35, .st36, .st37, .st38, .st39 {
+        stroke-miterlimit: 10;
+      }
+
+      .st1 {
+        stroke-dasharray: 10.25 5.12;
+      }
+
+      .st1, .st3, .st6, .st15, .st17, .st20, .st23, .st27, .st30, .st32, .st33 {
+        stroke-linejoin: round;
+      }
+
+      .st2 {
+        stroke-dasharray: 25.48 11.21;
+      }
+
+      .st2, .st4, .st5, .st7, .st8, .st9, .st11, .st12, .st13, .st14, .st16, .st18, .st19, .st22, .st29, .st31, .st38, .st39 {
+        stroke-linecap: square;
+      }
+
+      .st3 {
+        stroke-dasharray: 11.77 5.88;
+      }
+
+      .st4 {
+        stroke-dasharray: 26.19 11.52;
+      }
+
+      .st5 {
+        stroke-dasharray: 24.71 10.87;
+      }
+
+      .st6 {
+        stroke-dasharray: 11.55 5.77;
+      }
+
+      .st7 {
+        stroke-dasharray: 4.59 10.09 22.94 10.09;
+      }
+
+      .st8 {
+        stroke-dasharray: 4.69 10.32 23.44 10.32;
+      }
+
+      .st9 {
+        stroke-dasharray: 5.24 11.52 26.19 11.52;
+      }
+
+      .st40, .st41, .st42 {
+        fill: #231f20;
+      }
+
+      .st10, .st38 {
+        stroke-width: 3px;
+      }
+
+      .st11 {
+        stroke-dasharray: 4.94 10.87 24.71 10.87;
+      }
+
+      .st13 {
+        stroke-dasharray: 5 11 25 11;
+      }
+
+      .st14 {
+        stroke-dasharray: 23.4 10.3;
+      }
+
+      .st16 {
+        stroke-dasharray: 23.44 10.32;
+      }
+
+      .st17 {
+        stroke-dasharray: 13.53 6.77;
+      }
+
+      .st18 {
+        stroke-width: .25px;
+      }
+
+      .st43, .st42 {
+        font-family: ArialMT, Arial;
+      }
+
+      .st19 {
+        stroke-dasharray: 5.15 11.34 25.77 11.34;
+      }
+
+      .st20 {
+        stroke-dasharray: 12.96 6.48;
+      }
+
+      .st21 {
+        stroke-dasharray: 12.17 6.09;
+      }
+
+      .st22 {
+        stroke-dasharray: 25.77 11.34;
+      }
+
+      .st41, .st42 {
+        font-size: 12px;
+      }
+
+      .st23 {
+        stroke-dasharray: 13.07 6.53;
+      }
+
+      .st24 {
+        stroke-dasharray: 10.84 5.42;
+      }
+
+      .st26 {
+        stroke-dasharray: 7.47;
+      }
+
+      .st27 {
+        stroke-dasharray: 14.31 7.15;
+      }
+
+      .st44 {
+        font-family: Arial-ItalicMT, Arial;
+        font-style: italic;
+      }
+
+      .st28 {
+        stroke-dasharray: 13.07 6.54;
+      }
+
+      .st29 {
+        stroke-dasharray: 5.1 11.21 25.48 11.21;
+      }
+
+      .st30 {
+        stroke-dasharray: 10.61 5.3;
+      }
+
+      .st31 {
+        stroke-dasharray: 22.94 10.09;
+      }
+
+      .st32 {
+        stroke-dasharray: 11.97 5.99;
+      }
+
+      .st33 {
+        stroke-dasharray: 12.42 6.21;
+      }
+
+      .st34 {
+        stroke-dasharray: 12.16 6.08;
+      }
+
+      .st35 {
+        stroke-dasharray: 11.83 5.92;
+      }
+
+      .st36 {
+        stroke-width: 3.04px;
+      }
+
+      .st37 {
+        stroke-dasharray: 11.9 5.95;
+      }
+
+      .st39 {
+        stroke-dasharray: 4.68 10.3 23.4 10.3;
+      }
+    </style>
+  </defs>
+  <g>
+    <polyline class="st12" points="36.7 78.24 36.7 75.74 39.2 75.74"/>
+    <line class="st5" x1="50.07" y1="75.74" x2="80.22" y2="75.74"/>
+    <polyline class="st11" points="85.65 75.74 452.37 75.74 519.02 142.39 519.02 703.78"/>
+    <polyline class="st12" points="519.02 709.21 519.02 711.71 516.52 711.71"/>
+    <line class="st22" x1="505.18" y1="711.71" x2="473.74" y2="711.71"/>
+    <line class="st19" x1="468.07" y1="711.71" x2="44.87" y2="711.71"/>
+    <polyline class="st12" points="39.2 711.71 36.7 711.71 36.7 709.21"/>
+    <line class="st2" x1="36.7" y1="698" x2="36.7" y2="666.91"/>
+    <line class="st29" x1="36.7" y1="661.3" x2="36.7" y2="83.85"/>
+  </g>
+  <g>
+    <line class="st12" x1="82.49" y1="75.74" x2="82.49" y2="78.24"/>
+    <line class="st4" x1="82.49" y1="89.76" x2="82.49" y2="121.71"/>
+    <line class="st9" x1="82.49" y1="127.48" x2="82.49" y2="448.55"/>
+    <polyline class="st12" points="82.49 454.31 82.49 456.81 84.99 456.81"/>
+    <line class="st16" x1="95.31" y1="456.81" x2="123.91" y2="456.81"/>
+    <line class="st8" x1="129.07" y1="456.81" x2="270.21" y2="456.81"/>
+    <polyline class="st12" points="275.36 456.81 277.86 456.81 277.86 454.31"/>
+    <line class="st4" x1="277.86" y1="442.79" x2="277.86" y2="410.84"/>
+    <line class="st9" x1="277.86" y1="405.08" x2="277.86" y2="84"/>
+    <line class="st12" x1="277.86" y1="78.24" x2="277.86" y2="75.74"/>
+  </g>
+  <g>
+    <line class="st12" x1="276.38" y1="711.71" x2="276.38" y2="709.21"/>
+    <line class="st14" x1="276.38" y1="698.92" x2="276.38" y2="670.37"/>
+    <line class="st39" x1="276.38" y1="665.22" x2="276.38" y2="475.69"/>
+    <line class="st12" x1="276.38" y1="470.54" x2="276.38" y2="468.04"/>
+  </g>
+  <line class="st12" x1="519.02" y1="468.04" x2="276.38" y2="468.04"/>
+  <polygon class="st12" points="183.13 107.95 255.67 107.95 255.67 311.68 262.29 311.68 262.29 376.64 205.52 376.64 205.52 409.13 82.48 409.13 82.48 346.05 107.13 346.05 107.13 281.4 82.48 281.4 82.48 148 182.5 148 183.13 107.95"/>
+  <g>
+    <line class="st15" x1="82.49" y1="140.27" x2="88.49" y2="140.27"/>
+    <line class="st33" x1="94.7" y1="140.27" x2="166.13" y2="140.27"/>
+    <polyline class="st15" points="169.24 140.27 175.24 140.27 175.24 134.27"/>
+    <line class="st27" x1="175.24" y1="127.12" x2="175.24" y2="109.23"/>
+    <polyline class="st15" points="175.24 105.66 175.24 99.66 181.24 99.66"/>
+    <line class="st6" x1="187.01" y1="99.66" x2="253.4" y2="99.66"/>
+    <polyline class="st15" points="256.29 99.66 262.29 99.66 262.29 105.66"/>
+    <line class="st3" x1="262.29" y1="111.54" x2="262.29" y2="302.74"/>
+    <line class="st15" x1="262.29" y1="305.68" x2="262.29" y2="311.68"/>
+  </g>
+  <g>
+    <line class="st15" x1="82.49" y1="415.28" x2="88.49" y2="415.28"/>
+    <line class="st23" x1="95.03" y1="415.28" x2="189.78" y2="415.28"/>
+    <polyline class="st15" points="193.05 415.28 199.05 415.28 199.05 421.28"/>
+    <line class="st30" x1="199.05" y1="426.59" x2="199.05" y2="439.85"/>
+    <polyline class="st15" points="199.05 442.5 199.05 448.5 205.05 448.5"/>
+    <line class="st1" x1="210.17" y1="448.5" x2="253.73" y2="448.5"/>
+    <polyline class="st15" points="256.29 448.5 262.29 448.5 262.29 442.5"/>
+    <line class="st32" x1="262.29" y1="436.51" x2="262.29" y2="385.64"/>
+    <line class="st15" x1="262.29" y1="382.64" x2="262.29" y2="376.64"/>
+  </g>
+  <text class="st42" transform="translate(148.76 273.95)"><tspan x="0" y="0">Dwelling</tspan></text>
+  <text class="st42" transform="translate(121.46 597.04)"><tspan x="0" y="0">Dwelling</tspan></text>
+  <text class="st42" transform="translate(388.74 319.22)"><tspan x="0" y="0">Dwelling</tspan></text>
+  <text class="st42" transform="translate(218.72 416.98)"><tspan x="0" y="0">ROA</tspan></text>
+  <text class="st42" transform="translate(320.79 506.58)"><tspan x="0" y="0">ROA</tspan></text>
+  <text class="st42" transform="translate(227.17 611.17)"><tspan x="0" y="0">ROA</tspan></text>
+  <text class="st42" transform="translate(299.11 383.44)"><tspan x="0" y="0">ROA</tspan></text>
+  <rect class="st40" x="206.81" y="435.86" width="6.32" height="6.32"/>
+  <rect class="st40" x="249.23" y="435.86" width="6.32" height="6.32"/>
+  <rect class="st40" x="286.28" y="474.28" width="4.67" height="4.67"/>
+  <rect class="st40" x="265.81" y="569.66" width="4.67" height="4.67"/>
+  <rect class="st40" x="265.81" y="607.16" width="4.67" height="4.67"/>
+  <rect class="st40" x="265.81" y="644.66" width="4.67" height="4.67"/>
+  <rect class="st40" x="283.66" y="297.64" width="4.67" height="4.67"/>
+  <rect class="st40" x="283.66" y="336.64" width="4.67" height="4.67"/>
+  <rect class="st40" x="283.66" y="375.65" width="4.67" height="4.67"/>
+  <rect class="st40" x="283.66" y="414.65" width="4.67" height="4.67"/>
+  <rect class="st40" x="283.66" y="453.65" width="4.67" height="4.67"/>
+  <rect class="st40" x="381.3" y="474.17" width="4.67" height="4.67"/>
+  <rect class="st40" x="333.72" y="474.18" width="4.67" height="4.67"/>
+  <g>
+    <polyline class="st25" points="341.83 451.88 341.83 457.88 335.83 457.88"/>
+    <line class="st28" x1="329.29" y1="457.88" x2="293.34" y2="457.88"/>
+    <polyline class="st25" points="290.07 457.88 284.07 457.88 284.07 451.88"/>
+    <line class="st35" x1="284.07" y1="445.97" x2="284.07" y2="306.91"/>
+    <polyline class="st25" points="284.07 303.95 284.07 297.95 290.07 297.95"/>
+    <line class="st28" x1="296.6" y1="297.95" x2="332.56" y2="297.95"/>
+    <polyline class="st25" points="335.83 297.95 341.83 297.95 341.83 303.95"/>
+    <line class="st35" x1="341.83" y1="309.87" x2="341.83" y2="448.92"/>
+  </g>
+  <g>
+    <line class="st25" x1="341.83" y1="297.95" x2="341.83" y2="291.95"/>
+    <line class="st34" x1="341.83" y1="285.87" x2="341.83" y2="179.43"/>
+    <line class="st25" x1="341.83" y1="176.39" x2="341.83" y2="170.39"/>
+  </g>
+  <polyline class="st13" points="484.48 170.39 484.48 457.88 477.2 457.88"/>
+  <rect class="st12" x="349.3" y="170.39" width="127.9" height="287.49"/>
+  <line class="st12" x1="342.21" y1="170.39" x2="484.27" y2="170.39"/>
+  <polygon class="st12" points="125.13 456.81 125.13 554.21 82.49 554.21 82.49 576.35 51.31 576.35 51.31 711.71 213.13 711.71 213.13 553.95 255.55 553.95 255.55 456.81 125.13 456.81"/>
+  <g>
+    <polyline class="st25" points="385.51 522.34 385.51 528.34 379.51 528.34"/>
+    <line class="st24" x1="374.09" y1="528.34" x2="295.51" y2="528.34"/>
+    <polyline class="st25" points="292.8 528.34 286.8 528.34 286.8 522.34"/>
+    <line class="st0" x1="286.8" y1="516.39" x2="286.8" y2="483.65"/>
+    <polyline class="st25" points="286.8 480.68 286.8 474.68 292.8 474.68"/>
+    <line class="st24" x1="298.22" y1="474.68" x2="376.8" y2="474.68"/>
+    <polyline class="st25" points="379.51 474.68 385.51 474.68 385.51 480.68"/>
+    <line class="st0" x1="385.51" y1="486.63" x2="385.51" y2="519.36"/>
+  </g>
+  <g>
+    <polyline class="st25" points="485.87 534.34 485.87 528.34 479.87 528.34"/>
+    <line class="st21" x1="473.79" y1="528.34" x2="312.51" y2="528.34"/>
+    <polyline class="st25" points="309.46 528.34 303.46 528.34 303.46 534.34"/>
+    <line class="st37" x1="303.46" y1="540.29" x2="303.46" y2="662.21"/>
+    <polyline class="st25" points="303.46 665.19 303.46 671.19 309.46 671.19"/>
+    <line class="st21" x1="315.55" y1="671.19" x2="476.83" y2="671.19"/>
+    <polyline class="st25" points="479.87 671.19 485.87 671.19 485.87 665.19"/>
+    <line class="st37" x1="485.87" y1="659.24" x2="485.87" y2="537.31"/>
+  </g>
+  <line class="st12" x1="286.8" y1="528.34" x2="385.51" y2="528.34"/>
+  <g>
+    <line class="st15" x1="213.13" y1="569.66" x2="219.13" y2="569.66"/>
+    <line class="st20" x1="225.61" y1="569.66" x2="261.24" y2="569.66"/>
+    <polyline class="st15" points="264.48 569.66 270.48 569.66 270.48 575.66"/>
+    <line class="st17" x1="270.48" y1="582.43" x2="270.48" y2="639.95"/>
+    <polyline class="st15" points="270.48 643.33 270.48 649.33 264.48 649.33"/>
+    <line class="st20" x1="258" y1="649.33" x2="222.37" y2="649.33"/>
+    <line class="st15" x1="219.13" y1="649.33" x2="213.13" y2="649.33"/>
+  </g>
+  <polygon class="st12" points="311.28 535.48 311.28 617.08 311.28 664.77 430.92 664.77 430.92 617.08 477.2 617.08 477.2 535.48 311.28 535.48"/>
+  <line class="st36" x1="198.37" y1="456.81" x2="262.92" y2="456.81"/>
+  <line class="st38" x1="277.86" y1="456.81" x2="277.86" y2="299.08"/>
+  <g>
+    <line class="st12" x1="208.15" y1="463.16" x2="218.72" y2="452.6"/>
+    <line class="st12" x1="213.13" y1="463.16" x2="223.69" y2="452.6"/>
+  </g>
+  <g>
+    <line class="st12" x1="283.14" y1="300.47" x2="272.58" y2="311.03"/>
+    <line class="st12" x1="283.14" y1="305.44" x2="272.58" y2="316"/>
+  </g>
+  <g>
+    <line class="st12" x1="283.14" y1="336.1" x2="272.58" y2="346.66"/>
+    <line class="st12" x1="283.14" y1="341.07" x2="272.58" y2="351.63"/>
+  </g>
+  <g>
+    <line class="st12" x1="283.14" y1="371.73" x2="272.58" y2="382.29"/>
+    <line class="st12" x1="283.14" y1="376.7" x2="272.58" y2="387.26"/>
+  </g>
+  <g>
+    <line class="st12" x1="283.14" y1="407.36" x2="272.58" y2="417.92"/>
+    <line class="st12" x1="283.14" y1="412.34" x2="272.58" y2="422.9"/>
+  </g>
+  <g>
+    <line class="st12" x1="283.14" y1="442.99" x2="272.58" y2="453.55"/>
+    <line class="st12" x1="283.14" y1="447.97" x2="272.58" y2="458.53"/>
+  </g>
+  <line class="st10" x1="276.38" y1="529.09" x2="276.38" y2="474.13"/>
+  <g>
+    <line class="st12" x1="281.66" y1="476.61" x2="271.1" y2="487.18"/>
+    <line class="st12" x1="281.66" y1="481.59" x2="271.1" y2="492.15"/>
+  </g>
+  <g>
+    <line class="st12" x1="281.66" y1="582.26" x2="271.1" y2="592.82"/>
+    <line class="st12" x1="281.66" y1="587.24" x2="271.1" y2="597.8"/>
+  </g>
+  <g>
+    <line class="st12" x1="281.66" y1="621.78" x2="271.1" y2="632.34"/>
+    <line class="st12" x1="281.66" y1="626.75" x2="271.1" y2="637.31"/>
+  </g>
+  <line class="st12" x1="281.66" y1="510.18" x2="271.1" y2="520.74"/>
+  <line class="st12" x1="281.66" y1="515.15" x2="271.1" y2="525.71"/>
+  <g>
+    <line class="st12" x1="367.51" y1="473.31" x2="378.07" y2="462.75"/>
+    <line class="st12" x1="372.49" y1="473.31" x2="383.05" y2="462.75"/>
+  </g>
+  <g>
+    <line class="st12" x1="236.85" y1="463.16" x2="247.41" y2="452.6"/>
+    <line class="st12" x1="241.83" y1="463.16" x2="252.39" y2="452.6"/>
+  </g>
+  <g>
+    <line class="st12" x1="328.62" y1="473.31" x2="339.18" y2="462.75"/>
+    <line class="st12" x1="333.59" y1="473.31" x2="344.15" y2="462.75"/>
+  </g>
+  <line class="st10" x1="286.28" y1="468.04" x2="385.97" y2="468.04"/>
+  <g>
+    <line class="st12" x1="289.73" y1="473.31" x2="300.29" y2="462.75"/>
+    <line class="st12" x1="294.7" y1="473.31" x2="305.26" y2="462.75"/>
+  </g>
+  <g>
+    <g>
+      <g>
+        <line class="st12" x1="154.38" y1="752.22" x2="164.94" y2="741.66"/>
+        <line class="st12" x1="159.36" y1="752.22" x2="169.92" y2="741.66"/>
+      </g>
+      <g>
+        <line class="st12" x1="124.92" y1="752.22" x2="135.48" y2="741.66"/>
+        <line class="st12" x1="129.89" y1="752.22" x2="140.45" y2="741.66"/>
+      </g>
+    </g>
+    <g>
+      <line class="st38" x1="68.9" y1="746.96" x2="167.12" y2="746.96"/>
+      <g>
+        <line class="st12" x1="65.98" y1="752.22" x2="76.54" y2="741.66"/>
+        <line class="st12" x1="70.96" y1="752.22" x2="81.52" y2="741.66"/>
+      </g>
+      <g>
+        <line class="st12" x1="95.45" y1="752.22" x2="106.01" y2="741.66"/>
+        <line class="st12" x1="100.42" y1="752.22" x2="110.98" y2="741.66"/>
+      </g>
+    </g>
+  </g>
+  <g>
+    <line class="st12" x1="71.26" y1="777.05" x2="73.76" y2="777.05"/>
+    <line class="st31" x1="83.86" y1="777.05" x2="111.85" y2="777.05"/>
+    <line class="st7" x1="116.9" y1="777.05" x2="159.57" y2="777.05"/>
+    <line class="st12" x1="164.62" y1="777.05" x2="167.12" y2="777.05"/>
+  </g>
+  <text class="st41" transform="translate(183.09 749.23)"><tspan class="st44" x="0" y="0">Non-combustible</tspan><tspan class="st43" x="90.04" y="0" xml:space="preserve"> fence to satisfy WA 9.6.2(3)(i)(iii)</tspan></text>
+  <text class="st42" transform="translate(183.6 781.54)"><tspan x="0" y="0">Allotment boundary</tspan></text>
+  <line class="st26" x1="341.83" y1="457.88" x2="349.3" y2="457.88"/>
+  <line class="st10" x1="276.38" y1="650.21" x2="276.38" y2="569.38"/>
+  <text class="st42" transform="translate(342.44 597.62)"><tspan x="0" y="0">Another building </tspan></text>
+  <text class="st41" transform="translate(131.18 488.74)"><tspan class="st44" x="0" y="0">External wall</tspan><tspan class="st43" x="68.03" y="0"> </tspan><tspan class="st43"><tspan x="0" y="14.4">complying with </tspan></tspan><tspan class="st43"><tspan x="0" y="28.8">9.2.3 may serve as </tspan></tspan><tspan class="st43"><tspan x="0" y="43.2">the fence or screen</tspan></tspan></text>
+  <text class="st41" transform="translate(95.45 110.71)"><tspan class="st43" x="0" y="0">(</tspan><tspan class="st44" x="4" y="0">Allotment </tspan><tspan class="st43" x="57.35" y="0">1)</tspan></text>
+  <text class="st41" transform="translate(349.3 125.14)"><tspan class="st43" x="0" y="0">(</tspan><tspan class="st44" x="4" y="0">Allotment </tspan><tspan class="st43" x="57.35" y="0">3)</tspan></text>
+  <text class="st41" transform="translate(46.51 510.18)"><tspan class="st43" x="0" y="0">(</tspan><tspan class="st44" x="4" y="0">Allotment </tspan><tspan class="st43" x="57.35" y="0">2)</tspan></text>
+  <g>
+    <polyline class="st18" points="202.58 485.48 228.12 485.48 228.12 467.39"/>
+    <polygon class="st40" points="231.03 469.37 228.12 458.53 225.22 469.37 231.03 469.37"/>
+  </g>
+</svg>

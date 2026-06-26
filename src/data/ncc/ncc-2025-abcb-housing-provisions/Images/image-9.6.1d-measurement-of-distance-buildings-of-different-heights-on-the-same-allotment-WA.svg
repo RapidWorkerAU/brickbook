@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Drawing_Layer" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 552.76 425.2">
+  <!-- Generator: Adobe Illustrator 30.3.0, SVG Export Plug-In . SVG Version: 2.1.3 Build 182)  -->
+  <defs>
+    <style>
+      .st0, .st1, .st2, .st3, .st4, .st5, .st6 {
+        stroke: #231f20;
+      }
+
+      .st0, .st1, .st2, .st3, .st4, .st5, .st6, .st7 {
+        fill: none;
+      }
+
+      .st0, .st2, .st4, .st6 {
+        stroke-linejoin: round;
+      }
+
+      .st0, .st6 {
+        stroke-width: 1.01px;
+      }
+
+      .st8, .st9, .st10 {
+        fill: #231f20;
+      }
+
+      .st1 {
+        stroke-width: 3px;
+      }
+
+      .st1, .st3, .st5, .st7 {
+        stroke-miterlimit: 10;
+      }
+
+      .st3 {
+        stroke-linecap: square;
+      }
+
+      .st3, .st7 {
+        stroke-width: .25px;
+      }
+
+      .st11, .st10 {
+        font-family: ArialMT, Arial;
+      }
+
+      .st4 {
+        stroke-dasharray: 12.64 6.32;
+      }
+
+      .st9, .st10 {
+        font-size: 13.73px;
+      }
+
+      .st6 {
+        stroke-dasharray: 12.19 6.09;
+      }
+
+      .st12 {
+        font-family: Arial-ItalicMT, Arial;
+        font-style: italic;
+      }
+
+      .st7 {
+        stroke: #333;
+      }
+    </style>
+  </defs>
+  <polyline class="st5" points="31.47 112.78 87.91 112.78 211.5 170.29 217.32 170.29 211.41 176.2 211.41 182.93 108.25 182.93 108.25 168.84 31.47 168.84"/>
+  <polyline class="st5" points="395.77 204.99 389.37 204.99 277.07 256.48 271.25 256.48 277.16 262.39 277.16 269.12 321.14 269.12 321.14 255.04 394.88 255.04"/>
+  <line class="st1" x1="115.25" y1="182.93" x2="115.25" y2="293.47"/>
+  <polyline class="st5" points="108.25 379.13 108.25 306.74 31.47 306.74"/>
+  <polyline class="st5" points="31.47 293.47 122.17 293.47 122.17 298.72 205.86 298.72 205.86 293.47 209.79 293.47 209.79 251.38 213.72 251.38 213.72 311.16 121.84 311.16 121.84 379.13"/>
+  <polyline class="st5" points="121.27 379.13 130.19 379.13 130.19 393.54 99.08 393.54 99.08 379.13 108.82 379.13"/>
+  <line class="st5" x1="121.84" y1="372.46" x2="307.89" y2="372.46"/>
+  <polyline class="st5" points="394.39 368.11 307.32 368.11 307.32 393.54 322.39 393.54 322.39 380.82 330.71 372.49 394.39 372.49"/>
+  <g>
+    <line class="st0" x1="217.32" y1="60.68" x2="217.32" y2="66.74"/>
+    <line class="st6" x1="217.32" y1="72.84" x2="217.32" y2="161.18"/>
+    <line class="st0" x1="217.32" y1="164.23" x2="217.32" y2="170.29"/>
+  </g>
+  <g>
+    <line class="st2" x1="307.32" y1="60.68" x2="307.32" y2="66.91"/>
+    <line class="st4" x1="307.32" y1="73.23" x2="307.32" y2="259.74"/>
+    <line class="st2" x1="307.32" y1="262.9" x2="307.32" y2="269.12"/>
+  </g>
+  <text class="st10" transform="translate(144.87 227.62)"><tspan x="0" y="0">Roofed </tspan><tspan x="0" y="16.48">outdoor </tspan><tspan x="0" y="32.96">area</tspan></text>
+  <text class="st10" transform="translate(335.11 315.26)"><tspan x="0" y="0">Another building</tspan></text>
+  <g>
+    <line class="st3" x1="299.2" y1="79.58" x2="226.18" y2="79.58"/>
+    <polygon class="st8" points="297.22 76.68 308.06 79.58 297.22 82.49 297.22 76.68"/>
+    <polygon class="st8" points="228.16 76.68 217.32 79.58 228.16 82.49 228.16 76.68"/>
+  </g>
+  <text class="st10" transform="translate(321.59 43.74)"><tspan x="0" y="0">Separation required by WA</tspan><tspan x="0" y="16.48">9.6.2(3) measured to</tspan><tspan x="0" y="32.96">outermost projection</tspan><tspan x="0" y="49.44">of roofed outdoor area</tspan></text>
+  <polyline class="st7" points="262.28 79.58 262.28 39.79 321.8 39.79"/>
+  <text class="st9" transform="translate(356.1 138.05)"><tspan class="st11" x="0" y="0">Vertical projection of </tspan><tspan class="st12" x="128.24" y="0">external </tspan><tspan class="st12" x="0" y="16.48">wall</tspan><tspan class="st11" x="23.66" y="16.48" xml:space="preserve"> in accordance with WA</tspan><tspan class="st11"><tspan x="0" y="32.96">9.6.1(4)(b)</tspan></tspan></text>
+  <g>
+    <line class="st3" x1="316.17" y1="133.27" x2="354.49" y2="133.27"/>
+    <polygon class="st8" points="318.16 136.17 307.32 133.27 318.16 130.36 318.16 136.17"/>
+  </g>
+  <rect class="st5" x="108.25" y="182.93" width="13.92" height="110.55"/>
+  <line class="st1" x1="314.32" y1="269.12" x2="314.32" y2="368.11"/>
+  <rect class="st5" x="307.32" y="269.12" width="13.92" height="98.98"/>
+</svg>

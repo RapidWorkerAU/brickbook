@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><table-reference xmlns:xt="urn:xpressauthor:trackchanges" graph="None" id="_383b5a57-9439-4535-954a-e3f01e9a3b86"><num>B1V1</num><title id="_4980dfc7-6407-41a4-9acc-ab79684667e0">Fixture probability coefficients</title><table id="_65e890c8-a644-479b-8df2-ed8435f659a5" keycol="1"><tgroup cols="6"><colspec colname="006" colnum="1" colwidth="72.80*"/><colspec colname="005" colnum="2" colwidth="71.85*"/><colspec colname="004" colnum="3" colwidth="71.85*"/><colspec colname="001" colnum="4" colwidth="71.85*"/><colspec colname="002" colnum="5" colwidth="71.85*"/><colspec colname="003" colnum="6" colwidth="71.85*"/><thead><row><entry>Fixture</entry><entry><equation-inline alignEquation="none" height="27" heightdpi="96" id="_afcd5de3-0423-4c9a-a744-7823404740cd" width="24" widthdpi="96"><mathML><math><semantics><mrow><msub><mi>P</mi><mrow><mi>k</mi><mo>,</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahGart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaamiuamaaBa  aaleaacaWGRbGaaiilaiaaigdaaeqaaaaa@3954@  </annotation></semantics></math></mathML><image content-type="gif">R0lGODlhGAAZAPAAAP///wAAACwAAAAAGAAZAAACNISPqcvtD6OcKthLT0A7d/NJITBCYWle6LNO
+rZhY8VqiNqaRsVvzFbw5wXQynCeDTCqXjAIAIf8LTWF0aFR5cGUwMDHkBQEABwhEU01UNwABE1dp
+bkFsbEJhc2ljQ29kZVBhZ2VzABEFVGltZXMgTmV3IFJvbWFuABEDU3ltYm9sABEFQ291cmllciBO
+ZXcAEQRNVCBFeHRyYQASAAghL0WPRC9BUPQQD0dfQVDyHx5BUPQVD0EA9EX0JfSPQl9BAPQQD0Nf
+QQD0j0X0Kl9I9I9BAPQQD0D0j0F/SPQQD0EqX0RfRfRfRfRfQQ8MAQABAAECAgICAAIAAQEBAAMA
+AQAEAAAKAQACAINQAAMAGwAACwEAAgCDawACAIIsAAIAiDEAAAEBAAAAACH/C01hdGhUeXBlMDAz
+/zw/eG1sIHZlcnNpb249IjEuMCI/PjwhLS0gTWF0aFR5cGVAVHJhbnNsYXRvckA1QDVATWF0aE1M
+MiAoQ2xpcGJvYXJkKS50ZGxATWF0aE1MIDIuMCAoQ2xpcGJvYXJkKUAgLS0+PG1hdGggeG1sbnM9
+J2h0dHA6Ly93d3cudzMub3JnLzE5OTgvTWF0aC9NYXRoTUwnPjxtcm93Pjxtc3ViPjxtaT5QPC9t
+aT48bXJvdz48bWk+azwvbWk+PG1vPiw8L21vPjxtbj4xPC9tbj48L21yb3c+PC9tc3ViPjwvbXJv
+dz48L21hdGg+PCEtLSBNYXRoVHlwZUBFbmRANQdANUAgLS0+ACH/C01hdGhUeXBlMDAyBgkAAAAA
+AAA7</image></equation-inline></entry><entry><equation-inline alignEquation="none" height="24" heightdpi="96" id="_eb3ec279-db91-4fa1-bd13-7549696b6802" width="19" widthdpi="96"><mathML><math><semantics><mrow><msub><mi>C</mi><mn>1</mn></msub></mrow><annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahGart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaam4qamaaBa  aaleaacaaIXaaabeaaaaa@37A7@  </annotation></semantics></math></mathML><image content-type="gif">R0lGODlhEgAYAPAAAP///wAAACwAAAAAEgAYAAACKoSPqcvtD6MK1ARXbV43dfYdoSeJpXUCI7Re
+G2miIBWuj42l+Lyn/g8pAAAh/wtNYXRoVHlwZTAwMdoFAQAHCERTTVQ3AAETV2luQWxsQmFzaWND
+b2RlUGFnZXMAEQVUaW1lcyBOZXcgUm9tYW4AEQNTeW1ib2wAEQVDb3VyaWVyIE5ldwARBE1UIEV4
+dHJhABIACCEvRY9EL0FQ9BAPR19BUPIfHkFQ9BUPQQD0RfQl9I9CX0EA9BAPQ19BAPSPRfQqX0j0
+j0EA9BAPQPSPQX9I9BAPQSpfRF9F9F9F9F9BDwwBAAEAAQICAgIAAgABAQEAAwABAAQAAAoBAAIA
+g0MAAwAbAAALAQACAIgxAAABAQAAAAAh/wtNYXRoVHlwZTAwM+U8P3htbCB2ZXJzaW9uPSIxLjAi
+Pz48IS0tIE1hdGhUeXBlQFRyYW5zbGF0b3JANUA1QE1hdGhNTDIgKENsaXBib2FyZCkudGRsQE1h
+dGhNTCAyLjAgKENsaXBib2FyZClAIC0tPjxtYXRoIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8x
+OTk4L01hdGgvTWF0aE1MJz48bXJvdz48bXN1Yj48bWk+QzwvbWk+PG1uPjE8L21uPjwvbXN1Yj48
+L21yb3c+PC9tYXRoPjwhLS0gTWF0aFR5cGVARW5kQDVANUAgLS0+ACH/C01hdGhUeXBlMDAyBggA
+AAAAAAA7</image></equation-inline></entry><entry><equation-inline alignEquation="none" height="24" heightdpi="96" id="_53c09be0-4c2f-47de-801b-f0ffc51befff" width="20" widthdpi="96"><mathML><math><semantics><mrow><msub><mi>C</mi><mn>2</mn></msub></mrow><annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahGart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaam4qamaaBa  aaleaacaaIYaaabeaaaaa@37A8@  </annotation></semantics></math></mathML><image content-type="gif">R0lGODlhFAAYAPAAAP///wAAACwAAAAAFAAYAAACLYSPqcvtD6M0oVJoaW5B9fchITNOpXRGKeYd
+WzKG31q97iTil96tZK0LCoeNAgAh/wtNYXRoVHlwZTAwMdoFAQAHCERTTVQ3AAETV2luQWxsQmFz
+aWNDb2RlUGFnZXMAEQVUaW1lcyBOZXcgUm9tYW4AEQNTeW1ib2wAEQVDb3VyaWVyIE5ldwARBE1U
+IEV4dHJhABIACCEvRY9EL0FQ9BAPR19BUPIfHkFQ9BUPQQD0RfQl9I9CX0EA9BAPQ19BAPSPRfQq
+X0j0j0EA9BAPQPSPQX9I9BAPQSpfRF9F9F9F9F9BDwwBAAEAAQICAgIAAgABAQEAAwABAAQAAAoB
+AAIAg0MAAwAbAAALAQACAIgyAAABAQAAAAAh/wtNYXRoVHlwZTAwM+U8P3htbCB2ZXJzaW9uPSIx
+LjAiPz48IS0tIE1hdGhUeXBlQFRyYW5zbGF0b3JANUA1QE1hdGhNTDIgKENsaXBib2FyZCkudGRs
+QE1hdGhNTCAyLjAgKENsaXBib2FyZClAIC0tPjxtYXRoIHhtbG5zPSdodHRwOi8vd3d3LnczLm9y
+Zy8xOTk4L01hdGgvTWF0aE1MJz48bXJvdz48bXN1Yj48bWk+QzwvbWk+PG1uPjI8L21uPjwvbXN1
+Yj48L21yb3c+PC9tYXRoPjwhLS0gTWF0aFR5cGVARW5kQDVANUAgLS0+ACH/C01hdGhUeXBlMDAy
+BggAAAAAAAA7</image></equation-inline></entry><entry><equation-inline alignEquation="none" height="24" heightdpi="96" id="_01f4a0b6-09b1-4b5e-b7bf-a4c81da1a53d" width="20" widthdpi="96"><mathML><math><semantics><mrow><msub><mi>C</mi><mn>3</mn></msub></mrow><annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahGart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaam4qamaaBa  aaleaacaaIZaaabeaaaaa@37A9@  </annotation></semantics></math></mathML><image content-type="gif">R0lGODlhFAAYAPAAAP///wAAACwAAAAAFAAYAAACLISPqcvtD6M0oVJoaW5B9fchITNOpXRGKeYB
+1eqKCfyWMHc7OTm5Ww8MCiEFACH/C01hdGhUeXBlMDAx2gUBAAcIRFNNVDcAARNXaW5BbGxCYXNp
+Y0NvZGVQYWdlcwARBVRpbWVzIE5ldyBSb21hbgARA1N5bWJvbAARBUNvdXJpZXIgTmV3ABEETVQg
+RXh0cmEAEgAIIS9Fj0QvQVD0EA9HX0FQ8h8eQVD0FQ9BAPRF9CX0j0JfQQD0EA9DX0EA9I9F9Cpf
+SPSPQQD0EA9A9I9Bf0j0EA9BKl9EX0X0X0X0X0EPDAEAAQABAgICAgACAAEBAQADAAEABAAACgEA
+AgCDQwADABsAAAsBAAIAiDMAAAEBAAAAACH/C01hdGhUeXBlMDAz5Tw/eG1sIHZlcnNpb249IjEu
+MCI/PjwhLS0gTWF0aFR5cGVAVHJhbnNsYXRvckA1QDVATWF0aE1MMiAoQ2xpcGJvYXJkKS50ZGxA
+TWF0aE1MIDIuMCAoQ2xpcGJvYXJkKUAgLS0+PG1hdGggeG1sbnM9J2h0dHA6Ly93d3cudzMub3Jn
+LzE5OTgvTWF0aC9NYXRoTUwnPjxtcm93Pjxtc3ViPjxtaT5DPC9taT48bW4+MzwvbW4+PC9tc3Vi
+PjwvbXJvdz48L21hdGg+PCEtLSBNYXRoVHlwZUBFbmRANUA1QCAtLT4AIf8LTWF0aFR5cGUwMDIG
+CAAAAAAAADs=</image></equation-inline></entry><entry><equation-inline alignEquation="none" height="24" heightdpi="96" id="_a4ad9d0f-938e-49bc-adee-5e096a399955" width="20" widthdpi="96"><mathML><math><semantics><mrow><msub><mi>C</mi><mn>4</mn></msub></mrow><annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahGart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaam4qamaaBa  aaleaacaaI0aaabeaaaaa@37AA@  </annotation></semantics></math></mathML><image content-type="gif">R0lGODlhFAAYAPAAAP///wAAACwAAAAAFAAYAAACLISPqcvtD6M0oVJoaW5B9fchITNOpXRGKeaJ
+pHtsXlXKKrBy9BTzvQ8MChsFACH/C01hdGhUeXBlMDAx2gUBAAcIRFNNVDcAARNXaW5BbGxCYXNp
+Y0NvZGVQYWdlcwARBVRpbWVzIE5ldyBSb21hbgARA1N5bWJvbAARBUNvdXJpZXIgTmV3ABEETVQg
+RXh0cmEAEgAIIS9Fj0QvQVD0EA9HX0FQ8h8eQVD0FQ9BAPRF9CX0j0JfQQD0EA9DX0EA9I9F9Cpf
+SPSPQQD0EA9A9I9Bf0j0EA9BKl9EX0X0X0X0X0EPDAEAAQABAgICAgACAAEBAQADAAEABAAACgEA
+AgCDQwADABsAAAsBAAIAiDQAAAEBAAAAACH/C01hdGhUeXBlMDAz5Tw/eG1sIHZlcnNpb249IjEu
+MCI/PjwhLS0gTWF0aFR5cGVAVHJhbnNsYXRvckA1QDVATWF0aE1MMiAoQ2xpcGJvYXJkKS50ZGxA
+TWF0aE1MIDIuMCAoQ2xpcGJvYXJkKUAgLS0+PG1hdGggeG1sbnM9J2h0dHA6Ly93d3cudzMub3Jn
+LzE5OTgvTWF0aC9NYXRoTUwnPjxtcm93Pjxtc3ViPjxtaT5DPC9taT48bW4+NDwvbW4+PC9tc3Vi
+PjwvbXJvdz48L21hdGg+PCEtLSBNYXRoVHlwZUBFbmRANUA1QCAtLT4AIf8LTWF0aFR5cGUwMDIG
+CAAAAAAAADs=</image></equation-inline></entry></row></thead><tbody><row><entry>Shower</entry><entry>0.061</entry><entry>0.908</entry><entry>-0.475</entry><entry>0.020</entry><entry>-1.343</entry></row><row><entry>Tap</entry><entry>0.009</entry><entry>1</entry><entry>0</entry><entry>0.004</entry><entry>-0.880</entry></row><row><entry>Toilet</entry><entry>0.002</entry><entry>1</entry><entry>0</entry><entry>0.002</entry><entry>-0.880</entry></row><row><entry>Washing machine</entry><entry>0.031</entry><entry>0.976</entry><entry>-0.515</entry><entry>0.005</entry><entry>-1.349</entry></row><row><entry>Dishwasher</entry><entry>0.001</entry><entry>1</entry><entry>0</entry><entry>0.0005</entry><entry>-0.880</entry></row><row><entry>Bath</entry><entry>0.006</entry><entry>1.460</entry><entry>-0.411</entry><entry>0.008</entry><entry>-1.768</entry></row></tbody></tgroup></table><desc-note id="_cd351419-1eab-47df-a54f-1ac822581b7d"><p>The probability coefficient <equation-inline alignEquation="none" height="24" heightdpi="96" id="_d7d80b2c-53f9-4bcd-864b-029eb038ea5e" width="30" widthdpi="96"><mathML><math> <semantics>  <mrow>   <mo stretchy="false">(</mo><msub>    <mi>P</mi>    <mi>k</mi>   </msub>   <mo stretchy="false">)</mo></mrow>  <annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahGart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaaiikaiaadc  fadaWgaaWcbaGaam4AaaqabaGccaGGPaaaaa@394C@  </annotation> </semantics></math></mathML><image content-type="gif">R0lGODlhHgAYAPAAAP///wAAACwAAAAAHgAYAAACRYSPqcvtD6OctJ6Agt4JP5+FIgOOQGmgZtop
+Kuuu1/JuWlPHUd7utH7h9WbD4sgWQr1gONWSSVNClpgq1OJ5WrbcrtdbAAAh/wtNYXRoVHlwZTAw
+MeUFAQAHCERTTVQ3AAETV2luQWxsQmFzaWNDb2RlUGFnZXMAEQVUaW1lcyBOZXcgUm9tYW4AEQNT
+eW1ib2wAEQVDb3VyaWVyIE5ldwARBE1UIEV4dHJhABIACCEvRY9EL0FQ9BAPR19BUPIfHkFQ9BUP
+QQD0RfQl9I9CX0EA9BAPQ19BAPSPRfQqX0j0j0EA9BAPQPSPQX9I9BAPQSpfRF9F9F9F9F9BDwwB
+AAEAAQICAgIAAgABAQEAAwABAAQAAAoBAAIAgigAAgCDUAADABsAAAsBAAIAg2sAAAEBAAoCAIIp
+AAAAACH/C01hdGhUeXBlMDAz/zw/eG1sIHZlcnNpb249IjEuMCI/PjwhLS0gTWF0aFR5cGVAVHJh
+bnNsYXRvckA1QDVATWF0aE1MMiAoQ2xpcGJvYXJkKS50ZGxATWF0aE1MIDIuMCAoQ2xpcGJvYXJk
+KUAgLS0+PG1hdGggeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzE5OTgvTWF0aC9NYXRoTUwnPjxt
+cm93PjxtbyBzdHJldGNoeT0nZmFsc2UnPig8L21vPjxtc3ViPjxtaT5QPC9taT48bWk+azwvbWk+
+PC9tc3ViPjxtbyBzdHJldGNoeT0nZmFsc2UnPik8L21vPjwvbXJvdz48L21hdBxoPjwhLS0gTWF0
+aFR5cGVARW5kQDVANUAgLS0+ACH/C01hdGhUeXBlMDAyBggAAAAAAAA7</image></equation-inline> for taps is for all locations (e.g. kitchen, laundry and bathroom).</p></desc-note></table-reference>

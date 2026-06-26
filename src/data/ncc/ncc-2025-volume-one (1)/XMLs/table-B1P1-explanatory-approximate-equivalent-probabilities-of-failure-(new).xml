@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><table-reference xmlns:xt="urn:xpressauthor:trackchanges" graph="None" id="_cd1aaa58-c117-4510-ac35-811c7ab4e65f"><num>B1P1 (explanatory)</num><title id="_a17bbcc8-2591-4d21-b247-bbc5cfcf02a8">Approximate equivalent probabilities of failure</title><table id="_5d72ec83-ed01-4db7-9cdf-cab867c3a9b3" keycol="1"><tgroup cols="9"><colspec colname="001" colnum="1" colwidth="47.95*"/><colspec colname="009" colnum="2" colwidth="47.95*"/><colspec colname="008" colnum="3" colwidth="48.00*"/><colspec colname="007" colnum="4" colwidth="48.00*"/><colspec colname="006" colnum="5" colwidth="48.00*"/><colspec colname="005" colnum="6" colwidth="48.00*"/><colspec colname="004" colnum="7" colwidth="48.00*"/><colspec colname="002" colnum="8" colwidth="48.00*"/><colspec colname="003" colnum="9" colwidth="48.00*"/><thead><row><entry>Additive load combination (gravity actions only)</entry><entry nameend="006" namest="009">Additive load combinations (combined gravity and other actions)</entry><entry nameend="003" namest="005">Action reversal and stability load combinations (combined gravity and other actions)</entry></row></thead><tbody><row><entry>All Importance Levels</entry><entry>Importance Level 1</entry><entry>Importance Level 2</entry><entry>Importance Level 3</entry><entry>Importance Level 4</entry><entry>Importance Level 1</entry><entry>Importance Level 2</entry><entry>Importance Level 3</entry><entry>Importance Level 4</entry></row><row><entry><equation-inline alignEquation="none" height="24" heightdpi="96" id="_9d1efaf6-b801-498b-9d65-37e62d9daaff" width="20" widthdpi="96"><mathML><math><semantics><mrow><msub><mi>P</mi><mi>F</mi></msub></mrow><annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahCart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaamiuamaaBa  aaleaacaWGgbaabeaaaaa@37C3@  </annotation></semantics></math></mathML><image content-type="gif">R0lGODlhFAAYAPAAAP///wAAACwAAAAAFAAYAAACLISPqcvtD6MEodoZUI7bdPdRnCZZVTmRqZeY
+pxKysnaR8VOjN7hSbw8MChcFACH/C01hdGhUeXBlMDAx2gUBAAcHRFNNVDcAARNXaW5BbGxCYXNp
+Y0NvZGVQYWdlcwARBVRpbWVzIE5ldyBSb21hbgARA1N5bWJvbAARBUNvdXJpZXIgTmV3ABEETVQg
+RXh0cmEAEgAIIS9Fj0QvQVD0EA9HX0FQ8h8eQVD0FQ9BAPRF9CX0j0JfQQD0EA9DX0EA9I9F9Cpf
+SPSPQQD0EA9A9I9Bf0j0EA9BKl9EX0X0X0X0X0EPDAEAAQABAgICAgACAAEBAQADAAEABAAACgEA
+AgCDUAADABsAAAsBAAIAg0YAAAEBAAAAACH/C01hdGhUeXBlMDAz5Tw/eG1sIHZlcnNpb249IjEu
+MCI/PjwhLS0gTWF0aFR5cGVAVHJhbnNsYXRvckA1QDVATWF0aE1MMiAoQ2xpcGJvYXJkKS50ZGxA
+TWF0aE1MIDIuMCAoQ2xpcGJvYXJkKUAgLS0+PG1hdGggeG1sbnM9J2h0dHA6Ly93d3cudzMub3Jn
+LzE5OTgvTWF0aC9NYXRoTUwnPjxtcm93Pjxtc3ViPjxtaT5QPC9taT48bWk+RjwvbWk+PC9tc3Vi
+PjwvbXJvdz48L21hdGg+PCEtLSBNYXRoVHlwZUBFbmRANUA1QCAtLT4AIf8LTWF0aFR5cGUwMDIG
+CAAAAAAAADs=</image></equation-inline> = 1/117,000 per year</entry><entry><equation-inline alignEquation="none" height="24" heightdpi="96" id="_efaec4c0-9032-4cbb-9d0e-7934a4662451" width="20" widthdpi="96"><mathML><math><semantics><mrow><msub><mi>P</mi><mi>F</mi></msub></mrow><annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahCart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaamiuamaaBa  aaleaacaWGgbaabeaaaaa@37C3@  </annotation></semantics></math></mathML><image content-type="gif">R0lGODlhFAAYAPAAAP///wAAACwAAAAAFAAYAAACLISPqcvtD6MEodoZUI7bdPdRnCZZVTmRqZeY
+pxKysnaR8VOjN7hSbw8MChcFACH/C01hdGhUeXBlMDAx2gUBAAcHRFNNVDcAARNXaW5BbGxCYXNp
+Y0NvZGVQYWdlcwARBVRpbWVzIE5ldyBSb21hbgARA1N5bWJvbAARBUNvdXJpZXIgTmV3ABEETVQg
+RXh0cmEAEgAIIS9Fj0QvQVD0EA9HX0FQ8h8eQVD0FQ9BAPRF9CX0j0JfQQD0EA9DX0EA9I9F9Cpf
+SPSPQQD0EA9A9I9Bf0j0EA9BKl9EX0X0X0X0X0EPDAEAAQABAgICAgACAAEBAQADAAEABAAACgEA
+AgCDUAADABsAAAsBAAIAg0YAAAEBAAAAACH/C01hdGhUeXBlMDAz5Tw/eG1sIHZlcnNpb249IjEu
+MCI/PjwhLS0gTWF0aFR5cGVAVHJhbnNsYXRvckA1QDVATWF0aE1MMiAoQ2xpcGJvYXJkKS50ZGxA
+TWF0aE1MIDIuMCAoQ2xpcGJvYXJkKUAgLS0+PG1hdGggeG1sbnM9J2h0dHA6Ly93d3cudzMub3Jn
+LzE5OTgvTWF0aC9NYXRoTUwnPjxtcm93Pjxtc3ViPjxtaT5QPC9taT48bWk+RjwvbWk+PC9tc3Vi
+PjwvbXJvdz48L21hdGg+PCEtLSBNYXRoVHlwZUBFbmRANUA1QCAtLT4AIf8LTWF0aFR5cGUwMDIG
+CAAAAAAAADs=</image></equation-inline> = 1/3,500 per year</entry><entry><equation-inline alignEquation="none" height="24" heightdpi="96" id="_da42a645-23b6-4c15-bd87-25e4b7f21257" width="20" widthdpi="96"><mathML><math><semantics><mrow><msub><mi>P</mi><mi>F</mi></msub></mrow><annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahCart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaamiuamaaBa  aaleaacaWGgbaabeaaaaa@37C3@  </annotation></semantics></math></mathML><image content-type="gif">R0lGODlhFAAYAPAAAP///wAAACwAAAAAFAAYAAACLISPqcvtD6MEodoZUI7bdPdRnCZZVTmRqZeY
+pxKysnaR8VOjN7hSbw8MChcFACH/C01hdGhUeXBlMDAx2gUBAAcHRFNNVDcAARNXaW5BbGxCYXNp
+Y0NvZGVQYWdlcwARBVRpbWVzIE5ldyBSb21hbgARA1N5bWJvbAARBUNvdXJpZXIgTmV3ABEETVQg
+RXh0cmEAEgAIIS9Fj0QvQVD0EA9HX0FQ8h8eQVD0FQ9BAPRF9CX0j0JfQQD0EA9DX0EA9I9F9Cpf
+SPSPQQD0EA9A9I9Bf0j0EA9BKl9EX0X0X0X0X0EPDAEAAQABAgICAgACAAEBAQADAAEABAAACgEA
+AgCDUAADABsAAAsBAAIAg0YAAAEBAAAAACH/C01hdGhUeXBlMDAz5Tw/eG1sIHZlcnNpb249IjEu
+MCI/PjwhLS0gTWF0aFR5cGVAVHJhbnNsYXRvckA1QDVATWF0aE1MMiAoQ2xpcGJvYXJkKS50ZGxA
+TWF0aE1MIDIuMCAoQ2xpcGJvYXJkKUAgLS0+PG1hdGggeG1sbnM9J2h0dHA6Ly93d3cudzMub3Jn
+LzE5OTgvTWF0aC9NYXRoTUwnPjxtcm93Pjxtc3ViPjxtaT5QPC9taT48bWk+RjwvbWk+PC9tc3Vi
+PjwvbXJvdz48L21hdGg+PCEtLSBNYXRoVHlwZUBFbmRANUA1QCAtLT4AIf8LTWF0aFR5cGUwMDIG
+CAAAAAAAADs=</image></equation-inline> = 1/9,200 per year</entry><entry><equation-inline alignEquation="none" height="24" heightdpi="96" id="_84b6b907-ab29-4a95-8f58-f26f19b7f9de" width="20" widthdpi="96"><mathML><math><semantics><mrow><msub><mi>P</mi><mi>F</mi></msub></mrow><annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahCart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaamiuamaaBa  aaleaacaWGgbaabeaaaaa@37C3@  </annotation></semantics></math></mathML><image content-type="gif">R0lGODlhFAAYAPAAAP///wAAACwAAAAAFAAYAAACLISPqcvtD6MEodoZUI7bdPdRnCZZVTmRqZeY
+pxKysnaR8VOjN7hSbw8MChcFACH/C01hdGhUeXBlMDAx2gUBAAcHRFNNVDcAARNXaW5BbGxCYXNp
+Y0NvZGVQYWdlcwARBVRpbWVzIE5ldyBSb21hbgARA1N5bWJvbAARBUNvdXJpZXIgTmV3ABEETVQg
+RXh0cmEAEgAIIS9Fj0QvQVD0EA9HX0FQ8h8eQVD0FQ9BAPRF9CX0j0JfQQD0EA9DX0EA9I9F9Cpf
+SPSPQQD0EA9A9I9Bf0j0EA9BKl9EX0X0X0X0X0EPDAEAAQABAgICAgACAAEBAQADAAEABAAACgEA
+AgCDUAADABsAAAsBAAIAg0YAAAEBAAAAACH/C01hdGhUeXBlMDAz5Tw/eG1sIHZlcnNpb249IjEu
+MCI/PjwhLS0gTWF0aFR5cGVAVHJhbnNsYXRvckA1QDVATWF0aE1MMiAoQ2xpcGJvYXJkKS50ZGxA
+TWF0aE1MIDIuMCAoQ2xpcGJvYXJkKUAgLS0+PG1hdGggeG1sbnM9J2h0dHA6Ly93d3cudzMub3Jn
+LzE5OTgvTWF0aC9NYXRoTUwnPjxtcm93Pjxtc3ViPjxtaT5QPC9taT48bWk+RjwvbWk+PC9tc3Vi
+PjwvbXJvdz48L21hdGg+PCEtLSBNYXRoVHlwZUBFbmRANUA1QCAtLT4AIf8LTWF0aFR5cGUwMDIG
+CAAAAAAAADs=</image></equation-inline> = 1/16,900 per year</entry><entry><equation-inline alignEquation="none" height="24" heightdpi="96" id="_a36a5eaa-fa07-4e20-9af0-0134646792cc" width="20" widthdpi="96"><mathML><math><semantics><mrow><msub><mi>P</mi><mi>F</mi></msub></mrow><annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahCart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaamiuamaaBa  aaleaacaWGgbaabeaaaaa@37C3@  </annotation></semantics></math></mathML><image content-type="gif">R0lGODlhFAAYAPAAAP///wAAACwAAAAAFAAYAAACLISPqcvtD6MEodoZUI7bdPdRnCZZVTmRqZeY
+pxKysnaR8VOjN7hSbw8MChcFACH/C01hdGhUeXBlMDAx2gUBAAcHRFNNVDcAARNXaW5BbGxCYXNp
+Y0NvZGVQYWdlcwARBVRpbWVzIE5ldyBSb21hbgARA1N5bWJvbAARBUNvdXJpZXIgTmV3ABEETVQg
+RXh0cmEAEgAIIS9Fj0QvQVD0EA9HX0FQ8h8eQVD0FQ9BAPRF9CX0j0JfQQD0EA9DX0EA9I9F9Cpf
+SPSPQQD0EA9A9I9Bf0j0EA9BKl9EX0X0X0X0X0EPDAEAAQABAgICAgACAAEBAQADAAEABAAACgEA
+AgCDUAADABsAAAsBAAIAg0YAAAEBAAAAACH/C01hdGhUeXBlMDAz5Tw/eG1sIHZlcnNpb249IjEu
+MCI/PjwhLS0gTWF0aFR5cGVAVHJhbnNsYXRvckA1QDVATWF0aE1MMiAoQ2xpcGJvYXJkKS50ZGxA
+TWF0aE1MIDIuMCAoQ2xpcGJvYXJkKUAgLS0+PG1hdGggeG1sbnM9J2h0dHA6Ly93d3cudzMub3Jn
+LzE5OTgvTWF0aC9NYXRoTUwnPjxtcm93Pjxtc3ViPjxtaT5QPC9taT48bWk+RjwvbWk+PC9tc3Vi
+PjwvbXJvdz48L21hdGg+PCEtLSBNYXRoVHlwZUBFbmRANUA1QCAtLT4AIf8LTWF0aFR5cGUwMDIG
+CAAAAAAAADs=</image></equation-inline> = 1/31,500 per year</entry><entry><equation-inline alignEquation="none" height="24" heightdpi="96" id="_e60cd479-0c96-4f4f-84d7-da6ccc5b1513" width="20" widthdpi="96"><mathML><math><semantics><mrow><msub><mi>P</mi><mi>F</mi></msub></mrow><annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahCart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaamiuamaaBa  aaleaacaWGgbaabeaaaaa@37C3@  </annotation></semantics></math></mathML><image content-type="gif">R0lGODlhFAAYAPAAAP///wAAACwAAAAAFAAYAAACLISPqcvtD6MEodoZUI7bdPdRnCZZVTmRqZeY
+pxKysnaR8VOjN7hSbw8MChcFACH/C01hdGhUeXBlMDAx2gUBAAcHRFNNVDcAARNXaW5BbGxCYXNp
+Y0NvZGVQYWdlcwARBVRpbWVzIE5ldyBSb21hbgARA1N5bWJvbAARBUNvdXJpZXIgTmV3ABEETVQg
+RXh0cmEAEgAIIS9Fj0QvQVD0EA9HX0FQ8h8eQVD0FQ9BAPRF9CX0j0JfQQD0EA9DX0EA9I9F9Cpf
+SPSPQQD0EA9A9I9Bf0j0EA9BKl9EX0X0X0X0X0EPDAEAAQABAgICAgACAAEBAQADAAEABAAACgEA
+AgCDUAADABsAAAsBAAIAg0YAAAEBAAAAACH/C01hdGhUeXBlMDAz5Tw/eG1sIHZlcnNpb249IjEu
+MCI/PjwhLS0gTWF0aFR5cGVAVHJhbnNsYXRvckA1QDVATWF0aE1MMiAoQ2xpcGJvYXJkKS50ZGxA
+TWF0aE1MIDIuMCAoQ2xpcGJvYXJkKUAgLS0+PG1hdGggeG1sbnM9J2h0dHA6Ly93d3cudzMub3Jn
+LzE5OTgvTWF0aC9NYXRoTUwnPjxtcm93Pjxtc3ViPjxtaT5QPC9taT48bWk+RjwvbWk+PC9tc3Vi
+PjwvbXJvdz48L21hdGg+PCEtLSBNYXRoVHlwZUBFbmRANUA1QCAtLT4AIf8LTWF0aFR5cGUwMDIG
+CAAAAAAAADs=</image></equation-inline> = 1/700 per year</entry><entry><equation-inline alignEquation="none" height="24" heightdpi="96" id="_97330589-23ef-4603-beef-e7bd75d3ebf4" width="20" widthdpi="96"><mathML><math><semantics><mrow><msub><mi>P</mi><mi>F</mi></msub></mrow><annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahCart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaamiuamaaBa  aaleaacaWGgbaabeaaaaa@37C3@  </annotation></semantics></math></mathML><image content-type="gif">R0lGODlhFAAYAPAAAP///wAAACwAAAAAFAAYAAACLISPqcvtD6MEodoZUI7bdPdRnCZZVTmRqZeY
+pxKysnaR8VOjN7hSbw8MChcFACH/C01hdGhUeXBlMDAx2gUBAAcHRFNNVDcAARNXaW5BbGxCYXNp
+Y0NvZGVQYWdlcwARBVRpbWVzIE5ldyBSb21hbgARA1N5bWJvbAARBUNvdXJpZXIgTmV3ABEETVQg
+RXh0cmEAEgAIIS9Fj0QvQVD0EA9HX0FQ8h8eQVD0FQ9BAPRF9CX0j0JfQQD0EA9DX0EA9I9F9Cpf
+SPSPQQD0EA9A9I9Bf0j0EA9BKl9EX0X0X0X0X0EPDAEAAQABAgICAgACAAEBAQADAAEABAAACgEA
+AgCDUAADABsAAAsBAAIAg0YAAAEBAAAAACH/C01hdGhUeXBlMDAz5Tw/eG1sIHZlcnNpb249IjEu
+MCI/PjwhLS0gTWF0aFR5cGVAVHJhbnNsYXRvckA1QDVATWF0aE1MMiAoQ2xpcGJvYXJkKS50ZGxA
+TWF0aE1MIDIuMCAoQ2xpcGJvYXJkKUAgLS0+PG1hdGggeG1sbnM9J2h0dHA6Ly93d3cudzMub3Jn
+LzE5OTgvTWF0aC9NYXRoTUwnPjxtcm93Pjxtc3ViPjxtaT5QPC9taT48bWk+RjwvbWk+PC9tc3Vi
+PjwvbXJvdz48L21hdGg+PCEtLSBNYXRoVHlwZUBFbmRANUA1QCAtLT4AIf8LTWF0aFR5cGUwMDIG
+CAAAAAAAADs=</image></equation-inline> = 1/2,400 per year</entry><entry><equation-inline alignEquation="none" height="24" heightdpi="96" id="_bb3ce153-60d6-4b49-bb56-5c3fbd391a29" width="20" widthdpi="96"><mathML><math><semantics><mrow><msub><mi>P</mi><mi>F</mi></msub></mrow><annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahCart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaamiuamaaBa  aaleaacaWGgbaabeaaaaa@37C3@  </annotation></semantics></math></mathML><image content-type="gif">R0lGODlhFAAYAPAAAP///wAAACwAAAAAFAAYAAACLISPqcvtD6MEodoZUI7bdPdRnCZZVTmRqZeY
+pxKysnaR8VOjN7hSbw8MChcFACH/C01hdGhUeXBlMDAx2gUBAAcHRFNNVDcAARNXaW5BbGxCYXNp
+Y0NvZGVQYWdlcwARBVRpbWVzIE5ldyBSb21hbgARA1N5bWJvbAARBUNvdXJpZXIgTmV3ABEETVQg
+RXh0cmEAEgAIIS9Fj0QvQVD0EA9HX0FQ8h8eQVD0FQ9BAPRF9CX0j0JfQQD0EA9DX0EA9I9F9Cpf
+SPSPQQD0EA9A9I9Bf0j0EA9BKl9EX0X0X0X0X0EPDAEAAQABAgICAgACAAEBAQADAAEABAAACgEA
+AgCDUAADABsAAAsBAAIAg0YAAAEBAAAAACH/C01hdGhUeXBlMDAz5Tw/eG1sIHZlcnNpb249IjEu
+MCI/PjwhLS0gTWF0aFR5cGVAVHJhbnNsYXRvckA1QDVATWF0aE1MMiAoQ2xpcGJvYXJkKS50ZGxA
+TWF0aE1MIDIuMCAoQ2xpcGJvYXJkKUAgLS0+PG1hdGggeG1sbnM9J2h0dHA6Ly93d3cudzMub3Jn
+LzE5OTgvTWF0aC9NYXRoTUwnPjxtcm93Pjxtc3ViPjxtaT5QPC9taT48bWk+RjwvbWk+PC9tc3Vi
+PjwvbXJvdz48L21hdGg+PCEtLSBNYXRoVHlwZUBFbmRANUA1QCAtLT4AIf8LTWF0aFR5cGUwMDIG
+CAAAAAAAADs=</image></equation-inline> = 1/5,100 per year</entry><entry><equation-inline alignEquation="none" height="24" heightdpi="96" id="_f1b5b861-dfc2-42ad-b5e6-722a5b657dc5" width="20" widthdpi="96"><mathML><math><semantics><mrow><msub><mi>P</mi><mi>F</mi></msub></mrow><annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahCart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaamiuamaaBa  aaleaacaWGgbaabeaaaaa@37C3@  </annotation></semantics></math></mathML><image content-type="gif">R0lGODlhFAAYAPAAAP///wAAACwAAAAAFAAYAAACLISPqcvtD6MEodoZUI7bdPdRnCZZVTmRqZeY
+pxKysnaR8VOjN7hSbw8MChcFACH/C01hdGhUeXBlMDAx2gUBAAcHRFNNVDcAARNXaW5BbGxCYXNp
+Y0NvZGVQYWdlcwARBVRpbWVzIE5ldyBSb21hbgARA1N5bWJvbAARBUNvdXJpZXIgTmV3ABEETVQg
+RXh0cmEAEgAIIS9Fj0QvQVD0EA9HX0FQ8h8eQVD0FQ9BAPRF9CX0j0JfQQD0EA9DX0EA9I9F9Cpf
+SPSPQQD0EA9A9I9Bf0j0EA9BKl9EX0X0X0X0X0EPDAEAAQABAgICAgACAAEBAQADAAEABAAACgEA
+AgCDUAADABsAAAsBAAIAg0YAAAEBAAAAACH/C01hdGhUeXBlMDAz5Tw/eG1sIHZlcnNpb249IjEu
+MCI/PjwhLS0gTWF0aFR5cGVAVHJhbnNsYXRvckA1QDVATWF0aE1MMiAoQ2xpcGJvYXJkKS50ZGxA
+TWF0aE1MIDIuMCAoQ2xpcGJvYXJkKUAgLS0+PG1hdGggeG1sbnM9J2h0dHA6Ly93d3cudzMub3Jn
+LzE5OTgvTWF0aC9NYXRoTUwnPjxtcm93Pjxtc3ViPjxtaT5QPC9taT48bWk+RjwvbWk+PC9tc3Vi
+PjwvbXJvdz48L21hdGg+PCEtLSBNYXRoVHlwZUBFbmRANUA1QCAtLT4AIf8LTWF0aFR5cGUwMDIG
+CAAAAAAAADs=</image></equation-inline> = 1/7,600 per year</entry></row></tbody></tgroup></table></table-reference>

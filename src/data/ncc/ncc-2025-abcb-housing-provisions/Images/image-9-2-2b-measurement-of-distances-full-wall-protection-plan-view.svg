@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="_x30_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 552.8 202.9" style="enable-background:new 0 0 552.8 202.9;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:#231F20;stroke-miterlimit:10;stroke-dasharray:5.4396,11.9671,27.1979,11.9671;}
+	.st1{fill:none;stroke:#231F20;stroke-width:0.8159;stroke-miterlimit:10;}
+	.st2{fill:none;stroke:#231F20;stroke-width:0.8159;stroke-miterlimit:10;stroke-dasharray:11.7842,5.8921;}
+	.st3{fill:none;stroke:#231F20;stroke-width:0.25;stroke-miterlimit:10;}
+	.st4{fill:#231F20;}
+	.st5{fill:none;stroke:#231F20;stroke-linecap:round;stroke-miterlimit:10;}
+	.st6{fill:none;stroke:#231F20;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}
+	.st7{font-family:'ArialMT';}
+	.st8{font-size:12px;}
+</style>
+<g id="LINE">
+	<g>
+		<line class="st0" x1="28.3" y1="32.9" x2="407.4" y2="32.9"/>
+	</g>
+</g>
+<g id="LINE_2_">
+	<g id="LINE_14_">
+		<g>
+			<g>
+				<g>
+					<line class="st1" x1="28.3" y1="94" x2="34.3" y2="94"/>
+					<line class="st2" x1="40.2" y1="94" x2="373.1" y2="94"/>
+					<line class="st1" x1="376.1" y1="94" x2="382.1" y2="94"/>
+				</g>
+			</g>
+		</g>
+	</g>
+</g>
+<g id="LINE_11_">
+	<g id="LINE_24_">
+		<g>
+			<g>
+				<g>
+					<g>
+						<g>
+							<line class="st3" x1="48.9" y1="85.2" x2="48.9" y2="41.7"/>
+							<g>
+								<polygon class="st4" points="51.8,83.2 48.9,94 45.9,83.2 								"/>
+							</g>
+							<g>
+								<polygon class="st4" points="51.8,43.7 48.9,32.9 45.9,43.7 								"/>
+							</g>
+						</g>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+</g>
+<g id="POLYLINE_2_">
+	<g>
+		<g>
+			<g>
+				<g>
+					<polyline class="st3" points="282.4,81.9 336.7,139.4 343.7,139.4 					"/>
+					<g>
+						<polygon class="st4" points="281.6,85.4 276.3,75.5 285.8,81.4 						"/>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+</g>
+<g id="LINE_4_">
+	<g>
+		<line class="st5" x1="313.7" y1="173.6" x2="313.7" y2="75.5"/>
+	</g>
+</g>
+<g>
+	<g id="LINE_1_">
+		<g>
+			<line class="st6" x1="313.1" y1="75.5" x2="82.9" y2="75.5"/>
+		</g>
+	</g>
+	<g id="LINE_3_">
+		<g>
+			<line class="st5" x1="82.3" y1="173.6" x2="313.7" y2="173.6"/>
+		</g>
+	</g>
+	<g id="LINE_5_">
+		<g>
+			<line class="st5" x1="82.3" y1="75.5" x2="82.3" y2="173.6"/>
+		</g>
+	</g>
+	<g id="LINE_6_">
+		<g>
+			<line class="st5" x1="141.1" y1="124.5" x2="254.8" y2="124.5"/>
+		</g>
+	</g>
+	<g id="LINE_7_">
+		<g>
+			<line class="st5" x1="141.1" y1="124.5" x2="82.3" y2="173.6"/>
+		</g>
+	</g>
+	<g id="LINE_8_">
+		<g>
+			<line class="st5" x1="141.1" y1="124.5" x2="82.3" y2="75.5"/>
+		</g>
+	</g>
+	<g id="LINE_9_">
+		<g>
+			<line class="st5" x1="254.8" y1="124.5" x2="313.7" y2="173.6"/>
+		</g>
+	</g>
+	<g id="LINE_10_">
+		<g>
+			<line class="st5" x1="254.8" y1="124.5" x2="313.7" y2="75.5"/>
+		</g>
+	</g>
+</g>
+<g id="MTEXT">
+	<g>
+		<text transform="matrix(1 0 0 1 421.5043 37.9216)" class="st4 st7 st8">Allotment boundary</text>
+	</g>
+</g>
+<g id="MTEXT_1_">
+</g>
+<g id="MTEXT_2_">
+	<g>
+		<text transform="matrix(1 0 0 1 348.1445 72.7109)"><tspan x="0" y="0" class="st4 st7 st8">Wall within 900 mm of boundary </tspan><tspan x="0" y="14.4" class="st4 st7 st8">must have an FRL of 60/60/60  </tspan></text>
+	</g>
+</g>
+<g id="MTEXT_3_">
+</g>
+<g id="MTEXT_4_">
+	<g>
+		<text transform="matrix(1 0 0 1 348.1445 143.2134)"><tspan x="0" y="0" class="st4 st7 st8">Only the wall facing or parallel to </tspan><tspan x="0" y="14.4" class="st4 st7 st8">the boundary must have an FRL </tspan></text>
+	</g>
+</g>
+<g id="MTEXT_5_">
+	<g>
+		<text transform="matrix(1 0 0 1 177.6173 154.2557)" class="st4 st7 st8">Class 1</text>
+	</g>
+</g>
+<g>
+	<g id="MTEXT_6_">
+		<g>
+			<text transform="matrix(0 -1 1 0 60.8966 84.5906)" class="st4 st7 st8">900 mm</text>
+		</g>
+	</g>
+	<g id="MTEXT_7_">
+		<g>
+			<text transform="matrix(0 -1 1 0 44.6134 84.6522)" class="st4 st7 st8">Setback </text>
+		</g>
+	</g>
+</g>
+</svg>

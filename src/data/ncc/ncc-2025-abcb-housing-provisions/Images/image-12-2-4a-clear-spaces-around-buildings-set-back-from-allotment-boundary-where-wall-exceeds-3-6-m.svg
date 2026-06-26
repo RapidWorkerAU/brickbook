@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 552.8 337.1" style="enable-background:new 0 0 552.8 337.1;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;}
+	.st1{fill:#231F20;stroke:#231F20;stroke-width:0.5;stroke-miterlimit:10;}
+	.st2{fill-rule:evenodd;clip-rule:evenodd;fill:url(#SVGID_1_);}
+	.st3{fill:#231F20;}
+	.st4{font-family:'ArialMT';}
+	.st5{font-size:12px;}
+	.st6{font-family:'Arial-ItalicMT';}
+	.st7{fill:none;stroke:#231F20;stroke-width:0.25;stroke-miterlimit:10;}
+	.st8{fill:none;stroke:#231F20;stroke-width:0.75;stroke-miterlimit:10;}
+	.st9{fill:none;stroke:#231F20;stroke-miterlimit:10;}
+	.st10{fill:none;stroke:#231F20;stroke-miterlimit:10;stroke-dasharray:25.3641,11.1602;}
+	.st11{fill:none;stroke:#231F20;stroke-miterlimit:10;stroke-dasharray:5.0728,11.1602,25.3641,11.1602;}
+</style>
+<pattern  x="147.4" y="451.1" width="28.3" height="28.3" patternUnits="userSpaceOnUse" id="Masonry_crosshatch" viewBox="28.5 -56.9 28.3 28.3" style="overflow:visible;">
+	<g>
+		<rect x="28.5" y="-56.9" class="st0" width="28.3" height="28.3"/>
+		<g>
+			<line class="st1" x1="56.9" y1="-28.5" x2="85.2" y2="-0.2"/>
+		</g>
+		<g>
+			<line class="st1" x1="28.5" y1="-28.5" x2="56.9" y2="-0.2"/>
+			<line class="st1" x1="30.6" y1="-31" x2="59" y2="-2.7"/>
+		</g>
+		<g>
+			<line class="st1" x1="0.2" y1="-28.5" x2="28.5" y2="-0.2"/>
+			<line class="st1" x1="2.3" y1="-31" x2="30.6" y2="-2.7"/>
+		</g>
+		<g>
+			<line class="st1" x1="56.9" y1="-56.9" x2="85.2" y2="-28.5"/>
+		</g>
+		<g>
+			<line class="st1" x1="28.5" y1="-56.9" x2="56.9" y2="-28.5"/>
+			<line class="st1" x1="30.6" y1="-59.4" x2="59" y2="-31"/>
+		</g>
+		<g>
+			<line class="st1" x1="0.2" y1="-56.9" x2="28.5" y2="-28.5"/>
+			<line class="st1" x1="2.3" y1="-59.4" x2="30.6" y2="-31"/>
+		</g>
+		<g>
+			<line class="st1" x1="56.9" y1="-85.2" x2="85.2" y2="-56.9"/>
+		</g>
+		<g>
+			<line class="st1" x1="28.5" y1="-85.2" x2="56.9" y2="-56.9"/>
+		</g>
+		<g>
+			<line class="st1" x1="0.2" y1="-85.2" x2="28.5" y2="-56.9"/>
+		</g>
+	</g>
+</pattern>
+<g id="HETCH">
+	<g id="HATCH">
+		<pattern  id="SVGID_1_" xlink:href="#Masonry_crosshatch" patternTransform="matrix(1 0 0 1 69.1634 29.0126)">
+		</pattern>
+		<rect x="249.5" y="79.1" class="st2" width="8.8" height="168.4"/>
+	</g>
+</g>
+<g id="LINE_x5F_35">
+</g>
+<g id="LINE_x5F_50">
+</g>
+<g id="TEXT_25">
+	<g id="MTEXT_11_">
+		<g>
+			<text transform="matrix(1 0 0 1 94.5678 281.3768)"><tspan x="0" y="0" class="st3 st4 st5">2.5 m minimum setback, plus 100 mm</tspan><tspan x="0" y="14.4" class="st3 st4 st5">for each 300 mm the wall exceeds 3.6 m</tspan><tspan x="0" y="28.8" class="st3 st4 st5">in height </tspan></text>
+		</g>
+	</g>
+	<g id="MTEXT_8_">
+		<g>
+			<text transform="matrix(1 0 0 1 290.476 118.1931)" class="st3 st6 st5">External wall</text>
+		</g>
+	</g>
+	<g id="MTEXT_1_">
+		<g>
+			<text transform="matrix(1 0 0 1 144.5289 163.314)" class="st3 st4 st5">More than 3.6 m</text>
+		</g>
+	</g>
+	<g>
+		<g>
+			<line class="st7" x1="287.9" y1="114.1" x2="267" y2="117"/>
+			<g>
+				<polygon class="st3" points="268.6,113.8 258.3,118.2 269.4,119.6 				"/>
+			</g>
+		</g>
+	</g>
+	<g>
+		<g>
+			<line class="st7" x1="239.1" y1="88" x2="239.1" y2="238.5"/>
+			<g>
+				<polygon class="st3" points="236.2,89.9 239.1,79.1 242,89.9 				"/>
+			</g>
+			<g>
+				<polygon class="st3" points="236.2,236.5 239.1,247.3 242,236.5 				"/>
+			</g>
+		</g>
+	</g>
+	<line class="st7" x1="105.9" y1="250.4" x2="105.9" y2="268.1"/>
+	<line class="st7" x1="249.5" y1="250.4" x2="249.5" y2="268.1"/>
+</g>
+<g id="LINE_18">
+	<g id="LINE_14_">
+		<line class="st8" x1="318.2" y1="36.4" x2="249.5" y2="79.1"/>
+	</g>
+	<g id="LINE_13_">
+		<line class="st8" x1="386.9" y1="79.1" x2="318.2" y2="36.4"/>
+	</g>
+	<g id="LINE_6_">
+		<line class="st8" x1="258.3" y1="247.5" x2="258.3" y2="79.1"/>
+	</g>
+	<g id="LINE_5_">
+		<line class="st8" x1="249.5" y1="247.5" x2="249.5" y2="79.1"/>
+	</g>
+	<g id="LINE_4_">
+		<line class="st8" x1="386.9" y1="79.1" x2="386.9" y2="247.5"/>
+	</g>
+	<g id="LINE_12_">
+		<g>
+			<g>
+				<line class="st9" x1="105.9" y1="36.4" x2="105.9" y2="38.9"/>
+				<line class="st10" x1="105.9" y1="50" x2="105.9" y2="81"/>
+				<line class="st11" x1="105.9" y1="86.6" x2="105.9" y2="239.3"/>
+				<line class="st9" x1="105.9" y1="244.8" x2="105.9" y2="247.3"/>
+			</g>
+		</g>
+	</g>
+	<g id="LINE_3_">
+		<line class="st8" x1="249.5" y1="79.1" x2="386.9" y2="79.1"/>
+	</g>
+	<g id="LINE_11_">
+		<line class="st8" x1="28.3" y1="247.3" x2="524.4" y2="247.3"/>
+	</g>
+	<g id="LINE_15_">
+		<g>
+			<g>
+				<line class="st7" x1="241" y1="256.6" x2="114.4" y2="256.6"/>
+				<g>
+					<polygon class="st3" points="239.1,254.5 249.5,256.6 239.1,258.8 					"/>
+				</g>
+				<g>
+					<polygon class="st3" points="116.2,254.5 105.9,256.6 116.2,258.8 					"/>
+				</g>
+			</g>
+		</g>
+	</g>
+	<path class="st7" d="M282.2,19.1"/>
+</g>
+<g id="LINE_x5F_18_x5F_dashed">
+</g>
+</svg>

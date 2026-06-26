@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Drawing_Layer" data-name="Drawing Layer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 552.76 850.39">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+        stroke: #231f20;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-2 {
+        stroke-width: .25px;
+      }
+
+      .cls-4, .cls-5 {
+        font-size: 12px;
+      }
+
+      .cls-4, .cls-5, .cls-6 {
+        fill: #231f20;
+      }
+
+      .cls-7, .cls-8 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-7, .cls-9 {
+        font-family: Arial-ItalicMT, Arial;
+        font-style: italic;
+      }
+
+      .cls-5, .cls-10 {
+        font-family: ArialMT, Arial;
+      }
+
+      .cls-6 {
+        stroke-width: 0px;
+      }
+
+      .cls-3 {
+        stroke-width: .5px;
+      }
+
+      .cls-11 {
+        letter-spacing: -.06em;
+      }
+    </style>
+  </defs>
+  <path class="cls-1" d="m24.04,50.76l97.5,19.34,7.01-6.45v14.3l6.17-6.17,16.54,4.2,24.39-13.17,25.51,5.33,7.29-7.01-1.12,14.3,5.33-5.05,14.86,2.52,10.09-3.64s7.13,2.47,11.31.11,44.33-23.29,44.33-23.29"/>
+  <polyline class="cls-1" points="127.71 246.72 33.38 222.6 33.38 52.61"/>
+  <line class="cls-1" x1="151.82" y1="233.59" x2="151.82" y2="75.99"/>
+  <line class="cls-1" x1="227.93" y1="282.89" x2="227.93" y2="72.9"/>
+  <polyline class="cls-1" points="58.84 281.82 175.4 222.06 175.4 62.81"/>
+  <line class="cls-1" x1="58.84" y1="286.91" x2="181.57" y2="224.21"/>
+  <path class="cls-1" d="m175.4,222.06l52.52,13.93,9.38-5.63,2.6,1s8.33,2.42,12.32.24,61.7-33.21,61.7-33.21"/>
+  <path class="cls-1" d="m313.92,91.19v155.53l-60.04,31.84s-6.78,3.22-13.27.85l-3.31-1.87V69.26"/>
+  <polyline class="cls-1" points="379.62 46.07 379.62 200.27 313.92 233.7"/>
+  <polyline class="cls-1" points="58.84 328.43 181.57 265.63 181.57 224.21"/>
+  <polyline class="cls-1" points="73.06 352.13 221.9 276.32 181.57 265.63"/>
+  <polyline class="cls-1" points="78.97 355.06 221.9 281.23 227.93 282.89 237.3 277.53"/>
+  <line class="cls-1" x1="221.9" y1="276.32" x2="221.9" y2="281.23"/>
+  <path class="cls-3" d="m58.84,276.32v29.83l5.48,2.74-10.36,1.47,4.88,1.37v33.81s39.74,19.69,50.9,20.95c11.16,1.25,27.44,1.37,40.64-2.85,13.21-4.21,30.97-13.43,35.06-15.82s11.5-3.42,16.51-2.5,12.07,2.5,14.34,3.3,6.38,3.3,10.82-.91,11.5-13.09,18.44-13.77,42.35,1.59,49.18-.34,26.64-5.01,42.58-19.69,14.57-15.48,22.2-15.71,15.82,1.02,18.56.68,26.07-6.03,30.17-40.53-28.61-58.06-28.61-58.06"/>
+  <text class="cls-5" transform="translate(317.61 55.01)"><tspan x="0" y="0">Door jamb</tspan></text>
+  <text class="cls-5" transform="translate(313.92 85.95)"><tspan x="0" y="0">Architrave</tspan></text>
+  <text class="cls-4" transform="translate(399.02 133.79)"><tspan class="cls-9"><tspan class="cls-8" x="0" y="0">W</tspan><tspan x="11.11" y="0">aterproof membrane</tspan></tspan><tspan class="cls-10"><tspan x="0" y="14">a min. of 25 mm above</tspan></tspan><tspan class="cls-10"><tspan x="0" y="28">the finished floor surface</tspan></tspan></text>
+  <text class="cls-5" transform="translate(413.26 208.88)"><tspan x="0" y="0">Bathroom</tspan></text>
+  <text class="cls-4" transform="translate(336.44 340.14)"><tspan class="cls-7" x="0" y="0">W</tspan><tspan class="cls-9" x="11.11" y="0">aterstop</tspan><tspan class="cls-10" x="54.47" y="0" xml:space="preserve"> with base sealed to </tspan><tspan class="cls-10"><tspan x="0" y="14">floor and upstand flush with </tspan></tspan><tspan class="cls-10"><tspan x="0" y="28">the finished floor surface</tspan></tspan></text>
+  <text class="cls-5" transform="translate(184.73 403.14)"><tspan x="0" y="0">(a)</tspan><tspan class="cls-11" x="14.67" y="0"> </tspan><tspan x="17.34" y="0">After installation of architrave</tspan></text>
+  <g>
+    <line class="cls-2" x1="138.73" y1="272.91" x2="333.89" y2="342.69"/>
+    <polygon class="cls-6" points="139.61 276.31 130.38 269.93 141.57 270.84 139.61 276.31"/>
+  </g>
+  <g>
+    <line class="cls-2" x1="213.24" y1="96.97" x2="313.92" y2="51.28"/>
+    <polygon class="cls-6" points="216.25 98.8 205.17 100.63 213.84 93.5 216.25 98.8"/>
+  </g>
+  <g>
+    <polyline class="cls-2" points="277.62 113.12 305.4 81.99 311 81.99"/>
+    <polygon class="cls-6" points="281.11 113.58 271.73 119.74 276.78 109.71 281.11 113.58"/>
+  </g>
+  <g>
+    <line class="cls-2" x1="342.75" y1="131.54" x2="394.95" y2="131.54"/>
+    <polygon class="cls-6" points="344.73 134.45 333.89 131.54 344.73 128.64 344.73 134.45"/>
+  </g>
+  <polyline class="cls-1" points="24.37 465.57 121.87 484.91 128.88 478.47 128.88 492.76 135.05 486.6 151.59 490.8 175.97 477.63 201.48 482.95 208.77 475.94 207.65 490.24 212.97 485.2 227.83 487.72"/>
+  <polyline class="cls-1" points="128.03 661.53 33.71 637.42 33.71 467.43"/>
+  <line class="cls-1" x1="152.15" y1="648.4" x2="152.15" y2="490.8"/>
+  <polyline class="cls-1" points="228.25 697.71 228.25 487.72 293.28 463.73"/>
+  <polyline class="cls-1" points="59.17 696.64 175.73 636.88 175.73 477.63"/>
+  <line class="cls-1" x1="59.17" y1="701.73" x2="181.89" y2="639.02"/>
+  <line class="cls-1" x1="379.95" y1="460.89" x2="379.95" y2="615.08"/>
+  <polyline class="cls-1" points="59.17 743.24 181.89 680.45 181.89 639.02"/>
+  <polyline class="cls-1" points="73.39 766.94 222.22 691.13 181.89 680.45"/>
+  <path class="cls-3" d="m79.29,769.88l142.93-73.84,6.03,1.66,9.38-5.36,142.32-77.26s32.71,23.57,28.61,58.06-27.44,40.19-30.17,40.53-10.93-.91-18.56-.68-6.26,1.02-22.2,15.71-35.75,17.76-42.58,19.69-42.24-.34-49.18.34-14,9.56-18.44,13.77-8.54,1.71-10.82.91-9.34-2.39-14.34-3.3-12.41.11-16.51,2.5-21.86,11.61-35.06,15.82-29.49,4.1-40.64,2.85-50.9-20.95-50.9-20.95v-33.81l-4.88-1.37,10.36-1.47-5.48-2.74v-29.83"/>
+  <line class="cls-1" x1="222.22" y1="691.13" x2="222.22" y2="696.04"/>
+  <text class="cls-5" transform="translate(317.94 476.83)"><tspan x="0" y="0">Door jamb</tspan></text>
+  <text class="cls-4" transform="translate(399.34 548.61)"><tspan class="cls-9"><tspan class="cls-8" x="0" y="0">W</tspan><tspan x="11.11" y="0">aterproof membrane</tspan></tspan><tspan class="cls-10"><tspan x="0" y="14">a min. of 25 mm above</tspan></tspan><tspan class="cls-10"><tspan x="0" y="28">the finished floor surface</tspan></tspan></text>
+  <text class="cls-5" transform="translate(413.59 623.69)"><tspan x="0" y="0">Bathroom</tspan></text>
+  <text class="cls-4" transform="translate(336.76 754.96)"><tspan class="cls-7" x="0" y="0">W</tspan><tspan class="cls-9" x="11.11" y="0">aterstop </tspan><tspan class="cls-10" x="57.8" y="0">with base sealed to </tspan><tspan class="cls-10"><tspan x="0" y="14">floor and upstand flush with </tspan></tspan><tspan class="cls-10"><tspan x="0" y="28">the finished floor surface</tspan></tspan></text>
+  <text class="cls-5" transform="translate(178.73 817.96)"><tspan x="0" y="0">(b) Prior to installation of architrave</tspan></text>
+  <g>
+    <line class="cls-2" x1="139.05" y1="687.73" x2="334.22" y2="757.5"/>
+    <polygon class="cls-6" points="139.94 691.13 130.71 684.75 141.9 685.66 139.94 691.13"/>
+  </g>
+  <g>
+    <line class="cls-2" x1="213.57" y1="518.78" x2="314.25" y2="473.09"/>
+    <polygon class="cls-6" points="216.57 520.61 205.5 522.45 214.17 515.32 216.57 520.61"/>
+  </g>
+  <g>
+    <line class="cls-2" x1="343.08" y1="546.36" x2="395.27" y2="546.36"/>
+    <polygon class="cls-6" points="345.06 549.26 334.22 546.36 345.06 543.45 345.06 549.26"/>
+  </g>
+  <polyline class="cls-1" points="257.12 476.83 257.12 634.76 228.25 650.98 175.73 636.88"/>
+  <line class="cls-1" x1="379.95" y1="497.77" x2="257.12" y2="553.64"/>
+</svg>

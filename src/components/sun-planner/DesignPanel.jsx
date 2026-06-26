@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import * as LucideIcons from "lucide-react";
 import principlesData from "@/data/sun-planner/design-principles.json";
 
@@ -39,9 +39,21 @@ function compassPoint8(deg) {
 // ── Component ─────────────────────────────────────────────────────────────────
 export default function DesignPanel({ isOpen, onClose, selectedLocation, northBearing }) {
   const [expanded, setExpanded] = useState({});
+  const [zoneProfile, setZoneProfile] = useState(null);
 
   const zone = selectedLocation?.climateZone;
   const zoneData = zone != null ? principlesData[String(zone)] : null;
+
+  // Fetch NCC zone profile (feel description + ceiling fan requirements) from Supabase
+  useEffect(() => {
+    if (!zone) { setZoneProfile(null); return; }
+    let cancelled = false;
+    fetch(`/api/sun-planner/zone-profile?zone=${zone}`)
+      .then((r) => r.ok ? r.json() : null)
+      .then((data) => { if (!cancelled && data) setZoneProfile(data); })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, [zone]);
 
   // The cardinal direction closest to northBearing is where North sits on the
   // plan, which is the direction the living areas most likely face in a
@@ -178,6 +190,77 @@ export default function DesignPanel({ isOpen, onClose, selectedLocation, northBe
               }}>
                 {zoneData.summary}
               </p>
+
+              {/* Feel description — from Supabase zone_profiles */}
+              {zoneProfile?.profile?.feel_description && (
+                <div style={{
+                  marginTop: 10,
+                  padding: "10px 11px",
+                  borderRadius: 7,
+                  background: `${ZONE_COLORS[zone]}0e`,
+                  border: `1px solid ${ZONE_COLORS[zone]}25`,
+                }}>
+                  <div style={{
+                    color: ZONE_COLORS[zone],
+                    fontSize: 9.5,
+                    fontWeight: 600,
+                    letterSpacing: "0.06em",
+                    textTransform: "uppercase",
+                    marginBottom: 5,
+                    opacity: 0.85,
+                  }}>
+                    What it feels like to live here
+                  </div>
+                  <p style={{
+                    color: "rgba(255,255,255,0.42)",
+                    fontSize: 11,
+                    lineHeight: 1.65,
+                    margin: 0,
+                  }}>
+                    {zoneProfile.profile.feel_description}
+                  </p>
+                </div>
+              )}
+
+              {/* NCC ceiling fan requirement */}
+              {zoneProfile?.ceilingFanSummary?.required && (
+                <div style={{
+                  marginTop: 8,
+                  padding: "8px 11px",
+                  borderRadius: 7,
+                  background: "rgba(96,165,250,0.07)",
+                  border: "1px solid rgba(96,165,250,0.2)",
+                  display: "flex",
+                  gap: 8,
+                  alignItems: "flex-start",
+                }}>
+                  <span style={{ color: "#60a5fa", flexShrink: 0, marginTop: 1 }}>
+                    <LucideIcons.Wind size={12} strokeWidth={2} />
+                  </span>
+                  <div>
+                    <div style={{
+                      color: "#93c5fd",
+                      fontSize: 10.5,
+                      fontWeight: 500,
+                      lineHeight: 1.4,
+                    }}>
+                      {zoneProfile.ceilingFanSummary.summary}
+                    </div>
+                    {zoneProfile.ceilingFanSummary.stateNote && (
+                      <div style={{
+                        color: "rgba(255,255,255,0.3)",
+                        fontSize: 10,
+                        marginTop: 3,
+                      }}>
+                        {zoneProfile.ceilingFanSummary.stateNote}
+                      </div>
+                    )}
+                    <div style={{ color: "rgba(255,255,255,0.22)", fontSize: 9.5, marginTop: 3 }}>
+                      NCC 2025 Table 13.5.2
+                    </div>
+                  </div>
+                </div>
+              )}
             </>
           ) : null}
         </div>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 552.76 314.72" style="enable-background:new 0 0 552.76 314.72;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#231F20;}
+	.st1{font-family:'Arial-BoldMT';}
+	.st2{font-size:12px;}
+	.st3{font-family:'ArialMT';}
+	.st4{fill:none;stroke:#231F20;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st5{fill:none;stroke:#231F20;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+</style>
+<g id="TEXT_25">
+	<g>
+		<g id="MTEXT_3_">
+			<g>
+				<text transform="matrix(1 0 0 1 85.3384 272.894)" class="st0 st1 st2">OPTION (a) – Elevation</text>
+			</g>
+		</g>
+		<g id="MTEXT_7_">
+			<g>
+				<text transform="matrix(1 0 0 1 353.4902 272.894)" class="st0 st1 st2">OPTION (b) – Elevation</text>
+			</g>
+		</g>
+	</g>
+	<g>
+		<g id="MTEXT">
+			<g>
+				<text transform="matrix(1 0 0 1 121.8583 127.1479)" class="st0 st3 st2">Class 1</text>
+			</g>
+		</g>
+		<g id="MTEXT_2_">
+			<g>
+				<text transform="matrix(1 0 0 1 166.4802 197.5731)"><tspan x="0" y="0" class="st0 st3 st2">Class 1 </tspan><tspan x="-12.01" y="14.4" class="st0 st3 st2">ground floor</tspan></text>
+			</g>
+		</g>
+		<g>
+			<text transform="matrix(1 0 0 1 68.8516 199.4877)"><tspan x="0" y="0" class="st0 st3 st2">Class 10a </tspan><tspan x="8" y="14.4" class="st0 st3 st2">garage</tspan></text>
+		</g>
+	</g>
+	<g>
+		<g id="MTEXT_4_">
+			<g>
+				<text transform="matrix(1 0 0 1 391.1665 127.1479)" class="st0 st3 st2">Class 1</text>
+			</g>
+		</g>
+		<g id="MTEXT_1_">
+			<g>
+				<text transform="matrix(1 0 0 1 435.7885 197.5731)"><tspan x="0" y="0" class="st0 st3 st2">Class 1 </tspan><tspan x="-12.01" y="14.4" class="st0 st3 st2">ground floor</tspan></text>
+			</g>
+		</g>
+		<g>
+			<text transform="matrix(1 0 0 1 338.1599 199.4877)"><tspan x="0" y="0" class="st0 st3 st2">Class 10a </tspan><tspan x="8" y="14.4" class="st0 st3 st2">garage</tspan></text>
+		</g>
+	</g>
+</g>
+<g id="LINE_35">
+	<g>
+		<g id="LWPOLYLINE_6_">
+			<g>
+				<line class="st4" x1="410.32" y1="161.55" x2="502.05" y2="161.55"/>
+			</g>
+		</g>
+		<g id="LWPOLYLINE_16_">
+			<g>
+				<line class="st4" x1="318.65" y1="81.34" x2="410.32" y2="29.35"/>
+			</g>
+		</g>
+		<g id="LWPOLYLINE_17_">
+			<g>
+				<line class="st4" x1="501.98" y1="81.34" x2="410.32" y2="29.35"/>
+			</g>
+		</g>
+		<g>
+			<g id="LWPOLYLINE">
+				<g>
+					<line class="st4" x1="50.2" y1="81.34" x2="141.87" y2="29.35"/>
+				</g>
+			</g>
+			<g id="LWPOLYLINE_1_">
+				<g>
+					<line class="st4" x1="141.87" y1="161.55" x2="233.59" y2="161.55"/>
+				</g>
+			</g>
+			<g id="LWPOLYLINE_15_">
+				<g>
+					<line class="st4" x1="233.53" y1="81.34" x2="141.87" y2="29.35"/>
+				</g>
+			</g>
+			<g id="LWPOLYLINE_18_">
+				<g>
+					<line class="st4" x1="50.14" y1="161.55" x2="50.14" y2="241.83"/>
+				</g>
+			</g>
+		</g>
+		<g id="LWPOLYLINE_19_">
+			<g>
+				<line class="st4" x1="410.32" y1="161.55" x2="410.32" y2="241.83"/>
+			</g>
+		</g>
+		<g id="LWPOLYLINE_20_">
+			<g>
+				<line class="st4" x1="410.32" y1="161.55" x2="318.59" y2="161.55"/>
+			</g>
+		</g>
+	</g>
+	<g>
+		<g id="LWPOLYLINE_47_">
+			<g>
+				<polyline class="st5" points="233.59,241.83 233.59,81.28 50.14,81.28 50.14,161.55 141.87,161.55 141.87,241.83 				"/>
+			</g>
+		</g>
+		<g id="LWPOLYLINE_45_">
+			<g>
+				<line class="st5" x1="28.35" y1="241.83" x2="255.38" y2="241.83"/>
+			</g>
+		</g>
+		<g id="LWPOLYLINE_41_">
+			<polyline class="st5" points="502.05,241.83 502.05,81.28 318.59,81.28 318.59,241.83 			"/>
+		</g>
+		<g id="LWPOLYLINE_39_">
+			<line class="st5" x1="296.8" y1="241.83" x2="523.84" y2="241.83"/>
+		</g>
+	</g>
+</g>
+<g id="HETCH">
+</g>
+</svg>

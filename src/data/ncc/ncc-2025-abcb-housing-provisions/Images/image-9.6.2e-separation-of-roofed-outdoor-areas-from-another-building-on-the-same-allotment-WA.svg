@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Drawing_Layer" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 552.76 610.65">
+  <!-- Generator: Adobe Illustrator 30.3.0, SVG Export Plug-In . SVG Version: 2.1.3 Build 182)  -->
+  <defs>
+    <style>
+      .st0 {
+        stroke-width: 2px;
+      }
+
+      .st0, .st1, .st2, .st3, .st4, .st5, .st6, .st7, .st8, .st9, .st10 {
+        stroke: #231f20;
+        stroke-miterlimit: 10;
+      }
+
+      .st0, .st1, .st3, .st4, .st5, .st6, .st7, .st8, .st9, .st10 {
+        fill: none;
+      }
+
+      .st11, .st12, .st13 {
+        fill: #231f20;
+      }
+
+      .st1, .st3, .st4, .st6, .st7, .st9, .st10 {
+        stroke-linecap: square;
+      }
+
+      .st2 {
+        fill: #fff;
+      }
+
+      .st3 {
+        stroke-dasharray: 9.88 4.93 0 0;
+      }
+
+      .st3, .st6, .st7, .st9, .st10 {
+        stroke-width: .5px;
+      }
+
+      .st4, .st5 {
+        stroke-width: .25px;
+      }
+
+      .st14, .st13 {
+        font-family: ArialMT, Arial;
+      }
+
+      .st12, .st13 {
+        font-size: 12px;
+      }
+
+      .st6 {
+        stroke-dasharray: 11.3 5.64 0 0;
+      }
+
+      .st7 {
+        stroke-dasharray: 0 0;
+      }
+
+      .st15 {
+        font-family: Arial-ItalicMT, Arial;
+        font-style: italic;
+      }
+
+      .st9 {
+        stroke-dasharray: 0 0;
+      }
+    </style>
+  </defs>
+  <polyline class="st1" points="22.34 75.87 30.72 75.87 130.6 124.12 136.71 124.12 131.73 129.1 131.73 134.53 93 134.53 93 123.44 22.34 123.44"/>
+  <line class="st1" x1="126.52" y1="106.9" x2="258.34" y2="134.53"/>
+  <line class="st1" x1="256.7" y1="134.53" x2="256.7" y2="249.81"/>
+  <polyline class="st0" points="256.7 137.69 261.71 137.69 261.71 131.72"/>
+  <polyline class="st8" points="142.45 110.24 142.45 133.63 131.73 133.63"/>
+  <rect class="st8" x="93" y="134.53" width="11.44" height="89.51"/>
+  <polyline class="st8" points="25.41 224.05 104.44 224.05 104.44 247.47 90.69 247.47 90.69 235.46 82.7 227.47 25.41 227.47"/>
+  <line class="st8" x1="104.44" y1="229.34" x2="281.13" y2="229.34"/>
+  <line class="st0" x1="104.44" y1="229.34" x2="281.13" y2="229.34"/>
+  <rect class="st8" x="251.56" y="229.34" width="10.15" height="29.43"/>
+  <line class="st8" x1="275.68" y1="166.65" x2="275.68" y2="229.34"/>
+  <line class="st0" x1="275.68" y1="166.65" x2="275.68" y2="223.24"/>
+  <line class="st5" x1="284.72" y1="223.24" x2="294.98" y2="223.24"/>
+  <line class="st5" x1="261.71" y1="229.34" x2="271.97" y2="229.34"/>
+  <line class="st5" x1="262.84" y1="129.87" x2="262.84" y2="119.61"/>
+  <line class="st5" x1="293.49" y1="139.35" x2="293.49" y2="119.61"/>
+  <line class="st5" x1="284.72" y1="228.53" x2="294.98" y2="228.53"/>
+  <line class="st4" x1="262.84" y1="124.74" x2="293.49" y2="124.74"/>
+  <g>
+    <polyline class="st4" points="278.97 115.88 278.97 41.86 293.49 41.86"/>
+    <polygon class="st11" points="281.87 113.9 278.97 124.74 276.06 113.9 281.87 113.9"/>
+  </g>
+  <text class="st13" transform="translate(297.24 45.67)"><tspan x="0" y="0">Up to but no closer than 1 m</tspan></text>
+  <text class="st12" transform="translate(123.88 201.1)"><tspan class="st14" x="0" y="0">Solid </tspan><tspan class="st15" x="30.02" y="0">non-combustible</tspan><tspan class="st14" x="118.07" y="0"> </tspan><tspan class="st14"><tspan x="0" y="14.4">fence or screen </tspan></tspan></text>
+  <text class="st13" transform="translate(84.61 273.27)"><tspan x="0" y="0">Clearance no greater than 100 mm</tspan></text>
+  <line class="st5" x1="289.85" y1="223.24" x2="289.85" y2="228.53"/>
+  <text class="st13" transform="translate(25.41 177.24)"><tspan x="0" y="0">Dwelling</tspan></text>
+  <g>
+    <line class="st4" x1="245.1" y1="197.99" x2="266.49" y2="197.99"/>
+    <polygon class="st11" points="264.51 200.9 275.35 197.99 264.51 195.09 264.51 200.9"/>
+  </g>
+  <text class="st13" transform="translate(483.2 189.02)"><tspan x="0" y="0">Another</tspan><tspan x="0" y="14.4">building</tspan></text>
+  <text class="st13" transform="translate(378.3 183.21)"><tspan x="0" y="0">Roofed </tspan><tspan x="0" y="14.4">outdoor </tspan><tspan x="0" y="28.8">area</tspan></text>
+  <text class="st13" transform="translate(121.04 156.86)"><tspan x="0" y="0">Roofed outdoor area</tspan></text>
+  <rect class="st8" x="450.47" y="151.36" width="11.34" height="89.33" transform="translate(912.27 392.06) rotate(-180)"/>
+  <polyline class="st8" points="528.8 240.69 450.47 240.69 450.47 264.07 464.1 264.07 464.1 252.08 472.02 244.11 528.8 244.11"/>
+  <line class="st8" x1="450.47" y1="245.97" x2="275.35" y2="245.97"/>
+  <line class="st0" x1="450.47" y1="245.97" x2="275.35" y2="245.97"/>
+  <line class="st5" x1="294.6" y1="245.97" x2="284.44" y2="245.97"/>
+  <polyline class="st8" points="528.84 93.3 399.48 93.3 299.68 141.77 294.64 141.77 299.34 146.49 299.34 151.36 340.18 151.36 340.18 139.42 450.51 139.42 450.51 151.36 461.85 151.36 461.85 139.19 528.84 139.19"/>
+  <rect class="st8" x="318.88" y="250.84" width="26.51" height="11.63" transform="translate(664.27 513.31) rotate(-180)"/>
+  <g>
+    <polyline class="st4" points="275.35 269.98 308.18 269.98 308.18 225.88 298.71 225.88"/>
+    <polygon class="st11" points="300.69 222.98 289.85 225.88 300.69 228.79 300.69 222.98"/>
+  </g>
+  <rect class="st11" x="272.95" y="228.12" width="11.09" height="19.36"/>
+  <rect class="st8" x="284.19" y="242.46" width="165.79" height="3.18"/>
+  <g>
+    <line class="st10" x1="112.7" y1="166.65" x2="117.78" y2="166.65"/>
+    <line class="st7" x1="122.71" y1="166.65" x2="122.72" y2="166.65"/>
+    <line class="st3" x1="122.72" y1="166.65" x2="270.95" y2="166.65"/>
+    <line class="st10" x1="270.95" y1="166.65" x2="276.03" y2="166.65"/>
+  </g>
+  <g>
+    <polyline class="st4" points="244.64 157.79 244.64 71.24 204.82 71.24"/>
+    <polygon class="st11" points="247.55 155.81 244.64 166.65 241.74 155.81 247.55 155.81"/>
+  </g>
+  <text class="st13" transform="translate(47.93 75.87)"><tspan x="0" y="0">Not less than 1.5 m in height</tspan></text>
+  <polyline class="st1" points="102.74 361.49 111.12 361.49 211 409.74 217.11 409.74 212.13 414.72 212.13 420.15 173.4 420.15 173.4 409.06 102.74 409.06"/>
+  <rect class="st8" x="173.4" y="420.15" width="11.44" height="89.51"/>
+  <polyline class="st8" points="105.8 509.67 184.84 509.67 184.84 533.09 171.09 533.09 171.09 521.08 163.1 513.09 105.8 513.09"/>
+  <line class="st8" x1="188.2" y1="514.96" x2="235.53" y2="514.96"/>
+  <line class="st0" x1="184.84" y1="514.96" x2="235.53" y2="514.96"/>
+  <line class="st8" x1="234.07" y1="452.27" x2="234.07" y2="514.96"/>
+  <line class="st0" x1="234.07" y1="452.27" x2="234.07" y2="508.86"/>
+  <line class="st5" x1="240.12" y1="508.86" x2="250.37" y2="508.86"/>
+  <line class="st5" x1="217.11" y1="514.96" x2="227.36" y2="514.96"/>
+  <line class="st5" x1="218.24" y1="408.49" x2="218.24" y2="398.23"/>
+  <line class="st5" x1="248.89" y1="425.24" x2="248.89" y2="398.23"/>
+  <line class="st5" x1="240.12" y1="514.15" x2="250.37" y2="514.15"/>
+  <line class="st4" x1="218.24" y1="403.36" x2="248.89" y2="403.36"/>
+  <g>
+    <polyline class="st4" points="234.37 394.5 234.37 327.48 248.89 327.48"/>
+    <polygon class="st11" points="237.27 392.52 234.37 403.36 231.46 392.52 237.27 392.52"/>
+  </g>
+  <text class="st13" transform="translate(252.63 331.29)"><tspan x="0" y="0">Up to but no closer than 1 m</tspan></text>
+  <text class="st12" transform="translate(38.88 486.72)"><tspan class="st14" x="0" y="0">Solid </tspan><tspan class="st15" x="30.02" y="0">non-combustible</tspan><tspan class="st14" x="118.07" y="0"> </tspan><tspan class="st14"><tspan x="0" y="14.4">fence or screen </tspan></tspan></text>
+  <text class="st13" transform="translate(40.01 558.89)"><tspan x="0" y="0">Clearance no greater than 100 mm</tspan></text>
+  <line class="st5" x1="245.25" y1="508.86" x2="245.25" y2="514.15"/>
+  <text class="st13" transform="translate(434.66 477)"><tspan x="0" y="0">Dwelling</tspan></text>
+  <g>
+    <line class="st4" x1="159.92" y1="483.61" x2="224.7" y2="483.61"/>
+    <polygon class="st11" points="222.72 486.52 233.56 483.62 222.72 480.71 222.72 486.52"/>
+  </g>
+  <text class="st13" transform="translate(98.29 436.45)"><tspan x="0" y="0">Another</tspan><tspan x="0" y="14.4">building</tspan></text>
+  <text class="st13" transform="translate(324.77 474.64)"><tspan x="0" y="0">Roofed </tspan><tspan x="0" y="14.4">outdoor </tspan><tspan x="0" y="28.8">area</tspan></text>
+  <rect class="st8" x="405.87" y="436.99" width="11.34" height="89.33" transform="translate(823.07 963.3) rotate(-180)"/>
+  <polyline class="st8" points="484.2 526.31 405.87 526.31 405.87 549.69 419.5 549.69 419.5 537.7 427.41 529.73 484.2 529.73"/>
+  <line class="st8" x1="405.87" y1="531.59" x2="230.75" y2="531.59"/>
+  <line class="st0" x1="405.87" y1="531.59" x2="230.75" y2="531.59"/>
+  <line class="st5" x1="250" y1="531.59" x2="239.84" y2="531.59"/>
+  <polyline class="st8" points="484.24 378.92 354.87 378.92 255.07 427.39 250.04 427.39 254.73 432.11 254.73 436.99 295.58 436.99 295.58 425.05 405.91 425.05 405.91 436.99 417.25 436.99 417.25 424.81 484.24 424.81"/>
+  <rect class="st8" x="274.28" y="536.46" width="26.51" height="11.63" transform="translate(575.06 1084.55) rotate(-180)"/>
+  <g>
+    <polyline class="st4" points="230.75 555.61 263.58 555.61 263.58 511.5 254.11 511.5"/>
+    <polygon class="st11" points="256.09 508.6 245.25 511.5 256.09 514.41 256.09 508.6"/>
+  </g>
+  <rect class="st11" x="228.35" y="513.95" width="11.09" height="19.15"/>
+  <rect class="st8" x="239.44" y="528.41" width="166.42" height="3.18"/>
+  <g>
+    <line class="st10" x1="234.07" y1="452.27" x2="240.07" y2="452.27"/>
+    <line class="st9" x1="245.71" y1="452.27" x2="245.72" y2="452.27"/>
+    <line class="st6" x1="245.72" y1="452.27" x2="381.31" y2="452.27"/>
+    <line class="st10" x1="381.31" y1="452.27" x2="387.31" y2="452.27"/>
+  </g>
+  <g>
+    <polyline class="st4" points="268.15 443.41 268.15 356.86 307.97 356.86"/>
+    <polygon class="st11" points="271.05 441.43 268.15 452.27 265.24 441.43 271.05 441.43"/>
+  </g>
+  <text class="st13" transform="translate(312.45 360.74)"><tspan x="0" y="0">Not less than 1.5 m in height</tspan></text>
+  <g>
+    <line class="st4" x1="112.7" y1="175.51" x2="112.7" y2="219.67"/>
+    <polygon class="st11" points="109.79 177.49 112.7 166.65 115.6 177.49 109.79 177.49"/>
+    <polygon class="st11" points="109.79 217.69 112.7 228.53 115.6 217.69 109.79 217.69"/>
+  </g>
+  <g>
+    <line class="st4" x1="387.31" y1="460.62" x2="387.31" y2="519.55"/>
+    <polygon class="st11" points="384.41 462.6 387.31 451.76 390.22 462.6 384.41 462.6"/>
+    <polygon class="st11" points="384.41 517.57 387.31 528.41 390.22 517.57 384.41 517.57"/>
+  </g>
+  <rect class="st2" x="280.17" y="436.99" width="15.41" height="99.47" transform="translate(575.74 973.45) rotate(-180)"/>
+  <rect class="st2" x="324.77" y="151.36" width="15.41" height="99.47" transform="translate(664.94 402.2) rotate(-180)"/>
+</svg>

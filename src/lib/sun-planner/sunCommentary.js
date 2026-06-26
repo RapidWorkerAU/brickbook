@@ -101,9 +101,8 @@ function _innerCommentary({
   const isWarmTemp  = climateZone === 4 || climateZone === 5;
   const isTemperate = climateZone === 6;
   const isCool      = climateZone >= 6;
-  const isPerth     = climateZone === 5;
-  const zoneName    = { 1:"tropical", 2:"subtropical", 3:"hot dry", 4:"mild/cool temperate",
-                        5:"warm temperate", 6:"temperate", 7:"cool/alpine", 8:"alpine" }[climateZone] ?? "temperate";
+  const zoneName    = { 1:"tropical", 2:"subtropical", 3:"hot dry", 4:"mixed",
+                        5:"warm temperate", 6:"mild temperate", 7:"cool temperate", 8:"alpine" }[climateZone] ?? "temperate";
 
   // ── Near horizon ──────────────────────────────────────────────────────────
   if (altitude < 5) {
@@ -126,16 +125,28 @@ function _innerCommentary({
         `The sun is in the western sky at ${altitude.toFixed(0)}° altitude, directly hitting ${faceT.toLowerCase()}-facing rooms. In Zone ${climateZone} (${zoneName}), afternoon air temperatures already peak and direct western sun through unshaded glazing compounds heat gain dramatically. This is one of the most uncomfortable outcomes in ${zoneName} home design.`,
         `Minimise glazing on ${faceT.toLowerCase()}-facing walls (under 10% of wall area), use external roller blinds or vertical fins, and consider masonry or rammed earth on this wall to absorb rather than transmit heat.`);
     }
+    if (season === "winter") {
+      if (isCool) {
+        return note("✅", "good",
+          `${faceT}-facing rooms: winter afternoon warmth`,
+          `The sun is in the western sky at ${altitude.toFixed(0)}°, reaching ${faceT.toLowerCase()}-facing rooms in the afternoon. In Zone ${climateZone} (${zoneName}), this is genuinely valuable — west afternoon sun warms living areas as outdoor temperatures drop toward evening, extending comfortable hours without mechanical heating.`,
+          `In cool climates, west-facing glazing is a net annual benefit when paired with adjustable external shading. Open in winter to capture this warmth, close it in summer when the same face becomes a heat load.`);
+      }
+      return note("☀️", "info",
+        `${faceT}-facing rooms: useful winter afternoon sun`,
+        `The sun is in the western sky at ${altitude.toFixed(0)}°, hitting ${faceT.toLowerCase()}-facing rooms. In Zone ${climateZone} (${zoneName}), winter afternoons are mild and this western sun provides useful passive heating as the home cools toward evening — the opposite of the summer problem.`,
+        `Adjustable external shading on this face earns its cost in Zone ${climateZone}: open in winter to capture afternoon warmth, closed from October to April when the same sun becomes the leading cause of overheating.`);
+    }
     if (isWarmTemp) {
       return note("⚠️", "warning",
         `${faceT}-facing rooms: hot afternoon sun`,
-        `The sun is in the western sky at ${altitude.toFixed(0)}°, directly striking ${faceT.toLowerCase()}-facing rooms. In Zone ${climateZone}${isPerth ? " (Perth metro)" : ""}, summer afternoons reach 35–42°C and western sun through unshaded glazing is the leading cause of overheating. ${faceT}-facing rooms become the hottest and most uncomfortable in the home without active management.`,
+        `The sun is in the western sky at ${altitude.toFixed(0)}°, directly striking ${faceT.toLowerCase()}-facing rooms. In Zone ${climateZone} (${zoneName}), afternoon air temperatures peak while this face absorbs direct radiation — a compounding heat load that is the leading cause of overheating in Australian homes. ${faceT}-facing rooms become the hottest in the house without active management.`,
         `External shading is essential on this face: roller blinds, brise-soleil, or pergola with battens. Keep ${faceT.toLowerCase()}-facing glazing below 15% of wall area and consider high thermal mass on this wall to dampen peak heat.`);
     }
     if (isTemperate) {
       return note("⚠️", "caution",
         `${faceT}-facing rooms: afternoon sun`,
-        `The sun is in the western sky at ${altitude.toFixed(0)}°, hitting ${faceT.toLowerCase()}-facing rooms. In Zone ${climateZone} (temperate), afternoon sun drives significant heat gain through glazing, especially in lightweight construction.`,
+        `The sun is in the western sky at ${altitude.toFixed(0)}°, hitting ${faceT.toLowerCase()}-facing rooms. In Zone ${climateZone} (${zoneName}), afternoon sun drives significant heat gain through glazing, especially in lightweight construction.`,
         `External shading on ${faceT.toLowerCase()}-facing glazing is worthwhile. Adjustable external blinds allow winter warmth while blocking summer afternoon sun.`);
     }
     return note("☀️", "info",
@@ -265,7 +276,7 @@ function getFaceDesignData(faceDir, illum, climateZone, season) {
   const isMild      = climateZone === 4 || climateZone === 5;
   const isTemperate = climateZone === 6;
   const isCool      = climateZone >= 7;
-  const zoneName    = { 1:"tropical", 2:"subtropical", 3:"hot dry", 4:"mixed", 5:"warm temperate", 6:"temperate", 7:"cool", 8:"alpine" }[climateZone] ?? "temperate";
+  const zoneName    = { 1:"tropical", 2:"subtropical", 3:"hot dry", 4:"mixed", 5:"warm temperate", 6:"mild temperate", 7:"cool temperate", 8:"alpine" }[climateZone] ?? "temperate";
 
   if (illum === "night") {
     return { icon: "🌑", statusLabel: "Night", rooms: null, glazingGuide: null, nccNote: null };
@@ -386,6 +397,20 @@ function getFaceDesignData(faceDir, illum, climateZone, season) {
         glazingGuide: "Zone 1–3: west glazing should be zero or minimal at under 5% of wall area. Any glazing needs external roller blinds or fixed vertical fins.",
         nccNote: "NCC J2 and NatHERS: west-facing glazing in Zone 1–3 carries the highest energy penalty of any orientation. Air temperature peaks between 2 and 4pm while the west wall is already absorbing radiation, creating a compounding heat load.",
       };
+      if (season === "winter") {
+        if (isTemperate || isCool) return {
+          icon: "✅", statusLabel: "Winter afternoon warmth",
+          rooms: "Living areas and dining suit this face right now. West sun in the afternoon actively warms the home as outdoor temperatures drop toward evening.",
+          glazingGuide: "Zone 6–8: west glazing with adjustable external blinds earns its cost — captures valuable winter afternoon sun while allowing summer shading. 15–20% of wall area is achievable.",
+          nccNote: "Your Home guide: in cool climates, west-facing glazing with adjustable external blinds is a net annual benefit — winter afternoon sun contributes meaningful passive heating gain.",
+        };
+        return {
+          icon: "☀️", statusLabel: "Useful winter afternoon sun",
+          rooms: "Living areas suit this face in winter. West afternoon sun provides useful passive heating in Zone 4–5 as the home cools toward evening.",
+          glazingGuide: "Zone 4–5: adjustable external shading on the west face is the right solution — open in winter to capture afternoon warmth, closed from October to April when the same sun causes overheating.",
+          nccNote: "Your Home guide: in warm temperate climates, west glazing with adjustable external shading balances winter heating gain against summer overheating risk.",
+        };
+      }
       if (isMild || isTemperate) return {
         icon: "⚠️", statusLabel: "Afternoon sun, high heat load",
         rooms: "Avoid living areas, main bedroom and home office on this face. Garage, laundry, bathroom and hallway are all suitable here.",
@@ -394,8 +419,8 @@ function getFaceDesignData(faceDir, illum, climateZone, season) {
       };
       return {
         icon: "⚠️", statusLabel: "Afternoon sun",
-        rooms: "West afternoon sun provides useful winter warmth in Zone 6 to 8. Use adjustable external shading to control seasonal heat gain.",
-        glazingGuide: "Zone 6–8: west glazing can reach 15–20% of wall area if adjustable external blinds are fitted. This allows winter afternoon warmth while blocking summer overheating.",
+        rooms: "West afternoon sun provides useful winter warmth in Zone 7–8. Use adjustable external shading to control seasonal heat gain.",
+        glazingGuide: "Zone 7–8: west glazing can reach 15–20% of wall area if adjustable external blinds are fitted. This allows winter afternoon warmth while blocking summer overheating.",
         nccNote: "Your Home guide: in cool climates, west-facing glazing with adjustable external blinds is a net benefit because winter afternoon sun contributes meaningful passive heating gain.",
       };
     }

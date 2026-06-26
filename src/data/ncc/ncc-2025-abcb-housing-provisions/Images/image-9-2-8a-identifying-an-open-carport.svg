@@ -1,0 +1,667 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="_x30_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 552.8 554.4" style="enable-background:new 0 0 552.8 554.4;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill-rule:evenodd;clip-rule:evenodd;fill:none;}
+	.st1{clip-path:url(#SVGID_2_);fill:none;stroke:#221F1F;stroke-width:0.5;stroke-linejoin:round;}
+	.st2{fill-rule:evenodd;clip-rule:evenodd;fill:#C5C7C9;}
+	.st3{fill-rule:evenodd;clip-rule:evenodd;fill:url(#SVGID_3_);}
+	.st4{fill-rule:evenodd;clip-rule:evenodd;fill:url(#SVGID_4_);}
+	.st5{fill:none;stroke:#231F20;stroke-miterlimit:10;stroke-dasharray:5,11,25,11;}
+	.st6{fill:none;stroke:#231F20;stroke-width:0.75;stroke-miterlimit:10;}
+	.st7{fill:none;stroke:#231F20;stroke-width:0.75;stroke-miterlimit:10;stroke-dasharray:12.2157,12.2157;}
+	.st8{fill:none;stroke:#231F20;stroke-width:0.75;stroke-miterlimit:10;stroke-dasharray:13.4654,13.4654;}
+	.st9{fill:none;stroke:#231F20;stroke-width:0.75;stroke-miterlimit:10;stroke-dasharray:13.4651,13.4651;}
+	.st10{fill:none;stroke:#231F20;stroke-width:0.75;stroke-miterlimit:10;stroke-dasharray:13.4653,13.4653;}
+	.st11{fill:none;stroke:#231F20;stroke-width:0.75;stroke-miterlimit:10;stroke-dasharray:13.465,13.465;}
+	.st12{fill:#231F20;}
+	.st13{font-family:'ArialMT';}
+	.st14{font-size:12px;}
+	.st15{font-family:'Arial-ItalicMT';}
+	.st16{font-family:'Arial-BoldMT';}
+	.st17{fill:none;stroke:#231F20;stroke-width:0.25;stroke-miterlimit:10;}
+	.st18{fill:none;stroke:#231F20;stroke-miterlimit:10;}
+	.st19{fill:none;stroke:#231F20;stroke-linecap:round;stroke-miterlimit:10;}
+</style>
+<pattern  y="692.8" width="72" height="72" patternUnits="userSpaceOnUse" id="diagonal_cross_hatch" viewBox="6.2 -86.2 72 72" style="overflow:visible;">
+	<g>
+		<rect x="6.2" y="-86.2" class="st0" width="72" height="72"/>
+		<g>
+			<defs>
+				<rect id="SVGID_1_" x="6.2" y="-86.2" width="72" height="72"/>
+			</defs>
+			<clipPath id="SVGID_2_">
+				<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+			</clipPath>
+			<line class="st1" x1="0.2" y1="-74.2" x2="18.2" y2="-92.2"/>
+			<line class="st1" x1="0.2" y1="-68.2" x2="24.2" y2="-92.2"/>
+			<line class="st1" x1="0.2" y1="-62.2" x2="30.2" y2="-92.2"/>
+			<line class="st1" x1="0.2" y1="-56.2" x2="36.2" y2="-92.2"/>
+			<line class="st1" x1="0.2" y1="-50.2" x2="42.2" y2="-92.2"/>
+			<line class="st1" x1="0.2" y1="-44.2" x2="48.2" y2="-92.2"/>
+			<line class="st1" x1="0.2" y1="-38.2" x2="54.2" y2="-92.2"/>
+			<line class="st1" x1="0.2" y1="-32.2" x2="60.2" y2="-92.2"/>
+			<line class="st1" x1="0.2" y1="-26.2" x2="66.2" y2="-92.2"/>
+			<line class="st1" x1="0.2" y1="-20.2" x2="72.2" y2="-92.2"/>
+			<line class="st1" x1="0.2" y1="-14.2" x2="78.2" y2="-92.2"/>
+			<line class="st1" x1="0.2" y1="-8.2" x2="84.2" y2="-92.2"/>
+			<line class="st1" x1="6.2" y1="-8.2" x2="84.2" y2="-86.2"/>
+			<line class="st1" x1="12.2" y1="-8.2" x2="84.2" y2="-80.2"/>
+			<line class="st1" x1="18.2" y1="-8.2" x2="84.2" y2="-74.2"/>
+			<line class="st1" x1="24.2" y1="-8.2" x2="84.2" y2="-68.2"/>
+			<line class="st1" x1="30.2" y1="-8.2" x2="84.2" y2="-62.2"/>
+			<line class="st1" x1="36.2" y1="-8.2" x2="84.2" y2="-56.2"/>
+			<line class="st1" x1="42.2" y1="-8.2" x2="84.2" y2="-50.2"/>
+			<line class="st1" x1="48.2" y1="-8.2" x2="84.2" y2="-44.2"/>
+			<line class="st1" x1="54.2" y1="-8.2" x2="84.2" y2="-38.2"/>
+			<line class="st1" x1="52.2" y1="-0.2" x2="94.2" y2="-42.2"/>
+			<line class="st1" x1="58.2" y1="-0.2" x2="94.2" y2="-36.2"/>
+			<line class="st1" x1="64.2" y1="-0.2" x2="94.2" y2="-30.2"/>
+		</g>
+	</g>
+</pattern>
+<g id="HATCH_2_">
+	<rect x="211" y="325.1" class="st2" width="63.8" height="101.2"/>
+</g>
+<g>
+	<g id="HATCH">
+		<pattern  id="SVGID_3_" xlink:href="#diagonal_cross_hatch" patternTransform="matrix(1 0 0 1 241.2229 46.3207)">
+		</pattern>
+		<rect x="129.4" y="118.4" class="st3" width="31.2" height="4.9"/>
+	</g>
+	<g id="HATCH_1_">
+		<pattern  id="SVGID_4_" xlink:href="#diagonal_cross_hatch" patternTransform="matrix(1 0 0 1 250.2229 46.3207)">
+		</pattern>
+		<rect x="232.6" y="118.4" class="st4" width="12.1" height="4.9"/>
+	</g>
+</g>
+<g id="LINE">
+	<g>
+		<line class="st5" x1="284.4" y1="468.4" x2="284.4" y2="271.2"/>
+	</g>
+</g>
+<g id="LINE_1_">
+	<g>
+		<line class="st5" x1="252.4" y1="179.5" x2="252.4" y2="28.3"/>
+	</g>
+</g>
+<g>
+	<g id="LINE_3_">
+		<g id="LINE_54_">
+			<g>
+				<g>
+					<g>
+						<line class="st6" x1="92.6" y1="376" x2="98.6" y2="376"/>
+						<line class="st7" x1="110.8" y1="376" x2="153.6" y2="376"/>
+						<line class="st6" x1="159.7" y1="376" x2="165.7" y2="376"/>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+	<g id="LINE_4_">
+		<g id="LINE_53_">
+			<g>
+				<g>
+					<g>
+						<line class="st6" x1="47.3" y1="441.1" x2="50.7" y2="436.2"/>
+						<line class="st8" x1="58.4" y1="425.1" x2="85.3" y2="386.4"/>
+						<line class="st6" x1="89.2" y1="380.9" x2="92.6" y2="376"/>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+	<g id="LINE_5_">
+		<g id="LINE_52_">
+			<g>
+				<g>
+					<g>
+						<line class="st6" x1="92.6" y1="376" x2="89.2" y2="371.1"/>
+						<line class="st9" x1="81.5" y1="360" x2="54.6" y2="321.3"/>
+						<line class="st6" x1="50.7" y1="315.8" x2="47.3" y2="310.9"/>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+	<g id="LINE_6_">
+		<g id="LINE_51_">
+			<g>
+				<g>
+					<g>
+						<line class="st6" x1="211" y1="441.1" x2="207.5" y2="436.2"/>
+						<line class="st10" x1="199.9" y1="425.1" x2="172.9" y2="386.4"/>
+						<line class="st6" x1="169.1" y1="380.9" x2="165.7" y2="376"/>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+	<g id="LINE_7_">
+		<g id="LINE_50_">
+			<g>
+				<g>
+					<g>
+						<line class="st6" x1="165.7" y1="376" x2="169.1" y2="371.1"/>
+						<line class="st11" x1="176.8" y1="360" x2="203.7" y2="321.3"/>
+						<line class="st6" x1="207.5" y1="315.8" x2="211" y2="310.9"/>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+</g>
+<g id="MTEXT_1_">
+</g>
+<g id="MTEXT_2_">
+	<g>
+		<text transform="matrix(1 0 0 1 289.5229 72.5398)"><tspan x="0" y="0" class="st12 st13 st14">Roof covering must be polycarbonate or </tspan><tspan x="0" y="14.4" class="st12 st15 st14">non-combustible</tspan><tspan x="88" y="14.4" class="st12 st13 st14"> and any ceiling lining </tspan><tspan x="0" y="28.8" class="st12 st13 st14">must be </tspan><tspan x="46" y="28.8" class="st12 st15 st14">non-combustible</tspan></text>
+	</g>
+</g>
+<g id="MTEXT_3_">
+</g>
+<g id="MTEXT_4_">
+</g>
+<g id="MTEXT_5_">
+	<g>
+		<text transform="matrix(1 0 0 1 289.523 134.797)"><tspan x="0" y="0" class="st12 st13 st14">Timber post  and beams are permitted </tspan><tspan x="0" y="14.4" class="st12 st13 st14">adjacent to a boundary. However, wall </tspan><tspan x="0" y="28.8" class="st12 st13 st14">cladding must be </tspan><tspan x="94.1" y="28.8" class="st12 st15 st14">non-combustible</tspan><tspan x="182.1" y="28.8" class="st12 st13 st14">  </tspan></text>
+	</g>
+</g>
+<g id="MTEXT_7_">
+</g>
+<g id="MTEXT_8_">
+	<g>
+		<text transform="matrix(1 0 0 1 170.0418 200.5691)"><tspan x="0" y="0" class="st12 st13 st14">Side of carport is considered open if no roof covering is over </tspan><tspan x="0" y="14.4" class="st12 st13 st14">shaded area i.e. at least 500 mm from adjoining building or </tspan><tspan x="0" y="28.8" class="st12 st13 st14">allotment  </tspan></text>
+	</g>
+</g>
+<g id="MTEXT_9_">
+</g>
+<g id="MTEXT_10_">
+	<g>
+		<text transform="matrix(1 0 0 1 344.416 482.7839)"><tspan x="0" y="0" class="st12 st13 st14">This carport satisfies the </tspan><tspan x="16" y="14.4" class="st12 st13 st14">exemption criteria </tspan></text>
+	</g>
+</g>
+<g id="MTEXT_19_">
+	<g>
+		<text transform="matrix(1 0 0 1 359.4164 308.8454)" class="st12 st13 st14" style="text-decoration: underline;">Carport calculation</text>
+	</g>
+</g>
+<g>
+	<g id="LINE_8_">
+		<g>
+			<line class="st6" x1="385.1" y1="368.7" x2="433.8" y2="368.7"/>
+		</g>
+	</g>
+	<g id="LINE_40_">
+		<g>
+			<line class="st6" x1="378.7" y1="336.9" x2="440" y2="336.9"/>
+		</g>
+	</g>
+	<g id="LINE_9_">
+		<line class="st6" x1="403.3" y1="409.7" x2="415.5" y2="409.7"/>
+	</g>
+	<g id="LINE_44_">
+		<line class="st6" x1="403.3" y1="448.8" x2="415.5" y2="448.8"/>
+	</g>
+</g>
+<g>
+	<g id="MTEXT_20_">
+		<g>
+			<text transform="matrix(1 0 0 1 76.4834 156.9524)" class="st12 st13 st14">Class 1</text>
+		</g>
+	</g>
+	<g id="MTEXT_21_">
+		<g>
+			<text transform="matrix(1 0 0 1 164.998 157.6799)" class="st12 st13 st14">Carport</text>
+		</g>
+	</g>
+</g>
+<g id="MTEXT_23_">
+	<g>
+		<text transform="matrix(1 0 0 1 258.9744 37.9807)" class="st12 st13 st14">Allotment boundary</text>
+	</g>
+</g>
+<g id="MTEXT_24_">
+	<g>
+		<text transform="matrix(1 0 0 1 236.9476 251.6374)" class="st12 st16 st14">(a) Example A</text>
+	</g>
+</g>
+<g id="MTEXT_25_">
+	<g>
+		<text transform="matrix(1 0 0 1 291.9219 280.9216)" class="st12 st13 st14">Allotment boundary</text>
+	</g>
+</g>
+<g id="MTEXT_26_">
+</g>
+<g id="MTEXT_27_">
+</g>
+<g id="MTEXT_28_">
+	<g>
+		<text transform="matrix(1 0 0 1 43.3218 467.53)"><tspan x="0" y="0" class="st12 st13 st14">Side of carport less than 500 mm from </tspan><tspan x="0" y="14.4" class="st12 st13 st14">allotment boundary, therefore side is </tspan><tspan x="0" y="28.8" class="st12 st13 st14">considered closed </tspan></text>
+	</g>
+</g>
+<g>
+	<g id="MTEXT">
+		<g>
+			<text transform="matrix(1 0 0 1 108.4214 344.49)" class="st12 st13 st14">Class 1</text>
+		</g>
+	</g>
+	<g id="MTEXT_29_">
+		<g>
+			<text transform="matrix(1 0 0 1 222.4575 379.7585)" class="st12 st13 st14">Carport</text>
+		</g>
+	</g>
+	<g id="MTEXT_30_">
+		<g>
+			<text transform="matrix(1 0 0 1 224.6567 320.407)" class="st12 st13 st14">Open</text>
+		</g>
+	</g>
+	<g id="MTEXT_31_">
+		<g>
+			<text transform="matrix(1 0 0 1 226.8286 438.5945)" class="st12 st13 st14">Open</text>
+		</g>
+	</g>
+</g>
+<g id="MTEXT_32_">
+	<g>
+		<text transform="matrix(1 0 0 1 236.3719 527.1638)" class="st12 st16 st14">(b) Example B</text>
+	</g>
+</g>
+<g id="MTEXT_33_">
+	<g>
+		<text transform="matrix(0 -1 1 0 308.9678 385.6091)" class="st12 st13 st14">6 m</text>
+	</g>
+</g>
+<g id="MTEXT_34_">
+	<g>
+		<text transform="matrix(1 0 0 1 232.3228 291.3347)" class="st12 st13 st14">3 m</text>
+	</g>
+</g>
+<g>
+	<g id="POLYLINE_8_">
+		<g id="POLYLINE_3_">
+			<g>
+				<g>
+					<g>
+						<g>
+							<g>
+								<polyline class="st17" points="239.5,73.9 224.7,42.5 121.7,42.5 								"/>
+								<g>
+									<polygon class="st12" points="241.3,70.9 243.2,81.9 236,73.3 									"/>
+								</g>
+							</g>
+						</g>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+	<g id="LINE_27_">
+		<g id="LINE_46_">
+			<g>
+				<g>
+					<g>
+						<g>
+							<g>
+								<line class="st17" x1="150.6" y1="73.1" x2="150.6" y2="42.5"/>
+								<g>
+									<polygon class="st12" points="153.5,71.1 150.6,81.9 147.7,71.1 									"/>
+								</g>
+							</g>
+						</g>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+	<g id="POLYLINE_11_">
+		<g id="POLYLINE_4_">
+			<g>
+				<g>
+					<g>
+						<g>
+							<g>
+								<polyline class="st17" points="150.1,142.4 159.1,196 164,196 								"/>
+								<g>
+									<polygon class="st12" points="147.6,144.8 148.7,133.6 153.3,143.8 									"/>
+								</g>
+							</g>
+						</g>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+	<g id="POLYLINE_13_">
+		<g id="POLYLINE_2_">
+			<g>
+				<g>
+					<g>
+						<g>
+							<g>
+								<polyline class="st17" points="228.7,113.2 267.4,93.6 278.7,68.8 286.9,68.8 								"/>
+								<g>
+									<polygon class="st12" points="231.8,114.9 220.8,117.2 229.1,109.7 									"/>
+								</g>
+							</g>
+						</g>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+</g>
+<g id="POLYLINE_15_">
+	<g id="POLYLINE_10_">
+		<g>
+			<g>
+				<g>
+					<g>
+						<g>
+							<polyline class="st17" points="268.6,450.5 263.1,463.4 256,463.4 							"/>
+							<g>
+								<polygon class="st12" points="265.1,451.2 272,442.3 270.5,453.4 								"/>
+							</g>
+						</g>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+</g>
+<g id="LINE_30_">
+	<g>
+		<g>
+			<g>
+				<g>
+					<line class="st17" x1="133" y1="81.9" x2="125.7" y2="81.9"/>
+					<g>
+						<polygon class="st12" points="131.1,79 141.9,81.9 131.1,84.8 						"/>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+</g>
+<g>
+	<g id="LINE_28_">
+		<line class="st17" x1="141.9" y1="87.7" x2="141.9" y2="76.5"/>
+	</g>
+	<g id="LINE_29_">
+		<line class="st17" x1="160.6" y1="103.6" x2="160.6" y2="76.5"/>
+	</g>
+	<g id="LINE_31_">
+		<line class="st17" x1="232.8" y1="98.1" x2="232.8" y2="76.5"/>
+	</g>
+</g>
+<g id="LINE_35_">
+	<g id="LINE_58_">
+		<g>
+			<g>
+				<g>
+					<g>
+						<g>
+							<line class="st17" x1="311.8" y1="417.5" x2="311.8" y2="334"/>
+							<g>
+								<polygon class="st12" points="314.7,415.5 311.8,426.3 308.9,415.5 								"/>
+							</g>
+							<g>
+								<polygon class="st12" points="314.7,335.9 311.8,325.1 308.9,335.9 								"/>
+							</g>
+						</g>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+</g>
+<g>
+	<g id="LINE_33_">
+		<g>
+			<line class="st17" x1="287.3" y1="426.3" x2="317.2" y2="426.3"/>
+		</g>
+	</g>
+	<g id="LINE_34_">
+		<g>
+			<line class="st17" x1="287.3" y1="324.8" x2="317.2" y2="324.8"/>
+		</g>
+	</g>
+	<g id="LINE_36_">
+		<g>
+			<line class="st17" x1="211" y1="304" x2="211" y2="288.9"/>
+		</g>
+	</g>
+	<g id="LINE_37_">
+		<g>
+			<line class="st17" x1="274.9" y1="318" x2="274.9" y2="288.9"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g id="POLYLINE_25_">
+		<g>
+			<rect x="47.3" y="310.9" class="st18" width="163.7" height="130.2"/>
+		</g>
+	</g>
+	<g id="POLYLINE_26_">
+		<g>
+			<polyline class="st18" points="211,426.3 274.9,426.3 274.9,324.8 211,324.8 			"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g id="LINE_2_">
+		<g>
+			<line class="st19" x1="160.6" y1="117.2" x2="232.8" y2="117.2"/>
+		</g>
+	</g>
+	<g id="LINE_11_">
+		<g>
+			<line class="st19" x1="129.3" y1="179.5" x2="129.3" y2="107"/>
+		</g>
+	</g>
+	<g id="LINE_12_">
+		<g>
+			<line class="st19" x1="64.7" y1="179.5" x2="64.7" y2="68.4"/>
+		</g>
+	</g>
+	<g id="LINE_13_">
+		<g>
+			<line class="st19" x1="140.6" y1="107" x2="64.7" y2="107"/>
+		</g>
+	</g>
+	<g id="LINE_14_">
+		<g>
+			<line class="st19" x1="141.9" y1="103.6" x2="64.7" y2="103.6"/>
+		</g>
+	</g>
+	<g id="LINE_15_">
+		<g>
+			<line class="st19" x1="141.9" y1="102.2" x2="64.7" y2="102.2"/>
+		</g>
+	</g>
+	<g id="LINE_16_">
+		<g>
+			<line class="st19" x1="140.6" y1="107" x2="140.6" y2="103.6"/>
+		</g>
+	</g>
+	<g id="LINE_17_">
+		<g>
+			<line class="st19" x1="141.9" y1="103.6" x2="141.9" y2="102.2"/>
+		</g>
+	</g>
+	<g id="LINE_18_">
+		<g>
+			<line class="st19" x1="137.7" y1="102.2" x2="64.7" y2="68.4"/>
+		</g>
+	</g>
+	<g id="LINE_19_">
+		<g>
+			<line class="st19" x1="244.5" y1="179.5" x2="244.5" y2="123.6"/>
+		</g>
+	</g>
+	<g id="LINE_20_">
+		<g>
+			<line class="st19" x1="242" y1="179.5" x2="242" y2="123.6"/>
+		</g>
+	</g>
+	<g id="LINE_21_">
+		<g>
+			<line class="st19" x1="129.3" y1="118.1" x2="245.1" y2="118.1"/>
+		</g>
+	</g>
+	<g id="LINE_22_">
+		<g>
+			<line class="st19" x1="129.3" y1="123.6" x2="245.1" y2="123.6"/>
+		</g>
+	</g>
+	<g id="LINE_23_">
+		<g>
+			<line class="st19" x1="160.6" y1="123.6" x2="160.6" y2="118.1"/>
+		</g>
+	</g>
+	<g id="LINE_24_">
+		<g>
+			<line class="st19" x1="232.8" y1="123.6" x2="232.8" y2="118.1"/>
+		</g>
+	</g>
+	<g id="LINE_25_">
+		<g>
+			<line class="st19" x1="245.1" y1="123.6" x2="245.1" y2="118.1"/>
+		</g>
+	</g>
+	<g id="LINE_39_">
+		<g>
+			<line class="st19" x1="40.7" y1="179.5" x2="283.8" y2="179.5"/>
+		</g>
+	</g>
+</g>
+<g id="MTEXT_22_">
+	<g>
+		<text transform="matrix(1 0 0 1 30.2734 44.6495)" class="st12 st13 st14">500 mm or more</text>
+	</g>
+</g>
+<g>
+	<g id="MTEXT_11_">
+		<g>
+			<text transform="matrix(1 0 0 1 406.1039 461.8357)" class="st12 st13 st14">3</text>
+		</g>
+	</g>
+	<g id="MTEXT_12_">
+		<g>
+			<text transform="matrix(1 0 0 1 406.1039 445.9187)" class="st12 st13 st14">1</text>
+		</g>
+	</g>
+	<g id="MTEXT_13_">
+		<g>
+			<text transform="matrix(1 0 0 1 402.767 423.0818)" class="st12 st13 st14">18</text>
+		</g>
+	</g>
+	<g id="MTEXT_14_">
+		<g>
+			<text transform="matrix(1 0 0 1 406.1039 406.1628)" class="st12 st13 st14">6</text>
+		</g>
+	</g>
+	<g id="MTEXT_15_">
+		<g>
+			<text transform="matrix(1 0 0 1 385.5815 380.3269)" class="st12 st13 st14">3+6+6+3</text>
+		</g>
+	</g>
+	<g id="MTEXT_16_">
+		<g>
+			<text transform="matrix(1 0 0 1 399.2631 365.4089)" class="st12 st13 st14">3+3</text>
+		</g>
+	</g>
+	<g id="MTEXT_17_">
+		<g>
+			<text transform="matrix(1 0 0 1 383.35 349.4568)" class="st12 st13 st14">Perimeter</text>
+		</g>
+	</g>
+	<g id="MTEXT_18_">
+		<g>
+			<text transform="matrix(1 0 0 1 382.0893 332.6843)" class="st12 st13 st14">Open side</text>
+		</g>
+	</g>
+	<g id="LINE_10_">
+		<g>
+			<line class="st12" x1="406.2" y1="454.1" x2="412.7" y2="454.1"/>
+		</g>
+	</g>
+	<g id="MTEXT_6_">
+		<g>
+			<text transform="matrix(1 0 0 1 372.937 371.7892)" class="st12 st13 st14">=</text>
+		</g>
+	</g>
+	<g id="MTEXT_62_">
+		<g>
+			<text transform="matrix(1 0 0 1 389.5535 412.9196)" class="st12 st13 st14">=</text>
+		</g>
+	</g>
+	<g id="MTEXT_63_">
+		<g>
+			<text transform="matrix(1 0 0 1 389.5535 451.8121)" class="st12 st13 st14">=</text>
+		</g>
+	</g>
+</g>
+<g id="LINE_26_">
+	<g>
+		<g>
+			<g>
+				<g>
+					<g>
+						<line class="st17" x1="169.8" y1="81.9" x2="177.1" y2="81.9"/>
+						<g>
+							<polygon class="st12" points="171.8,84.8 160.9,81.9 171.8,79 							"/>
+						</g>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+</g>
+<line class="st17" x1="141.9" y1="81.9" x2="160.9" y2="81.9"/>
+<g id="LINE_43_">
+	<g>
+		<g>
+			<g>
+				<g>
+					<line class="st17" x1="224.3" y1="82.1" x2="216.9" y2="82.1"/>
+					<g>
+						<polygon class="st12" points="222.3,79.2 233.2,82.1 222.3,85 						"/>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+</g>
+<g id="LINE_32_">
+	<g>
+		<g>
+			<g>
+				<g>
+					<g>
+						<line class="st17" x1="261" y1="82.1" x2="268.4" y2="82.1"/>
+						<g>
+							<polygon class="st12" points="263,85 252.2,82.1 263,79.2 							"/>
+						</g>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+</g>
+<line class="st17" x1="233.2" y1="82.1" x2="252.2" y2="82.1"/>
+<g>
+	<g>
+		<line class="st17" x1="219.8" y1="295.1" x2="265.9" y2="295.1"/>
+		<g>
+			<polygon class="st12" points="221.8,298 211,295.1 221.8,292.1 			"/>
+		</g>
+		<g>
+			<polygon class="st12" points="263.9,298 274.7,295.1 263.9,292.1 			"/>
+		</g>
+	</g>
+</g>
+</svg>

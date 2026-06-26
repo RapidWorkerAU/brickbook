@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><?Xpress productLine="ncc-clause" ?><clause xmlns:xt="urn:xpressauthor:trackchanges" id="_9471a3c8-f9f2-4576-b5d4-efe3a7e9c72e" outputclass="ncc-clause"><sptc>C1V2</sptc><title id="_661602e1-180f-4822-ac9d-88e0af6bcee2">System design using wastewater flowrates</title><archive-num>New for 2022</archive-num><subclause id="_2a7ce1ca-e15b-4d59-b308-43325735ba73" outputclass="subclause"><title id="_57fd7ae4-7101-4269-ab3a-6c6de1add49a">SubClause</title><num>1</num><p>Compliance with <xref format="dita" href="/tmp/QppServer/Publishing/1c3f2f74-4ee1-4cdd-b1b4-53c91069d002/5128_0.10.0.xml#_a55d25d5-a66d-4cba-a115-dee4f77ed570" id="_a00ed967-31a3-42d1-8855-cc5db62952cd" referencetype="Text" scope="local" synctargettext="false" type="ncc-clause">C1P5</xref> for pipe sizing is verified for the <xref format="dita" href="/tmp/QppServer/Publishing/1c3f2f74-4ee1-4cdd-b1b4-53c91069d002/1401_0.7.0.xml#_a318c0f3-5635-4ac0-b103-59d798c9f23d" id="_bec9cdc6-7d83-4305-baac-3922bec9dbda" referencetype="Text" scope="local" synctargettext="false" type="abcb-glossentry">plumbing</xref> design when—</p><ol outputclass="alpha"><li id="_1aaf5e4b-756b-4d75-8ae2-421c2083ac3b">fully vented systems and fully vented modified systems are designed in accordance with Section 8 of AS/NZS 3500.2: and</li><li id="_26b0d2ee-93dc-41de-a1a2-c820092a2ab7">single stack systems and single stack modified systems are designed in accordance with Section 9 of AS/NZS 3500.2: and</li><li id="_eebfc76b-ea5f-44f6-91e7-64d81cde7162">consideration by the designer is given to expanding the exclusion zones referenced in AS/NZS 3500.2 (1 m exclusion zone at the base of the stack) for high rise buildings.</li></ol></subclause><subclause id="_003b9284-4e68-4231-b5f5-41df412dcc5f" outputclass="subclause"><title id="_d62e60e7-bdb6-4b01-96a7-f4b976c85432">SubClause</title><num>2</num><p>For the purposes of (1), for each pipework section, the probable simultaneous wastewater flowrate determined through <xref format="dita" href="/tmp/QppServer/Publishing/1c3f2f74-4ee1-4cdd-b1b4-53c91069d002/5077_0.35.0.xml#_10c68ef7-05a4-4c21-9aad-334ba71b1b41" id="_7b5cab6b-1ba5-4461-b090-d50d23c08197" referencetype="Text" scope="local" synctargettext="false" type="ncc-clause">C1V1</xref> may be converted to an equivalent AS/NZS 3500.2 Fixture Unit <equation-inline alignEquation="none" height="21" heightdpi="96" id="_f953c794-3608-4bbb-a5e5-fe729d755393" width="40" widthdpi="96"><mathML><!-- MathType@Translator@5@5@MathML2 (no namespace).tdl@MathML 2.0 (no namespace)@ --><math> <semantics>  <mrow>   <mo stretchy="false">(</mo><mi>F</mi><mi>U</mi><mo stretchy="false">)</mo></mrow>  <annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahGart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaaiikaiaadA  eacaWGvbGaaiykaaaa@38F6@  </annotation> </semantics></math><!-- MathType@End@5@5@ --></mathML><image content-type="gif">R0lGODlhKAAVAPAAAP///wAAACwAAAAAKAAVAAACUYSPqcvtD6OcKqCAswV6c8xB3jGWFemM6Gqo
+IXsmnurSjPvmbXwteCfjwYY5W1BInB17yN2y+fM9kTgd8wO6aW6NKmUK/l67Ymn5jE6r12xIAQAh
+/wtNYXRoVHlwZTAwMdgFAQAHCERTTVQ3AAETV2luQWxsQmFzaWNDb2RlUGFnZXMAEQVUaW1lcyBO
+ZXcgUm9tYW4AEQNTeW1ib2wAEQVDb3VyaWVyIE5ldwARBE1UIEV4dHJhABIACCEvRY9EL0FQ9BAP
+R19BUPIfHkFQ9BUPQQD0RfQl9I9CX0EA9BAPQ19BAPSPRfQqX0j0j0EA9BAPQPSPQX9I9BAPQSpf
+RF9F9F9F9F9BDwwBAAEAAQICAgIAAgABAQEAAwABAAQAAAoBAAIAgigAAgCDRgACAINVAAIAgikA
+AAAAIf8LTWF0aFR5cGUwMDP/PD94bWwgdmVyc2lvbj0iMS4wIj8+PCEtLSBNYXRoVHlwZUBUcmFu
+c2xhdG9yQDVANUBNYXRoTUwyIChDbGlwYm9hcmQpLnRkbEBNYXRoTUwgMi4wIChDbGlwYm9hcmQp
+QCAtLT48bWF0aCB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMTk5OC9NYXRoL01hdGhNTCc+PG1y
+b3c+PG1vIHN0cmV0Y2h5PSdmYWxzZSc+KDwvbW8+PG1pPkY8L21pPjxtaT5VPC9taT48bW8gc3Ry
+ZXRjaHk9J2ZhbHNlJz4pPC9tbz48L21yb3c+PC9tYXRoPjwhLS0gTWF0aFR5D3BlQEVuZEA1QDVA
+IC0tPgAh/wtNYXRoVHlwZTAwMgYGAAAAAAAAOw==</image></equation-inline> in accordance with the following:</p><equation-block height="27" heightdpi="96" id="_99f02a83-beb6-4e51-8aab-52a6cffceb8f" width="130" widthdpi="96"><mathML><!-- MathType@Translator@5@5@MathML2 (no namespace).tdl@MathML 2.0 (no namespace)@ --><math display="block"> <semantics>  <mrow>   <mi>F</mi><msub>    <mi>U</mi>    <mrow>     <mi>T</mi><mi>o</mi><mi>t</mi><mi>a</mi><mi>l</mi></mrow>   </msub>   <mo>=</mo><mn>6.75</mn><msup>    <mi>Q</mi>    <mn>2</mn>   </msup>   <msub>    <mrow/>    <mrow>     <mi>T</mi><mi>o</mi><mi>t</mi><mi>a</mi><mi>l</mi></mrow>   </msub>   </mrow>  <annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahGart1ev3aaatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaamOraiaadw  fadaWgaaWcbaGaamivaiaad+gacaWG0bGaamyyaiaadYgaaeqaaOGa  eyypa0JaaGOnaiaac6cacaaI3aGaaGynaiaadgfadaahaaWcbeqaai  aaikdaaaGcdaWgaaWcbaGaamivaiaad+gacaWG0bGaamyyaiaadYga  aeqaaaaa@46F9@  </annotation> </semantics></math><!-- MathType@End@5@5@ --></mathML><image content-type="gif">R0lGODlhggAZAPAAAP///wAAACwAAAAAggAZAAAC4ISPqcvtD6OctNqLs968+w+GIhgE44mOJrCm
+7qu1X0mXRt3S8KEnuFxTBH0qBFC4uzFkLF7j6CxGlcQd05FbIptXTta4tUpyvSl4SDI3qzCT7dGF
+sk+4OdX7Y7674MWKz+fxpbYmRnhIFecyeIdI1+f31OgoKMlWB6eXNxfYOVkohPakaGnmBgp48Vca
+9sYSyIWq5VMWWttY1wObCTkp+uqKZRSkKxW7upo0O+Z0Ggs6k/icrGzL47l2mryr2pz9zZ1CBpvl
+bA69ofvn9lMds7cO/OtOX29/j5+vv8/fb1AAACH/C01hdGhUeXBlMDAx/wUBAAcIRFNNVDcAABNX
+aW5BbGxCYXNpY0NvZGVQYWdlcwARBVRpbWVzIE5ldyBSb21hbgARA1N5bWJvbAARBUNvdXJpZXIg
+TmV3ABEETVQgRXh0cmEAEgAIIS9Fj0QvQVD0EA9HX0FQ8h8eQVD0FQ9BAPRF9CX0j0JfQQD0EA9D
+X0EA9I9F9CpfSPSPQQD0EA9A9I9Bf0j0EA9BKl9EX0X0X0X0X0EPDAEAAQABAgICAgACAAEBAQAD
+AAEABAAACgEAAgCDRgACAINVAAMAGwAACwEAAgCDVAACAINvAAIAg3QAAgCDYQACAINsAAABAQAK
+AgSGPQA9AgCINgACAEuCLgACAIg3AAIAiDUAAgCDUQADABwAAAsBAQEAAgCIMgAAAAoDABsAAAsB
+AAIAg1QAAgCDbwACAIN0AAIAg2EAAgCDbAAAAQEAAAAAIf8LTWF0aFR5cGUwMDP/PD94bWwgdmVy
+c2lvbj0iMS4wIj8+PCEtLSBNYXRoVHlwZUBUcmFuc2xhdG9yQDVANUBNYXRoTUwyIChDbGlwYm9h
+cmQpLnRkbEBNYXRoTUwgMi4wIChDbGlwYm9hcmQpQCAtLT48bWF0aCBkaXNwbGF5PSdibG9jaycg
+eG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzE5OTgvTWF0aC9NYXRoTUwnPjxtcm93PjxtaT5GPC9t
+aT48bXN1Yj48bWk+VTwvbWk+PG1yb3c+PG1pPlQ8L21pPjxtaT5vPC9taT48bWk+dDwvbWk+PG1p
+PmE8L21pPjxtaT5sPC9taT48xi9tcm93PjwvbXN1Yj48bW8+PTwvbW8+PG1uPjYuNzU8L21uPjxt
+c3VwPjxtaT5RPC9taT48bW4+MjwvbW4+PC9tc3VwPjxtc3ViPjxtcm93PjwvbXJvdz48bXJvdz48
+bWk+VDwvbWk+PG1pPm88L21pPjxtaT50PC9taT48bWk+YTwvbWk+PG1pPmw8L21pPjwvbXJvdz48
+L21zdWI+PC9tcm93PjwvbWF0aD48IS0tIE1hdGhUeXBlQEVuZEA1QDVAIC0tPgAh/wtNYXRoVHlw
+ZTAwMgYIAAAAAAAAOw==</image></equation-block></subclause><subclause id="_1ddaee1d-cd7f-483c-89aa-2a74ac37ecd3" outputclass="subclause"><title id="_96e3f17a-f9c2-4c14-838c-0a7161062494">SubClause</title><num>3</num><p>In the equation shown at (2):</p><ol outputclass="alpha"><li id="_66525114-d5dd-4364-ae1d-021a7483c953"><equation-inline alignEquation="none" height="21" heightdpi="96" id="_49fbb782-7afb-4d54-afd6-76d7f63550f3" width="16" widthdpi="96"><mathML><!-- MathType@Translator@5@5@MathML2 (no namespace).tdl@MathML 2.0 (no namespace)@ --><math> <semantics>  <mi>Q</mi>  <annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahGart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaamyuaaaa@36CE@  </annotation> </semantics></math><!-- MathType@End@5@5@ --></mathML><image content-type="gif">R0lGODlhEAAVAPAAAP///wAAACwAAAAAEAAVAAACJoSPqcvtAYMD8tR1Ld4q6+R9SEhxoCmCF/RE
+U/karkyubIzn+lQAACH/C01hdGhUeXBlMDAxyQUBAAcIRFNNVDcAARNXaW5BbGxCYXNpY0NvZGVQ
+YWdlcwARBVRpbWVzIE5ldyBSb21hbgARA1N5bWJvbAARBUNvdXJpZXIgTmV3ABEETVQgRXh0cmEA
+EgAIIS9Fj0QvQVD0EA9HX0FQ8h8eQVD0FQ9BAPRF9CX0j0JfQQD0EA9DX0EA9I9F9CpfSPSPQQD0
+EA9A9I9Bf0j0EA9BKl9EX0X0X0X0X0EPDAEAAQABAgICAgACAAEBAQADAAEABAAACgEAAgCDUQAA
+AAAh/wtNYXRoVHlwZTAwM8E8P3htbCB2ZXJzaW9uPSIxLjAiPz48IS0tIE1hdGhUeXBlQFRyYW5z
+bGF0b3JANUA1QE1hdGhNTDIgKENsaXBib2FyZCkudGRsQE1hdGhNTCAyLjAgKENsaXBib2FyZClA
+IC0tPjxtYXRoIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8xOTk4L01hdGgvTWF0aE1MJz48bWk+
+UTwvbWk+PC9tYXRoPjwhLS0gTWF0aFR5cGVARW5kQDVANUAgLS0+ACH/C01hdGhUeXBlMDAyBgYA
+AAAAAAA7</image></equation-inline> = the wastewater flowrate (L/s); and</li><li id="_0e9c5fed-b5a4-4f64-b21b-f0e84e86fa61"><equation-inline alignEquation="none" height="19" heightdpi="96" id="_bde2545d-4086-4cbd-b602-b82d43c9566e" width="30" widthdpi="96"><mathML><!-- MathType@Translator@5@5@MathML2 (no namespace).tdl@MathML 2.0 (no namespace)@ --><math> <semantics>  <mrow>   <mi>F</mi><mi>U</mi></mrow>  <annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahGart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaamOraiaadw  faaaa@379D@  </annotation> </semantics></math><!-- MathType@End@5@5@ --></mathML><image content-type="gif">R0lGODlhHQASAPAAAP///wAAACwAAAAAHQASAAACNYSPqcvtD6OcJtgb6kW75fNVSrh8Jjg+Z0KK
+Dpayr8vFHo3KM9MCfe0h/UCWF4yCTCqXTEgBACH/C01hdGhUeXBlMDAxzgUBAAcIRFNNVDcAARNX
+aW5BbGxCYXNpY0NvZGVQYWdlcwARBVRpbWVzIE5ldyBSb21hbgARA1N5bWJvbAARBUNvdXJpZXIg
+TmV3ABEETVQgRXh0cmEAEgAIIS9Fj0QvQVD0EA9HX0FQ8h8eQVD0FQ9BAPRF9CX0j0JfQQD0EA9D
+X0EA9I9F9CpfSPSPQQD0EA9A9I9Bf0j0EA9BKl9EX0X0X0X0X0EPDAEAAQABAgICAgACAAEBAQAD
+AAEABAAACgEAAgCDRgACAINVAAAAACH/C01hdGhUeXBlMDAz2Dw/eG1sIHZlcnNpb249IjEuMCI/
+PjwhLS0gTWF0aFR5cGVAVHJhbnNsYXRvckA1QDVATWF0aE1MMiAoQ2xpcGJvYXJkKS50ZGxATWF0
+aE1MIDIuMCAoQ2xpcGJvYXJkKUAgLS0+PG1hdGggeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzE5
+OTgvTWF0aC9NYXRoTUwnPjxtcm93PjxtaT5GPC9taT48bWk+VTwvbWk+PC9tcm93PjwvbWF0aD48
+IS0tIE1hdGhUeXBlQEVuZEA1QDVAIC0tPgAh/wtNYXRoVHlwZTAwMgYEAAAAAAAAOw==</image></equation-inline> = the equivalent fixture units converted from a flowrate (dimensionless) where the result is rounded up to the next integer.</li></ol></subclause><subclause id="_86a225f7-a45a-42ea-ab66-f8a10b046586" outputclass="subclause"><title id="_12c5bfea-3694-41ce-a08a-415db0c6abde">SubClause</title><num>4</num><p>For the purposes of (1), all relevant sizing tables and design guidance referencing <equation-inline alignEquation="none" height="19" heightdpi="96" id="_00c503db-10d9-413e-813e-a518ca3c6166" width="30" widthdpi="96"><mathML><!-- MathType@Translator@5@5@MathML2 (no namespace).tdl@MathML 2.0 (no namespace)@ --><math> <semantics>  <mrow>   <mi>F</mi><mi>U</mi></mrow>  <annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahGart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaamOraiaadw  faaaa@379D@  </annotation> </semantics></math><!-- MathType@End@5@5@ --></mathML><image content-type="gif">R0lGODlhHQASAPAAAP///wAAACwAAAAAHQASAAACNYSPqcvtD6OcJtgb6kW75fNVSrh8Jjg+Z0KK
+Dpayr8vFHo3KM9MCfe0h/UCWF4yCTCqXTEgBACH/C01hdGhUeXBlMDAxzgUBAAcIRFNNVDcAARNX
+aW5BbGxCYXNpY0NvZGVQYWdlcwARBVRpbWVzIE5ldyBSb21hbgARA1N5bWJvbAARBUNvdXJpZXIg
+TmV3ABEETVQgRXh0cmEAEgAIIS9Fj0QvQVD0EA9HX0FQ8h8eQVD0FQ9BAPRF9CX0j0JfQQD0EA9D
+X0EA9I9F9CpfSPSPQQD0EA9A9I9Bf0j0EA9BKl9EX0X0X0X0X0EPDAEAAQABAgICAgACAAEBAQAD
+AAEABAAACgEAAgCDRgACAINVAAAAACH/C01hdGhUeXBlMDAz2Dw/eG1sIHZlcnNpb249IjEuMCI/
+PjwhLS0gTWF0aFR5cGVAVHJhbnNsYXRvckA1QDVATWF0aE1MMiAoQ2xpcGJvYXJkKS50ZGxATWF0
+aE1MIDIuMCAoQ2xpcGJvYXJkKUAgLS0+PG1hdGggeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzE5
+OTgvTWF0aC9NYXRoTUwnPjxtcm93PjxtaT5GPC9taT48bWk+VTwvbWk+PC9tcm93PjwvbWF0aD48
+IS0tIE1hdGhUeXBlQEVuZEA1QDVAIC0tPgAh/wtNYXRoVHlwZTAwMgYEAAAAAAAAOw==</image></equation-inline> in AS/NZS 3500.2 may alternatively be converted to an equivalent flowrate using the following: </p><equation-block height="47" heightdpi="96" id="_2ba094bc-0cb0-4ecc-a3f5-e7bd5139e332" width="75" widthdpi="96"><mathML><!-- MathType@Translator@5@5@MathML2 (no namespace).tdl@MathML 2.0 (no namespace)@ --><math> <semantics>  <mrow>   <mi>Q</mi><mo>=</mo><msqrt>    <mrow>     <mfrac>      <mrow>       <mi>Σ</mi><mi>F</mi><mi>U</mi></mrow>      <mrow>       <mn>6.75</mn></mrow>     </mfrac>     </mrow>   </msqrt>   </mrow>  <annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahGart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaamyuaiabg2  da9maakaaabaWaaSaaaeaacqqHJoWujqgaG9VaamOraiaadwfaaOqa  aiaaiAdacaGGUaGaaG4naiaaiwdaaaaaleqaaaaa@3FF0@  </annotation> </semantics></math><!-- MathType@End@5@5@ --></mathML><image content-type="gif">R0lGODlhSgAuAPAAAP///wAAACwAAAAASgAuAAAC4ISPqcvtD6OctNqLs2ah+w+G4rdd44mCpdWt
+bta+MhXP9lMD4z0Hin/I8UpARNFwHG6SSOWN2TTuPE4c5xfUZasOqDbhAxa9XKSXSf2qyz/oMawe
+szlo6fpLpgs1wpQ0v/DmAtiDRcTmtkL4knjIdfanArGoGDhY1uiYsilpaNQWEkFJNDY6abqUxmeH
+OSiIWLM3qSMHCqpKKxuVy1f7afl79+i7O1uMuJVsZaY7FCPYrCzt9MwKCIkpFiw83e0Mp0wmPtfy
+erwNRr6nfdWuHmh+TDJnRv+Eai+Bn8/f71QAACH/C01hdGhUeXBlMDAx/wUBAAcIRFNNVDcAARNX
+aW5BbGxCYXNpY0NvZGVQYWdlcwARBVRpbWVzIE5ldyBSb21hbgARA1N5bWJvbAARBUNvdXJpZXIg
+TmV3ABEETVQgRXh0cmEAEgAIIS9Fj0QvQVD0EA9HX0FQ8h8eQVD0FQ9BAPRF9CX0j0JfQQD0EA9D
+X0EA9I9F9CpfSPSPQQD0EA9A9I9Bf0j0EA9BKl9EX0X0X0X0X0EPDAEAAQABAgICAgACAAEBAQAD
+AAEABAAACgEAAgCDUQACBIY9AD0DAAoAAAEAAwALAAABAAIEhaMDUwlkAGD/AgCDRgACAINVAAAK
+AQACAIg2AAIAgi4AAhIAiDcAAgCINQAAAAALAQEAAAAAIf8LTWF0aFR5cGUwMDP/PD94bWwgdmVy
+c2lvbj0iMS4wIj8+PCEtLSBNYXRoVHlwZUBUcmFuc2xhdG9yQDVANUBNYXRoTUwyIChDbGlwYm9h
+cmQpLnRkbEBNYXRoTUwgMi4wIChDbGlwYm9hcmQpQCAtLT48bWF0aCB4bWxucz0naHR0cDovL3d3
+dy53My5vcmcvMTk5OC9NYXRoL01hdGhNTCc+PG1yb3c+PG1pPlE8L21pPjxtbz49PC9tbz48bXNx
+cnQ+PG1yb3c+PG1mcmFjPjxtcm93PjxtaT4mI3gwM0EzOzwvbWk+PG1pPkY8L21pPjxtaT5VPC9t
+aT48L21yb3c+PG1yb3c+PG1uUD42Ljc1PC9tbj48L21yb3c+PC9tZnJhYz48L21yb3c+PC9tc3Fy
+dD48L21yb3c+PC9tYXRoPjwhLS0gTWF0aFR5cGVARW5kQDVANUAgLS0+ACH/C01hdGhUeXBlMDAy
+BhEAAAAAAAA7</image></equation-block></subclause><subclause id="_3cec0655-c956-482d-97ec-dd0b188cda56" outputclass="subclause"><title id="_f6c21197-5fed-41bc-9356-a2fa2a0d8474">SubClause</title><num>5</num><p>In the equation shown at (4), <equation-inline alignEquation="none" height="15" heightdpi="96" id="_890d3b0e-92e1-4777-b597-9114ab02cc30" width="16" widthdpi="96"><mathML><!-- MathType@Translator@5@5@MathML2 (no namespace).tdl@MathML 2.0 (no namespace)@ --><math> <semantics>  <mrow>   <mi>Σ</mi><mi>F</mi><mi>U</mi></mrow>  <annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahGart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaeu4OdmvcKb  ay=laadAeacaWGvbaaaa@3AED@  </annotation> </semantics></math><!-- MathType@End@5@5@ --></mathML><image content-type="gif">R0lGODlhHAARAPAAAP///wAAACwAAAAAHAARAAACNoSPqcvtGKKMzwV4K8uHa+V9FjhJgLktHGWE
+iXvG6wObc+Nll97hWAsBbkoU1IklSiqXzGalAAAh/wtNYXRoVHlwZTAwMdkFAQAHCERTTVQ3AAET
+V2luQWxsQmFzaWNDb2RlUGFnZXMAEQVUaW1lcyBOZXcgUm9tYW4AEQNTeW1ib2wAEQVDb3VyaWVy
+IE5ldwARBE1UIEV4dHJhABIACCEvRY9EL0FQ9BAPR19BUPIfHkFQ9BUPQQD0RfQl9I9CX0EA9BAP
+Q19BAPSPRfQqX0j0j0EA9BAPQPSPQX9I9BAPQSpfRF9F9F9F9F9BDwwBAAEAAQICAgIAAgABAQEA
+AwABAAQAAAoBAAIEhaMDUwlkAGD/AgCDRgACAINVAAAAACH/C01hdGhUeXBlMDAz6Tw/eG1sIHZl
+cnNpb249IjEuMCI/PjwhLS0gTWF0aFR5cGVAVHJhbnNsYXRvckA1QDVATWF0aE1MMiAoQ2xpcGJv
+YXJkKS50ZGxATWF0aE1MIDIuMCAoQ2xpcGJvYXJkKUAgLS0+PG1hdGggeG1sbnM9J2h0dHA6Ly93
+d3cudzMub3JnLzE5OTgvTWF0aC9NYXRoTUwnPjxtcm93PjxtaT4mI3gwM0EzOzwvbWk+PG1pPkY8
+L21pPjxtaT5VPC9taT48L21yb3c+PC9tYXRoPjwhLS0gTWF0aFR5cGVARW5kQDVANUAgLS0+ACH/
+C01hdGhUeXBlMDAyBgQAAAAAAAA7</image></equation-inline> = the sum of fixture units to be converted (dimensionless).</p></subclause><callout id="_d776e9a5-6c39-403e-812d-88f1e1528053"><callout-type ncc-info-type="info"/><p>The conversion of the probable simultaneous wastewater flowrate into fixture units <equation-inline alignEquation="none" height="21" heightdpi="96" id="_a2edf7a0-0985-4a04-a731-8165455ebd14" width="40" widthdpi="96"><mathML><!-- MathType@Translator@5@5@MathML2 (no namespace).tdl@MathML 2.0 (no namespace)@ --><math> <semantics>  <mrow>   <mo stretchy="false">(</mo><mi>F</mi><mi>U</mi><mo stretchy="false">)</mo></mrow>  <annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahGart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaaiikaiaadA  eacaWGvbGaaiykaaaa@38F6@  </annotation> </semantics></math><!-- MathType@End@5@5@ --></mathML><image content-type="gif">R0lGODlhKAAVAPAAAP///wAAACwAAAAAKAAVAAACUYSPqcvtD6OcKqCAswV6c8xB3jGWFemM6Gqo
+IXsmnurSjPvmbXwteCfjwYY5W1BInB17yN2y+fM9kTgd8wO6aW6NKmUK/l67Ymn5jE6r12xIAQAh
+/wtNYXRoVHlwZTAwMdgFAQAHCERTTVQ3AAETV2luQWxsQmFzaWNDb2RlUGFnZXMAEQVUaW1lcyBO
+ZXcgUm9tYW4AEQNTeW1ib2wAEQVDb3VyaWVyIE5ldwARBE1UIEV4dHJhABIACCEvRY9EL0FQ9BAP
+R19BUPIfHkFQ9BUPQQD0RfQl9I9CX0EA9BAPQ19BAPSPRfQqX0j0j0EA9BAPQPSPQX9I9BAPQSpf
+RF9F9F9F9F9BDwwBAAEAAQICAgIAAgABAQEAAwABAAQAAAoBAAIAgigAAgCDRgACAINVAAIAgikA
+AAAAIf8LTWF0aFR5cGUwMDP/PD94bWwgdmVyc2lvbj0iMS4wIj8+PCEtLSBNYXRoVHlwZUBUcmFu
+c2xhdG9yQDVANUBNYXRoTUwyIChDbGlwYm9hcmQpLnRkbEBNYXRoTUwgMi4wIChDbGlwYm9hcmQp
+QCAtLT48bWF0aCB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMTk5OC9NYXRoL01hdGhNTCc+PG1y
+b3c+PG1vIHN0cmV0Y2h5PSdmYWxzZSc+KDwvbW8+PG1pPkY8L21pPjxtaT5VPC9taT48bW8gc3Ry
+ZXRjaHk9J2ZhbHNlJz4pPC9tbz48L21yb3c+PC9tYXRoPjwhLS0gTWF0aFR5D3BlQEVuZEA1QDVA
+IC0tPgAh/wtNYXRoVHlwZTAwMgYGAAAAAAAAOw==</image></equation-inline> using the formula in (2) allows the resultant <equation-inline alignEquation="none" height="21" heightdpi="96" id="_b8eabf71-0e06-4d8f-83f3-8d9eb2b44b67" width="40" widthdpi="96"><mathML><!-- MathType@Translator@5@5@MathML2 (no namespace).tdl@MathML 2.0 (no namespace)@ --><math> <semantics>  <mrow>   <mo stretchy="false">(</mo><mi>F</mi><mi>U</mi><mo stretchy="false">)</mo></mrow>  <annotation encoding="MathType-MTEF">MathType@MTEF@5@5@+=  feaahGart1ev3aqatCvAUfeBSjuyZL2yd9gzLbvyNv2CaerbuLwBLn  hiov2DGi1BTfMBaeXatLxBI9gBaerbd9wDYLwzYbItLDharqqtubsr  4rNCHbGeaGqiVu0Je9sqqrpepC0xbbL8F4rqqrFfpeea0xe9Lq=Jc9  vqaqpepm0xbba9pwe9Q8fs0=yqaqpepae9pg0FirpepeKkFr0xfr=x  fr=xb9adbaqaaeGaciGaaiaabeqaamaabaabaaGcbaGaaiikaiaadA  eacaWGvbGaaiykaaaa@38F6@  </annotation> </semantics></math><!-- MathType@End@5@5@ --></mathML><image content-type="gif">R0lGODlhKAAVAPAAAP///wAAACwAAAAAKAAVAAACUYSPqcvtD6OcKqCAswV6c8xB3jGWFemM6Gqo
+IXsmnurSjPvmbXwteCfjwYY5W1BInB17yN2y+fM9kTgd8wO6aW6NKmUK/l67Ymn5jE6r12xIAQAh
+/wtNYXRoVHlwZTAwMdgFAQAHCERTTVQ3AAETV2luQWxsQmFzaWNDb2RlUGFnZXMAEQVUaW1lcyBO
+ZXcgUm9tYW4AEQNTeW1ib2wAEQVDb3VyaWVyIE5ldwARBE1UIEV4dHJhABIACCEvRY9EL0FQ9BAP
+R19BUPIfHkFQ9BUPQQD0RfQl9I9CX0EA9BAPQ19BAPSPRfQqX0j0j0EA9BAPQPSPQX9I9BAPQSpf
+RF9F9F9F9F9BDwwBAAEAAQICAgIAAgABAQEAAwABAAQAAAoBAAIAgigAAgCDRgACAINVAAIAgikA
+AAAAIf8LTWF0aFR5cGUwMDP/PD94bWwgdmVyc2lvbj0iMS4wIj8+PCEtLSBNYXRoVHlwZUBUcmFu
+c2xhdG9yQDVANUBNYXRoTUwyIChDbGlwYm9hcmQpLnRkbEBNYXRoTUwgMi4wIChDbGlwYm9hcmQp
+QCAtLT48bWF0aCB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMTk5OC9NYXRoL01hdGhNTCc+PG1y
+b3c+PG1vIHN0cmV0Y2h5PSdmYWxzZSc+KDwvbW8+PG1pPkY8L21pPjxtaT5VPC9taT48bW8gc3Ry
+ZXRjaHk9J2ZhbHNlJz4pPC9tbz48L21yb3c+PC9tYXRoPjwhLS0gTWF0aFR5D3BlQEVuZEA1QDVA
+IC0tPgAh/wtNYXRoVHlwZTAwMgYGAAAAAAAAOw==</image></equation-inline> value to be used when applying the relevant sizing tables and design guidance in the applicable sections of AS/NZS 3500.2 in accordance with (1).</p></callout></clause>

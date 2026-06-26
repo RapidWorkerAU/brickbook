@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="LINE_18" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 552.76 465.26" style="enable-background:new 0 0 552.76 465.26;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill-rule:evenodd;clip-rule:evenodd;fill:none;}
+	.st1{clip-path:url(#SVGID_2_);fill:none;stroke:#221F1F;stroke-width:0.5;stroke-linejoin:round;}
+	.st2{fill-rule:evenodd;clip-rule:evenodd;fill:#231F20;}
+	.st3{fill-rule:evenodd;clip-rule:evenodd;fill:url(#SVGID_3_);}
+	.st4{fill:url(#SVGID_4_);}
+	.st5{fill-rule:evenodd;clip-rule:evenodd;fill:url(#SVGID_5_);}
+	.st6{fill:url(#SVGID_6_);}
+	.st7{fill:none;stroke:#000000;stroke-width:0.9177;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st8{fill:none;stroke:#231F20;stroke-linecap:round;stroke-miterlimit:10;}
+	.st9{fill:none;stroke:#231F20;stroke-width:0.75;stroke-miterlimit:10;}
+	.st10{fill:none;stroke:#231F20;stroke-width:0.75;stroke-miterlimit:10;stroke-dasharray:11.9202,11.9202;}
+	.st11{fill:none;stroke:#231F20;stroke-width:0.75;stroke-miterlimit:10;stroke-dasharray:11.5231,11.5231;}
+	.st12{fill:none;stroke:#231F20;stroke-width:0.75;stroke-miterlimit:10;stroke-dasharray:11.7045,11.7045;}
+	.st13{fill:#231F20;}
+	.st14{font-family:'ArialMT';}
+	.st15{font-size:12px;}
+	.st16{font-family:'Arial-ItalicMT';}
+	.st17{fill:none;stroke:#231F20;stroke-width:0.25;stroke-miterlimit:10;}
+	.st18{font-size:13.2934px;}
+	.st19{fill-rule:evenodd;clip-rule:evenodd;fill:none;stroke:#231F20;stroke-linecap:round;stroke-miterlimit:10;}
+</style>
+<pattern  y="669.92" width="72" height="72" patternUnits="userSpaceOnUse" id="diagonal_cross_hatch" viewBox="6.18 -86.18 72 72" style="overflow:visible;">
+	<g>
+		<rect x="6.18" y="-86.18" class="st0" width="72" height="72"/>
+		<g>
+			<defs>
+				<rect id="SVGID_1_" x="6.18" y="-86.18" width="72" height="72"/>
+			</defs>
+			<clipPath id="SVGID_2_">
+				<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+			</clipPath>
+			<line class="st1" x1="0.18" y1="-74.18" x2="18.18" y2="-92.18"/>
+			<line class="st1" x1="0.18" y1="-68.18" x2="24.18" y2="-92.18"/>
+			<line class="st1" x1="0.18" y1="-62.18" x2="30.18" y2="-92.18"/>
+			<line class="st1" x1="0.18" y1="-56.18" x2="36.18" y2="-92.18"/>
+			<line class="st1" x1="0.18" y1="-50.18" x2="42.18" y2="-92.18"/>
+			<line class="st1" x1="0.18" y1="-44.18" x2="48.18" y2="-92.18"/>
+			<line class="st1" x1="0.18" y1="-38.18" x2="54.18" y2="-92.18"/>
+			<line class="st1" x1="0.18" y1="-32.18" x2="60.18" y2="-92.18"/>
+			<line class="st1" x1="0.18" y1="-26.18" x2="66.18" y2="-92.18"/>
+			<line class="st1" x1="0.18" y1="-20.18" x2="72.18" y2="-92.18"/>
+			<line class="st1" x1="0.18" y1="-14.18" x2="78.18" y2="-92.18"/>
+			<line class="st1" x1="0.18" y1="-8.18" x2="84.18" y2="-92.18"/>
+			<line class="st1" x1="6.18" y1="-8.18" x2="84.18" y2="-86.18"/>
+			<line class="st1" x1="12.18" y1="-8.18" x2="84.18" y2="-80.18"/>
+			<line class="st1" x1="18.18" y1="-8.18" x2="84.18" y2="-74.18"/>
+			<line class="st1" x1="24.18" y1="-8.18" x2="84.18" y2="-68.18"/>
+			<line class="st1" x1="30.18" y1="-8.18" x2="84.18" y2="-62.18"/>
+			<line class="st1" x1="36.18" y1="-8.18" x2="84.18" y2="-56.18"/>
+			<line class="st1" x1="42.18" y1="-8.18" x2="84.18" y2="-50.18"/>
+			<line class="st1" x1="48.18" y1="-8.18" x2="84.18" y2="-44.18"/>
+			<line class="st1" x1="54.18" y1="-8.18" x2="84.18" y2="-38.18"/>
+			<line class="st1" x1="52.18" y1="-0.18" x2="94.18" y2="-42.18"/>
+			<line class="st1" x1="58.18" y1="-0.18" x2="94.18" y2="-36.18"/>
+			<line class="st1" x1="64.18" y1="-0.18" x2="94.18" y2="-30.18"/>
+		</g>
+	</g>
+</pattern>
+<g id="HATCH">
+	<g>
+		<path class="st2" d="M263.43,61.29h-5.27v161.8h5.27V61.29z M258.16,61.29h-5.27v161.8h5.27V61.29z"/>
+	</g>
+</g>
+<g>
+	<g id="HATCH_2_">
+		<pattern  id="SVGID_3_" xlink:href="#diagonal_cross_hatch" patternTransform="matrix(1.0362 0 0 1.0362 566.15 176.1512)">
+		</pattern>
+		<rect x="203.61" y="212.36" class="st3" width="48.93" height="10.73"/>
+		<pattern  id="SVGID_4_" xlink:href="#diagonal_cross_hatch" patternTransform="matrix(1.0362 0 0 1.0362 566.15 176.1512)">
+		</pattern>
+		<path class="st4" d="M203.61,214.33l1.97-1.97 M203.61,223.09l10.73-10.73 M212.37,223.09l10.73-10.73 M221.13,223.09l10.73-10.73
+			 M229.88,223.09l10.73-10.73 M238.64,223.09l10.73-10.73 M247.4,223.09l5.14-5.14 M212.37,223.09l-8.76-8.76 M221.13,223.09
+			l-10.73-10.73 M229.88,223.09l-10.73-10.73 M238.64,223.09l-10.73-10.73 M247.4,223.09l-10.73-10.73 M252.54,219.47l-7.11-7.11"/>
+	</g>
+	<g id="HATCH_3_">
+		<pattern  id="SVGID_5_" xlink:href="#diagonal_cross_hatch" patternTransform="matrix(1.0362 0 0 1.0362 566.15 176.1512)">
+		</pattern>
+		<rect x="263.26" y="212.36" class="st5" width="48.93" height="10.73"/>
+		<pattern  id="SVGID_6_" xlink:href="#diagonal_cross_hatch" patternTransform="matrix(1.0362 0 0 1.0362 566.15 176.1512)">
+		</pattern>
+		<path class="st6" d="M263.26,214.33l1.97-1.97 M263.26,223.09l10.73-10.73 M263.26,223.09l10.73-10.73 M272.02,223.09l10.73-10.73
+			 M280.78,223.09l10.73-10.73 M289.54,223.09l10.73-10.73 M298.3,223.09l10.73-10.73 M307.05,223.09l5.14-5.14 M272.02,223.09
+			l-8.76-8.76 M280.78,223.09l-10.73-10.73 M289.54,223.09l-10.73-10.73 M298.3,223.09l-10.73-10.73 M307.05,223.09l-10.73-10.73
+			 M312.19,219.47l-7.11-7.11"/>
+	</g>
+</g>
+<g id="LINE_48_">
+	<line class="st7" x1="203.78" y1="223.09" x2="203.78" y2="212.36"/>
+</g>
+<g id="LINE_41_">
+	<line class="st7" x1="312.36" y1="223.09" x2="312.36" y2="212.36"/>
+</g>
+<g>
+	<g id="LINE_53_">
+		<g>
+			<line class="st8" x1="79.23" y1="61.29" x2="356.26" y2="61.29"/>
+		</g>
+	</g>
+	<g id="LINE_52_">
+		<g>
+			<line class="st8" x1="137.19" y1="212.36" x2="252.7" y2="212.36"/>
+		</g>
+	</g>
+	<g id="LINE_51_">
+		<g>
+			<path class="st8" d="M258.07,422.94"/>
+			<path class="st8" d="M258.07,36.92"/>
+		</g>
+	</g>
+	<g id="LINE_50_">
+		<g>
+			<line class="st8" x1="252.7" y1="61.29" x2="252.7" y2="223.09"/>
+		</g>
+	</g>
+	<g id="LINE_49_">
+		<g>
+			<line class="st8" x1="263.43" y1="61.29" x2="263.43" y2="223.09"/>
+		</g>
+	</g>
+	<g id="LINE_47_">
+		<g>
+			<line class="st8" x1="378.95" y1="212.36" x2="263.43" y2="212.36"/>
+		</g>
+	</g>
+	<g id="LINE_46_">
+		<g>
+			<line class="st8" x1="368.22" y1="223.09" x2="147.92" y2="223.09"/>
+		</g>
+	</g>
+	<g id="LINE_45_">
+		<g>
+			<line class="st8" x1="368.22" y1="223.09" x2="368.22" y2="390.8"/>
+		</g>
+	</g>
+	<g id="LINE_44_">
+		<g>
+			<line class="st8" x1="378.95" y1="212.36" x2="378.95" y2="380.07"/>
+		</g>
+	</g>
+	<g id="LINE_43_">
+		<g>
+			<line class="st8" x1="368.22" y1="390.8" x2="436.91" y2="390.8"/>
+		</g>
+	</g>
+	<g id="LINE_42_">
+		<g>
+			<line class="st8" x1="378.95" y1="380.07" x2="436.91" y2="380.07"/>
+		</g>
+	</g>
+	<g id="LINE_40_">
+		<g>
+			<line class="st8" x1="147.92" y1="223.09" x2="147.92" y2="390.8"/>
+		</g>
+	</g>
+	<g id="LINE_39_">
+		<g>
+			<line class="st8" x1="137.19" y1="212.36" x2="137.19" y2="380.07"/>
+		</g>
+	</g>
+	<g id="LINE_38_">
+		<g>
+			<line class="st8" x1="147.92" y1="390.8" x2="79.23" y2="390.8"/>
+		</g>
+	</g>
+	<g id="LINE_37_">
+		<g>
+			<line class="st8" x1="137.19" y1="380.07" x2="79.23" y2="380.07"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g id="LINE_20_">
+		<g id="LINE_11_">
+			<g>
+				<g>
+					<g>
+						<line class="st9" x1="79.23" y1="422.94" x2="85.23" y2="422.94"/>
+						<line class="st10" x1="97.15" y1="422.94" x2="424.95" y2="422.94"/>
+						<line class="st9" x1="430.91" y1="422.94" x2="436.91" y2="422.94"/>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+	<g id="LINE_19_">
+		<g id="LINE_10_">
+			<g>
+				<g>
+					<g>
+						<line class="st9" x1="79.23" y1="36.92" x2="85.23" y2="36.92"/>
+						<line class="st11" x1="96.75" y1="36.92" x2="344.5" y2="36.92"/>
+						<line class="st9" x1="350.26" y1="36.92" x2="356.26" y2="36.92"/>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+	<g id="LINE_18_">
+		<g id="LINE_5_">
+			<g>
+				<g>
+					<g>
+						<line class="st9" x1="312.36" y1="62.08" x2="312.36" y2="68.08"/>
+						<line class="st12" x1="312.36" y1="79.78" x2="312.36" y2="425.06"/>
+						<line class="st9" x1="312.36" y1="430.92" x2="312.36" y2="436.92"/>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+	<g id="LINE_14_">
+		<g id="LINE_2_">
+			<g>
+				<g>
+					<g>
+						<line class="st9" x1="203.78" y1="62.08" x2="203.78" y2="68.08"/>
+						<line class="st12" x1="203.78" y1="79.78" x2="203.78" y2="425.06"/>
+						<line class="st9" x1="203.78" y1="430.92" x2="203.78" y2="436.92"/>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+</g>
+<g>
+	<g id="MTEXT_23_">
+		<g>
+			<text transform="matrix(1 0 0 1 117.4526 135.6582)" class="st13 st14 st15">Class 1</text>
+		</g>
+	</g>
+	<g id="MTEXT_22_">
+		<g>
+			<text transform="matrix(1 0 0 1 332 135.6582)" class="st13 st14 st15">Class 1</text>
+		</g>
+	</g>
+</g>
+<g id="MTEXT_17_">
+	<g>
+		<text transform="matrix(1 0 0 1 263.1304 293.0527)" class="st13 st14 st15">Class 10a</text>
+	</g>
+</g>
+<g id="MTEXT_16_">
+	<g>
+		<text transform="matrix(1 0 0 1 263.1304 324.8096)"><tspan x="0" y="0" class="st13 st14 st15">Carport / </tspan><tspan x="0" y="14.4" class="st13 st14 st15">verandah with </tspan><tspan x="0" y="28.8" class="st13 st16 st15">non-combustible </tspan><tspan x="0" y="43.2" class="st13 st14 st15">ceiling </tspan></text>
+	</g>
+</g>
+<g id="MTEXT_15_">
+	<g>
+		<text transform="matrix(1 0 0 1 153.0112 292.0527)" class="st13 st14 st15">Class 10a</text>
+	</g>
+</g>
+<g>
+	<g id="LINE_4_">
+		<g>
+			<g>
+				<line class="st17" x1="270.08" y1="161" x2="305.72" y2="161"/>
+				<g>
+					<polygon class="st13" points="271.56,163.18 263.43,161 271.56,158.82 					"/>
+				</g>
+				<g>
+					<polygon class="st13" points="304.23,163.18 312.36,161 304.23,158.82 					"/>
+				</g>
+			</g>
+		</g>
+	</g>
+	<g id="LINE_3_">
+		<g>
+			<g>
+				<line class="st17" x1="210.42" y1="161" x2="246.06" y2="161"/>
+				<g>
+					<polygon class="st13" points="211.91,163.18 203.78,161 211.91,158.82 					"/>
+				</g>
+				<g>
+					<polygon class="st13" points="244.57,163.18 252.7,161 244.57,158.82 					"/>
+				</g>
+			</g>
+		</g>
+	</g>
+</g>
+<g>
+	<g id="MTEXT_18_">
+		<g>
+			<text transform="matrix(1 0 0 1 279.0044 156.71)" class="st13 st14 st15">2 m</text>
+		</g>
+	</g>
+	<g id="MTEXT_13_">
+		<g>
+			<text transform="matrix(1 0 0 1 219.3501 156.71)" class="st13 st14 st15">2 m</text>
+		</g>
+	</g>
+</g>
+<g>
+	<g id="MTEXT_19_">
+		<g>
+			<text transform="matrix(1 0 0 1 362.4748 40.8623)"><tspan x="0" y="0" class="st13 st14 st15">Provide non-combustible </tspan><tspan x="0" y="14.4" class="st13 st14 st15">separation in eaves</tspan></text>
+		</g>
+		<text transform="matrix(1 0 0 1 507.0393 40.8623)" class="st14 st18"> </text>
+	</g>
+	<g id="MTEXT_1_">
+		<g>
+			<g>
+				<text transform="matrix(1 0 0 1 362.8969 168.6982)"><tspan x="0" y="0" class="st13 st16 st15">Fire-resisting </tspan><tspan x="72.68" y="0" class="st13 st14 st15">walls up to </tspan><tspan x="0" y="14.4" class="st13 st14 st15">underside of</tspan><tspan x="0" y="28.8" class="st13 st16 st15">non-combustible </tspan><tspan x="91.38" y="28.8" class="st13 st14 st15">ceiling</tspan></text>
+			</g>
+		</g>
+	</g>
+	<g id="MTEXT_3_">
+		<g>
+			<g>
+				<text transform="matrix(1 0 0 1 363.0881 80.7908)"><tspan x="0" y="0" class="st13 st16 st15">Fire-resisting </tspan><tspan x="72.68" y="0" class="st13 st14 st15">walls up to </tspan><tspan x="0" y="14.4" class="st13 st14 st15">underside of the roof covering </tspan><tspan x="0" y="28.8" class="st13 st14 st15">between Class 1 buildings</tspan></text>
+			</g>
+		</g>
+	</g>
+	<g id="MTEXT_5_">
+		<g>
+			<g>
+				<text transform="matrix(1 0 0 1 29.5067 167.3448)"><tspan x="0" y="0" class="st13 st16 st15">Fire-resisting </tspan><tspan x="72.68" y="0" class="st13 st14 st15">walls up to </tspan><tspan x="63.33" y="14.4" class="st13 st14 st15">underside of</tspan><tspan x="3.97" y="28.8" class="st13 st16 st15">non-combustible </tspan><tspan x="95.36" y="28.8" class="st13 st14 st15">ceiling</tspan></text>
+			</g>
+		</g>
+	</g>
+</g>
+<text transform="matrix(1 0 0 1 153.0107 324.8096)"><tspan x="0" y="0" class="st13 st14 st15">Carport / </tspan><tspan x="0" y="14.4" class="st13 st14 st15">verandah with </tspan><tspan x="0" y="28.8" class="st13 st16 st15">non-combustible </tspan><tspan x="0" y="43.2" class="st13 st14 st15">ceiling </tspan></text>
+<g>
+	<g>
+		<g>
+			<line class="st17" x1="270.43" y1="76.26" x2="351.93" y2="76.26"/>
+			<g>
+				<polygon class="st13" points="271.92,78.44 263.78,76.26 271.92,74.08 				"/>
+			</g>
+		</g>
+	</g>
+	<g>
+		<g>
+			<path class="st17" d="M291.82,203.95c9.4-12.03,34.82-40.15,67.11-40.15"/>
+			<g>
+				<polygon class="st13" points="294.5,204.09 287.9,209.31 291.01,201.48 				"/>
+			</g>
+		</g>
+	</g>
+	<g>
+		<g>
+			<g>
+				<path class="st17" d="M229.99,203.95c-9.4-12.03-34.82-40.15-67.11-40.15"/>
+				<g>
+					<polygon class="st13" points="230.81,201.48 233.92,209.31 227.32,204.09 					"/>
+				</g>
+			</g>
+		</g>
+	</g>
+	<g>
+		<g>
+			<line class="st17" x1="264.71" y1="48.82" x2="356.26" y2="48.82"/>
+			<g>
+				<polygon class="st13" points="266.2,51 258.07,48.82 266.2,46.64 				"/>
+			</g>
+		</g>
+	</g>
+</g>
+<line class="st19" x1="258.07" y1="36.92" x2="258.07" y2="422.94"/>
+</svg>
